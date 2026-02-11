@@ -197,6 +197,12 @@ configure_shell_rc() {
         sed -i '/eval "$(starship init/d' "$rc_file"
     fi
     
+    # Remove old zoxide init (may have wrong shell syntax)
+    if grep -q 'zoxide init' "$rc_file" 2>/dev/null; then
+        sed -i '/# Zoxide/d' "$rc_file"
+        sed -i '/zoxide init/d' "$rc_file"
+    fi
+    
     # Remove old Oh My Posh init if present (to update it)
     if grep -q 'oh-my-posh init' "$rc_file" 2>/dev/null; then
         sed -i '/# Oh My Posh prompt/d' "$rc_file"
@@ -208,6 +214,13 @@ configure_shell_rc() {
         echo '' >> "$rc_file"
         echo '# Add local bin to PATH' >> "$rc_file"
         echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$rc_file"
+    fi
+    
+    # Add zoxide with correct shell syntax
+    if command -v zoxide &> /dev/null && ! grep -q 'zoxide init' "$rc_file" 2>/dev/null; then
+        echo '' >> "$rc_file"
+        echo "# Zoxide (smart cd)" >> "$rc_file"
+        echo "eval \"\$(zoxide init $shell_name)\"" >> "$rc_file"
     fi
     
     # Add Oh My Posh initialization

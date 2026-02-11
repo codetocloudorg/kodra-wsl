@@ -203,10 +203,8 @@ if command -v fzf &> /dev/null; then
     fi
 fi
 
-# Zoxide (smart cd)
-if command -v zoxide &> /dev/null; then
-    eval "$(zoxide init bash 2>/dev/null)"
-fi
+# Note: Zoxide and Oh My Posh are initialized directly in .bashrc/.zshrc
+# by the oh-my-posh.sh installer with the correct shell syntax
 
 # Oh My Posh prompt (configured in oh-my-posh.sh, sourced from .bashrc)
 KODRA_SHELL
