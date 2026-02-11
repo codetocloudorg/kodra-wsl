@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kodra WSL - Agentic Azure engineering in WSL. Cloud-native CLI tools for Windows developers. One command to ship.">
+    <meta name="theme-color" content="#0d1117">
+    <title>Kodra WSL - Agentic Azure Engineering for Windows</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* GitHub Dark Colors */
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --border-default: #30363d;
+            --border-muted: #21262d;
+            
+            /* Text */
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            
+            /* Accent Colors */
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #a371f7;
+            --accent-cyan: #79c0ff;
+            --accent-orange: #d29922;
+            --accent-red: #f85149;
+            
+            /* WSL/Windows Colors */
+            --wsl-orange: #E95420;
+            --windows-blue: #0078D4;
+            
+            /* Gradients */
+            --gradient-blue: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);
+            --gradient-wsl: linear-gradient(135deg, #E95420 0%, #0078D4 100%);
+            --gradient-glow: radial-gradient(ellipse at center, rgba(88, 166, 255, 0.15) 0%, transparent 70%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(13, 17, 23, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-muted);
+            padding: 1rem 2rem;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--gradient-wsl);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .logo-wsl {
+            font-size: 0.7rem;
+            color: var(--accent-cyan);
+            margin-left: 0.25rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-btn {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-default);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            color: var(--text-primary) !important;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-btn:hover {
+            background: var(--border-default);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150%;
+            height: 100%;
+            background: var(--gradient-glow);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .hero-badge-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .ascii-art {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(0.4rem, 1.5vw, 0.8rem);
+            line-height: 1.2;
+            color: var(--accent-blue);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-wsl);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+        }
+
+        @media (max-width: 640px) {
+            .ascii-art {
+                font-size: 0.35rem;
+            }
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 7vw, 4rem);
+            font-weight: 800;
+            text-align: center;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-title .gradient {
+            background: var(--gradient-wsl);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            text-align: center;
+            max-width: 650px;
+            margin-bottom: 3rem;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 4rem;
+        }
+
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--windows-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1a8cff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 120, 212, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-default);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-default);
+            transform: translateY(-2px);
+        }
+
+        /* Terminal Component */
+        .terminal {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 700px;
+            overflow: hidden;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+        }
+
+        .terminal-header {
+            background: var(--bg-tertiary);
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border-muted);
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-dot.red { background: #f85149; }
+        .terminal-dot.yellow { background: #d29922; }
+        .terminal-dot.green { background: #3fb950; }
+
+        .terminal-title {
+            flex: 1;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .terminal-body {
+            padding: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .terminal-line {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .terminal-prompt {
+            color: var(--accent-green);
+            user-select: none;
+        }
+
+        .terminal-command {
+            color: var(--text-primary);
+        }
+
+        .terminal-output {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .typing-animation {
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typing 2s steps(50, end);
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        /* Section Styling */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-label {
+            display: inline-block;
+            color: var(--accent-blue);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* WSL Advantage Section */
+        .wsl-advantage {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            border-radius: 16px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wsl-advantage::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(0, 120, 212, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .wsl-advantage-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .wsl-advantage-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .wsl-advantage h3 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .wsl-advantage h3 svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .wsl-advantage p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .why-reasons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .reason {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .reason-icon {
+            width: 24px;
+            height: 24px;
+            background: rgba(0, 120, 212, 0.2);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .reason-icon svg {
+            width: 14px;
+            height: 14px;
+            color: var(--windows-blue);
+        }
+
+        .reason-text strong {
+            display: block;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .reason-text span {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .desktop-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, rgba(233, 84, 32, 0.2), rgba(163, 113, 247, 0.2));
+            border: 1px solid rgba(233, 84, 32, 0.3);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .desktop-badge svg {
+            width: 20px;
+            height: 20px;
+            color: var(--wsl-orange);
+        }
+
+        .desktop-badge span {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .desktop-badge strong {
+            color: var(--wsl-orange);
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-muted);
+        }
+
+        .comparison-table th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table td {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .check-icon {
+            color: var(--accent-green);
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--bg-tertiary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Tools Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+
+        .tool-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .tool-item:hover {
+            border-color: var(--border-default);
+            background: var(--bg-tertiary);
+        }
+
+        .tool-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Commands Section */
+        .commands-list {
+            display: grid;
+            gap: 1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .command-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .command-code {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-cyan);
+            font-size: 0.9rem;
+        }
+
+        .command-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Docker Section */
+        .docker-section {
+            background: linear-gradient(135deg, rgba(0, 120, 212, 0.1), rgba(88, 166, 255, 0.05));
+            border: 1px solid var(--border-default);
+            border-radius: 16px;
+            padding: 3rem;
+            margin-top: 2rem;
+        }
+
+        .docker-section h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .docker-benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .docker-benefit {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .docker-benefit-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(88, 166, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .docker-benefit-text strong {
+            display: block;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .docker-benefit-text span {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-default);
+            padding: 4rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .footer-brand .logo {
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .footer-social a:hover {
+            background: var(--accent-blue);
+            color: var(--bg-primary);
+        }
+
+        .footer-column h4 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-column a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .footer-column a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-default);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            nav {
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero {
+                padding: 6rem 1rem 3rem;
+            }
+            
+            .terminal {
+                max-width: 100%;
+            }
+            
+            .terminal-body {
+                padding: 1rem;
+                font-size: 0.8rem;
+            }
+            
+            section {
+                padding: 4rem 1rem;
+            }
+            
+            .wsl-advantage {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-content">
+            <a href="#" class="logo">
+                <div class="logo-icon">K</div>
+                Kodra<span class="logo-wsl">WSL</span>
+            </a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#tools">Tools</a>
+                <a href="#docker">Docker</a>
+                <a href="https://discord.gg/vwfwq2EpXJ" class="nav-btn" style="background: #5865F2; border-color: #5865F2;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/>
+                    </svg>
+                    Discord
+                </a>
+                <a href="https://github.com/codetocloudorg/kodra-wsl" class="nav-btn">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                    </svg>
+                    GitHub
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            v0.2.0 — WSL Edition for Windows Developers
+        </div>
+        
+        <pre class="ascii-art">
+██╗  ██╗ ██████╗ ██████╗ ██████╗  █████╗     ██╗    ██╗███████╗██╗     
+██║ ██╔╝██╔═══██╗██╔══██╗██╔══██╗██╔══██╗    ██║    ██║██╔════╝██║     
+█████╔╝ ██║   ██║██║  ██║██████╔╝███████║    ██║ █╗ ██║███████╗██║     
+██╔═██╗ ██║   ██║██║  ██║██╔══██╗██╔══██║    ██║███╗██║╚════██║██║     
+██║  ██╗╚██████╔╝██████╔╝██║  ██║██║  ██║    ╚███╔███╔╝███████║███████╗
+╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝     ╚══╝╚══╝ ╚══════╝╚══════╝
+        </pre>
+        
+        <h1 class="hero-title">
+            Agentic Azure on<br>
+            <span class="gradient">Windows + WSL</span>
+        </h1>
+        
+        <p class="hero-subtitle">
+            Cloud-native CLI tools, Docker CE, and AI assistance—running natively in WSL2. From fresh Windows install to <code>azd up</code> in minutes.
+        </p>
+        
+        <div class="hero-cta">
+            <a href="#prerequisites" class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06l2.97-2.97H3.75a.75.75 0 0 1 0-1.5h7.44L8.22 4.03a.75.75 0 0 1 0-1.06z"/>
+                </svg>
+                Get Started
+            </a>
+            <a href="https://github.com/codetocloudorg/kodra" class="btn btn-secondary">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0z"/>
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg>
+                Kodra Desktop
+            </a>
+        </div>
+    </section>
+
+    <!-- Prerequisites Section -->
+    <section id="prerequisites" style="padding-top: 2rem;">
+        <div class="section-header">
+            <span class="section-label">Before You Begin</span>
+            <h2 class="section-title">Windows Prerequisites</h2>
+            <p class="section-subtitle">Complete these steps on Windows before running the installer in WSL</p>
+        </div>
+
+        <div class="prereq-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+            <div class="prereq-card" style="background: var(--bg-secondary); border: 1px solid var(--border-default); border-radius: 12px; padding: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                    <div style="width: 36px; height: 36px; background: var(--windows-blue); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">1</div>
+                    <h3 style="font-size: 1.1rem; font-weight: 600;">Windows Terminal</h3>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Modern terminal with tabs, split panes, and full Unicode support.</p>
+                <code style="background: var(--bg-tertiary); padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.85rem; display: block;">winget install Microsoft.WindowsTerminal</code>
+            </div>
+
+            <div class="prereq-card" style="background: var(--bg-secondary); border: 1px solid var(--border-default); border-radius: 12px; padding: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                    <div style="width: 36px; height: 36px; background: var(--wsl-orange); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">2</div>
+                    <h3 style="font-size: 1.1rem; font-weight: 600;">WSL2 + Ubuntu</h3>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Windows Subsystem for Linux with Ubuntu 24.04. Run in PowerShell as Admin:</p>
+                <code style="background: var(--bg-tertiary); padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.85rem; display: block;">wsl --install -d Ubuntu-24.04</code>
+            </div>
+
+            <div class="prereq-card" style="background: var(--bg-secondary); border: 1px solid var(--border-default); border-radius: 12px; padding: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                    <div style="width: 36px; height: 36px; background: var(--accent-purple); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">3</div>
+                    <h3 style="font-size: 1.1rem; font-weight: 600;">Nerd Font</h3>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Required for terminal icons. Install on Windows, then set in Terminal settings.</p>
+                <a href="https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip" style="background: var(--bg-tertiary); padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.85rem; display: block; color: var(--accent-cyan); text-decoration: none;">Download JetBrainsMono Nerd Font</a>
+            </div>
+
+            <div class="prereq-card" style="background: var(--bg-secondary); border: 1px solid var(--border-default); border-radius: 12px; padding: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                    <div style="width: 36px; height: 36px; background: var(--accent-blue); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">4</div>
+                    <h3 style="font-size: 1.1rem; font-weight: 600;">VS Code + Extensions</h3>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Install on Windows. Required extensions: WSL, GitHub Copilot.</p>
+                <a href="https://code.visualstudio.com/" style="background: var(--bg-tertiary); padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.85rem; display: block; color: var(--accent-cyan); text-decoration: none;">Download VS Code</a>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem; padding-bottom: 2rem;">
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Prerequisites complete? Run this in Windows Terminal → Ubuntu:</p>
+            <!-- Terminal Demo -->
+            <div class="terminal" id="install" style="margin: 0 auto;">
+                <div class="terminal-header">
+                    <span class="terminal-dot red"></span>
+                    <span class="terminal-dot yellow"></span>
+                    <span class="terminal-dot green"></span>
+                    <span class="terminal-title">Windows Terminal — Ubuntu (WSL)</span>
+                </div>
+                <div class="terminal-body">
+                    <div class="terminal-line">
+                        <span class="terminal-prompt">$</span>
+                        <span class="terminal-command typing-animation">wget -qO- https://kodra-wsl.codetocloud.io/boot.sh | bash</span>
+                    </div>
+                    <div class="terminal-output">
+                        ✓ Azure CLI + azd installed<br>
+                        ✓ Docker CE configured for WSL2<br>
+                        ✓ GitHub CLI + Copilot ready<br>
+                        ✓ Shell configured with Starship<br>
+                        <br>
+                        <span style="color: var(--accent-green);">Done in 3m 45s</span> — Run <span style="color: var(--accent-cyan);">kodra doctor</span> to verify
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- WSL Advantage Section -->
+    <section>
+        <div class="wsl-advantage">
+            <div class="wsl-advantage-content">
+                <div>
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--windows-blue);">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                        Why WSL?
+                    </h3>
+                    <p>
+                        The best of both worlds: Windows for your desktop apps and WSL2 for Linux development. Native Docker performance, real Linux tooling, and seamless integration with VS Code.
+                    </p>
+                    
+                    <div class="why-reasons">
+                        <div class="reason">
+                            <div class="reason-icon">
+                                <svg viewBox="0 0 16 16" fill="currentColor">
+                                    <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.828 1.828l1.937.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.828l-.645 1.937a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828L1.06 11.2a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828l.645-1.937z"/>
+                                </svg>
+                            </div>
+                            <div class="reason-text">
+                                <strong>Native Linux Performance</strong>
+                                <span>Real Linux kernel via Hyper-V, not emulation. Docker runs at full speed.</span>
+                            </div>
+                        </div>
+                        <div class="reason">
+                            <div class="reason-icon">
+                                <svg viewBox="0 0 16 16" fill="currentColor">
+                                    <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"/>
+                                </svg>
+                            </div>
+                            <div class="reason-text">
+                                <strong>No Docker Desktop License</strong>
+                                <span>Docker CE runs free in WSL2—no licensing concerns for any organization size.</span>
+                            </div>
+                        </div>
+                        <div class="reason">
+                            <div class="reason-icon">
+                                <svg viewBox="0 0 16 16" fill="currentColor">
+                                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                                </svg>
+                            </div>
+                            <div class="reason-text">
+                                <strong>VS Code Integration</strong>
+                                <span>Edit code in Windows, run in Linux. Dev Containers just work.</span>
+                            </div>
+                        </div>
+                        <div class="reason">
+                            <div class="reason-icon">
+                                <svg viewBox="0 0 16 16" fill="currentColor">
+                                    <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07A7.001 7.001 0 0 0 8 16a7 7 0 0 0 7-7V8h-1a1 1 0 0 0-1 1v1.5a.5.5 0 0 1-.5.5H11a1 1 0 0 0-1 1v1.5a.5.5 0 0 1-1 0V12a1 1 0 0 0-1-1H7.5a.5.5 0 0 1-.5-.5V9a1 1 0 0 0-1-1H4.5a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5H6a1 1 0 0 0 1-1V2h.5a.5.5 0 0 0 0-1h-1z"/>
+                                </svg>
+                            </div>
+                            <div class="reason-text">
+                                <strong>Same Tools as CI/CD</strong>
+                                <span>Match your GitHub Actions environment locally. No more "works on my machine."</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div style="background: var(--bg-tertiary); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                        <div style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem;">Supported</div>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent-green);">WSL2 + Ubuntu 24.04</div>
+                        <div style="color: var(--text-secondary); font-size: 0.9rem;">Windows 10/11</div>
+                    </div>
+                    
+                    <div class="desktop-badge">
+                        <svg viewBox="0 0 256 256" fill="currentColor">
+                            <circle cx="128" cy="128" r="128" fill="#E95420"/>
+                            <circle cx="128" cy="128" r="100" fill="none" stroke="white" stroke-width="16"/>
+                            <circle cx="128" cy="36" r="20" fill="white"/>
+                        </svg>
+                        <span>Looking for <strong>native Ubuntu</strong>?</span>
+                    </div>
+                    
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;">
+                        <a href="https://github.com/codetocloudorg/kodra" style="color: var(--accent-blue);">Kodra Desktop</a> gives you full GNOME theming, Ghostty terminal, and window tiling on native Ubuntu.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features">
+        <div class="section-header">
+            <span class="section-label">Features</span>
+            <h2 class="section-title">CLI-first for WSL</h2>
+            <p class="section-subtitle">
+                All the tools you need for Azure development—optimized for the WSL environment.
+            </p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">☁️</div>
+                <h3 class="feature-title">Azure-Native</h3>
+                <p class="feature-description">Azure CLI, azd, Bicep, Terraform, OpenTofu, and PowerShell 7—all configured and ready to deploy.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3 class="feature-title">AI-Assisted</h3>
+                <p class="feature-description">GitHub Copilot in VS Code and the CLI. Ask questions, generate code, explain errors.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🐳</div>
+                <h3 class="feature-title">Docker CE Native</h3>
+                <p class="feature-description">Docker running directly in WSL2—no Docker Desktop needed. Free for all use cases.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">☸️</div>
+                <h3 class="feature-title">Kubernetes</h3>
+                <p class="feature-description">kubectl, Helm, and k9s for managing AKS clusters with style.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">Modern Shell</h3>
+                <p class="feature-description">Zsh with Starship prompt, Nerd Fonts support, and intelligent aliases.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔗</div>
+                <h3 class="feature-title">VS Code Integration</h3>
+                <p class="feature-description">Seamless connection from Windows VS Code to your WSL environment.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Docker Section -->
+    <section id="docker">
+        <div class="section-header">
+            <span class="section-label">Docker</span>
+            <h2 class="section-title">Docker CE in WSL2</h2>
+            <p class="section-subtitle">
+                Native Docker performance without Docker Desktop licensing concerns.
+            </p>
+        </div>
+        
+        <div class="docker-section">
+            <h3>
+                <span style="font-size: 2rem;">🐳</span>
+                Why Docker CE in WSL2?
+            </h3>
+            <p style="color: var(--text-secondary); max-width: 600px;">
+                Docker Desktop requires a paid license for organizations with more than 250 employees or $10M+ revenue. Kodra WSL configures Docker CE to run natively in WSL2—completely free.
+            </p>
+            
+            <div class="docker-benefits">
+                <div class="docker-benefit">
+                    <div class="docker-benefit-icon">💰</div>
+                    <div class="docker-benefit-text">
+                        <strong>Free Forever</strong>
+                        <span>No licensing fees, regardless of organization size</span>
+                    </div>
+                </div>
+                <div class="docker-benefit">
+                    <div class="docker-benefit-icon">🚀</div>
+                    <div class="docker-benefit-text">
+                        <strong>Native Performance</strong>
+                        <span>Runs directly in Linux kernel, not through virtualization layers</span>
+                    </div>
+                </div>
+                <div class="docker-benefit">
+                    <div class="docker-benefit-icon">💻</div>
+                    <div class="docker-benefit-text">
+                        <strong>Lower Resource Usage</strong>
+                        <span>No separate Docker Desktop app consuming RAM</span>
+                    </div>
+                </div>
+                <div class="docker-benefit">
+                    <div class="docker-benefit-icon">🔧</div>
+                    <div class="docker-benefit-text">
+                        <strong>CI/CD Parity</strong>
+                        <span>Same Docker experience as your build pipelines</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section id="tools">
+        <div class="section-header">
+            <span class="section-label">Batteries Included</span>
+            <h2 class="section-title">The complete CLI toolkit</h2>
+            <p class="section-subtitle">
+                25+ carefully selected tools, configured for WSL2.
+            </p>
+        </div>
+        
+        <div class="tools-grid">
+            <div class="tool-item">
+                <div class="tool-icon">🐚</div>
+                <div class="tool-name">Zsh</div>
+            </div>
+            <div class="tool-item">
+                <div class="tool-icon">⚡</div>
+                <div class="tool-name">Starship</div>
+            </div>
+            <div class="tool-item">
+                <div class="tool-icon">☁️</div>
+                <div class="tool-name">Azure CLI</div>
+            </div>
+            <div class="tool-item">
+                <div class="tool-icon">🚀</div>
+                <div class="tool-name">azd</div>
+            </div>
+            <div class="tool-item">
+                <div class="tool-icon">💪</div>
+                <div class="tool-name">Bicep</div>
+            </div>
+            <div class="tool-item">
+                <div class="tool-icon">🏗️</div>
+                <div class="tool-name">Terraform</div>
+            </div>
+            <div class="tool-item">
+                <div class="tool-icon">🪨</div>
+                <div class="tool-name">OpenTofu</div>
+            </div>
+            <div class="tool-item">
+                <div class="tool-icon">🐳</div>
+                <div class="tool-name">Docker CE</div>
+            </div>
+            <div class="tool-item">
+                <div class="tool-icon">☸️</div>
+                <div class="tool-name">kubectl</div>
+            </div>
+            <div class="tool-item">
+                <div class="tool-icon">⎈</div>
+                <div class="tool-name">Helm</div>
+            </div>
+            <div class="tool-item">
+                <div class="tool-icon">🐙</div>
+                <div class="tool-name">k9s</div>
+            </div>
+            <div class="tool-item">
+                <div class="tool-icon">🐱</div>
+                <div class="tool-name">GitHub CLI</div>
+            </div>
+            <div class="tool-item">
+                <div class="tool-icon">🤖</div>
+                <div class="tool-name">Copilot CLI</div>
+            </div>
+            <div class="tool-item">
+                <div class="tool-icon">🦇</div>
+                <div class="tool-name">bat</div>
+            </div>
+            <div class="tool-item">
+                <div class="tool-icon">📂</div>
+                <div class="tool-name">eza</div>
+            </div>
+            <div class="tool-item">
+                <div class="tool-icon">🔍</div>
+                <div class="tool-name">fzf</div>
+            </div>
+            <div class="tool-item">
+                <div class="tool-icon">🔎</div>
+                <div class="tool-name">ripgrep</div>
+            </div>
+            <div class="tool-item">
+                <div class="tool-icon">📊</div>
+                <div class="tool-name">btop</div>
+            </div>
+            <div class="tool-item">
+                <div class="tool-icon">🎯</div>
+                <div class="tool-name">lazygit</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Commands Section -->
+    <section>
+        <div class="section-header">
+            <span class="section-label">CLI</span>
+            <h2 class="section-title">Simple commands</h2>
+            <p class="section-subtitle">
+                Manage your setup with memorable commands.
+            </p>
+        </div>
+        
+        <div class="commands-list">
+            <div class="command-item">
+                <code class="command-code">kodra doctor</code>
+                <span class="command-desc">Check system health & WSL status</span>
+            </div>
+            <div class="command-item">
+                <code class="command-code">kodra update</code>
+                <span class="command-desc">Update all tools</span>
+            </div>
+            <div class="command-item">
+                <code class="command-code">kodra setup</code>
+                <span class="command-desc">Re-run first-time setup</span>
+            </div>
+            <div class="command-item">
+                <code class="command-code">kodra fetch</code>
+                <span class="command-desc">Show system info</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <div class="logo-icon">K</div>
+                    Kodra<span class="logo-wsl">WSL</span>
+                </a>
+                <p>Agentic Azure engineering in WSL—cloud-native CLI tools for Windows developers.</p>
+                <div class="footer-social">
+                    <a href="https://github.com/codetocloudorg/kodra-wsl" aria-label="GitHub">
+                        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                        </svg>
+                    </a>
+                    <a href="https://discord.gg/vwfwq2EpXJ" aria-label="Discord">
+                        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#tools">Tools</a></li>
+                    <li><a href="#docker">Docker</a></li>
+                    <li><a href="https://github.com/codetocloudorg/kodra">Kodra Desktop</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="https://github.com/codetocloudorg/kodra-wsl">Documentation</a></li>
+                    <li><a href="https://github.com/codetocloudorg/kodra-wsl/issues">Report Issue</a></li>
+                    <li><a href="https://github.com/codetocloudorg/kodra-wsl/blob/main/CONTRIBUTING.md">Contributing</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="https://www.codetocloud.io">Code To Cloud</a></li>
+                    <li><a href="https://discord.gg/vwfwq2EpXJ">Discord</a></li>
+                    <li><a href="https://github.com/codetocloudorg">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>A WSL variant of <a href="https://kodra.codetocloud.io" style="color: var(--accent-blue); text-decoration: none;">Kodra</a> • Developed by <a href="https://www.codetocloud.io" style="color: var(--accent-blue); text-decoration: none;">Code To Cloud</a>. Released under the MIT License.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Add animation class when elements come into view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.feature-card, .tool-item').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
