@@ -310,7 +310,7 @@ If VS Code can't connect to WSL:
 Once WSL2 is set up, install Kodra WSL:
 
 ```bash
-wget -qO- https://kodra-wsl.codetocloud.io/boot.sh | bash
+wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
 ```
 
 Then verify your installation:

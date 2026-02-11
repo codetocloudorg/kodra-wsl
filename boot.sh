@@ -3,11 +3,11 @@
 # Kodra WSL Bootstrap Script
 # A Code To Cloud Project ☁️
 #
-# https://kodra-wsl.codetocloud.io
+# https://kodra.wsl.codetocloud.io
 #
 # Usage: 
-#   wget -qO- https://kodra-wsl.codetocloud.io/boot.sh | bash
-#   curl -fsSL https://kodra-wsl.codetocloud.io/boot.sh | bash
+#   wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
+#   curl -fsSL https://kodra.wsl.codetocloud.io/boot.sh | bash
 #
 # Options:
 #   --install    Skip menu, go straight to install

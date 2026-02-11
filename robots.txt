@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kodra-wsl.codetocloud.io/sitemap.xml
+Sitemap: https://kodra.wsl.codetocloud.io/sitemap.xml

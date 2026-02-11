@@ -3,7 +3,7 @@
 # Kodra WSL Install Script
 # A Code To Cloud Project ☁️
 #
-# https://kodra-wsl.codetocloud.io
+# https://kodra.wsl.codetocloud.io
 #
 # Main installation orchestrator for WSL environments
 #

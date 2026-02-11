@@ -635,6 +635,73 @@
             margin: 0 auto;
         }
 
+        /* Prerequisite Cards */
+        .prereq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .prereq-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .prereq-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .prereq-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        .prereq-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .prereq-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .prereq-code {
+            background: var(--bg-tertiary);
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            display: block;
+        }
+
+        .prereq-link {
+            background: var(--bg-tertiary);
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            display: block;
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .prereq-link:hover {
+            background: var(--border-default);
+        }
+
         .command-item {
             background: var(--bg-secondary);
             border: 1px solid var(--border-default);
@@ -911,41 +978,41 @@
             <p class="section-subtitle">Complete these steps on Windows before running the installer in WSL</p>
         </div>
 
-        <div class="prereq-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
-            <div class="prereq-card" style="background: var(--bg-secondary); border: 1px solid var(--border-default); border-radius: 12px; padding: 1.5rem;">
-                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-                    <div style="width: 36px; height: 36px; background: var(--windows-blue); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">1</div>
-                    <h3 style="font-size: 1.1rem; font-weight: 600;">Windows Terminal</h3>
+        <div class="prereq-grid">
+            <div class="prereq-card">
+                <div class="prereq-header">
+                    <div class="prereq-number" style="background: var(--windows-blue);">1</div>
+                    <h3>Windows Terminal</h3>
                 </div>
-                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Modern terminal with tabs, split panes, and full Unicode support.</p>
-                <code style="background: var(--bg-tertiary); padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.85rem; display: block;">winget install Microsoft.WindowsTerminal</code>
+                <p>Modern terminal with tabs, split panes, and full Unicode support.</p>
+                <code class="prereq-code">winget install Microsoft.WindowsTerminal</code>
             </div>
 
-            <div class="prereq-card" style="background: var(--bg-secondary); border: 1px solid var(--border-default); border-radius: 12px; padding: 1.5rem;">
-                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-                    <div style="width: 36px; height: 36px; background: var(--wsl-orange); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">2</div>
-                    <h3 style="font-size: 1.1rem; font-weight: 600;">WSL2 + Ubuntu</h3>
+            <div class="prereq-card">
+                <div class="prereq-header">
+                    <div class="prereq-number" style="background: var(--wsl-orange);">2</div>
+                    <h3>WSL2 + Ubuntu</h3>
                 </div>
-                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Windows Subsystem for Linux with Ubuntu 24.04. Run in PowerShell as Admin:</p>
-                <code style="background: var(--bg-tertiary); padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.85rem; display: block;">wsl --install -d Ubuntu-24.04</code>
+                <p>Windows Subsystem for Linux with Ubuntu 24.04. Run in PowerShell as Admin:</p>
+                <code class="prereq-code">wsl --install -d Ubuntu-24.04</code>
             </div>
 
-            <div class="prereq-card" style="background: var(--bg-secondary); border: 1px solid var(--border-default); border-radius: 12px; padding: 1.5rem;">
-                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-                    <div style="width: 36px; height: 36px; background: var(--accent-purple); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">3</div>
-                    <h3 style="font-size: 1.1rem; font-weight: 600;">Nerd Font</h3>
+            <div class="prereq-card">
+                <div class="prereq-header">
+                    <div class="prereq-number" style="background: var(--accent-purple);">3</div>
+                    <h3>Nerd Font</h3>
                 </div>
-                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Required for terminal icons. Install on Windows, then set in Terminal settings.</p>
-                <a href="https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip" style="background: var(--bg-tertiary); padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.85rem; display: block; color: var(--accent-cyan); text-decoration: none;">Download JetBrainsMono Nerd Font</a>
+                <p>Required for terminal icons. Install on Windows, then set in Terminal settings.</p>
+                <a href="https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip" class="prereq-link">Download JetBrainsMono Nerd Font</a>
             </div>
 
-            <div class="prereq-card" style="background: var(--bg-secondary); border: 1px solid var(--border-default); border-radius: 12px; padding: 1.5rem;">
-                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-                    <div style="width: 36px; height: 36px; background: var(--accent-blue); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">4</div>
-                    <h3 style="font-size: 1.1rem; font-weight: 600;">VS Code + Extensions</h3>
+            <div class="prereq-card">
+                <div class="prereq-header">
+                    <div class="prereq-number" style="background: var(--accent-blue);">4</div>
+                    <h3>VS Code + Extensions</h3>
                 </div>
-                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Install on Windows. Required extensions: WSL, GitHub Copilot.</p>
-                <a href="https://code.visualstudio.com/" style="background: var(--bg-tertiary); padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.85rem; display: block; color: var(--accent-cyan); text-decoration: none;">Download VS Code</a>
+                <p>Install on Windows. Required extensions: WSL, GitHub Copilot.</p>
+                <a href="https://code.visualstudio.com/" class="prereq-link">Download VS Code</a>
             </div>
         </div>
 
@@ -962,7 +1029,7 @@
                 <div class="terminal-body">
                     <div class="terminal-line">
                         <span class="terminal-prompt">$</span>
-                        <span class="terminal-command typing-animation">wget -qO- https://kodra-wsl.codetocloud.io/boot.sh | bash</span>
+                        <span class="terminal-command typing-animation">wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash</span>
                     </div>
                     <div class="terminal-output">
                         ✓ Azure CLI + azd installed<br>
@@ -975,6 +1042,7 @@
                 </div>
             </div>
         </div>
+    </section>
 
     <!-- WSL Advantage Section -->
     <section>

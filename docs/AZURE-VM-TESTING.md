@@ -54,7 +54,7 @@ ssh kodra@$VM_IP
 
 ```bash
 # Run the Kodra WSL installer
-wget -qO- https://kodra-wsl.codetocloud.io/boot.sh | bash
+wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
 ```
 
 ### 4. Verify Installation
