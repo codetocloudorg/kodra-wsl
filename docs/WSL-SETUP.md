@@ -4,7 +4,7 @@ This guide covers setting up WSL2 on Windows for use with Kodra WSL.
 
 ## Prerequisites
 
-- Windows 10 version 2004+ (Build 19041+) or Windows 11
+- Windows 11
 - Administrator access
 - At least 8GB RAM recommended
 - ~10GB free disk space

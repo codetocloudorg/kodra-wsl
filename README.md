@@ -11,7 +11,7 @@
 
 **Agentic Azure engineering in WSL—cloud-native CLI tools for Windows developers.**
 
-[![Version](https://img.shields.io/badge/version-0.2.0-blue?style=flat-square)](VERSION)
+[![Version](https://img.shields.io/badge/version-0.3.0-blue?style=flat-square)](VERSION)
 [![WSL2](https://img.shields.io/badge/WSL2-Ubuntu_24.04+-E95420?style=flat-square&logo=ubuntu&logoColor=white)](https://learn.microsoft.com/en-us/windows/wsl/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 [![Discord](https://img.shields.io/badge/Discord-Join-5865F2?style=flat-square&logo=discord&logoColor=white)](https://discord.gg/vwfwq2EpXJ)
@@ -30,7 +30,7 @@ This is the **CLI-focused variant** of [Kodra Desktop](https://github.com/codeto
 
 | Feature | Kodra WSL | Kodra Desktop |
 |---------|-----------|---------------|
-| **Target Environment** | WSL2 on Windows 10/11 | Native Ubuntu 24.04+ |
+| **Target Environment** | WSL2 on Windows 11 | Native Ubuntu 24.04+ |
 | **Desktop Environment** | None (CLI only) | GNOME with theming |
 | **Terminal** | Windows Terminal | Ghostty |
 | **Docker** | Docker CE in WSL2 | Docker CE |
@@ -71,17 +71,25 @@ After restarting:
 
 Starship prompt and CLI tools use icons that require a Nerd Font. Install on **Windows**:
 
-1. Download [JetBrainsMono Nerd Font](https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip)
-2. Extract and install all `.ttf` files (right-click → Install)
-3. Configure Windows Terminal to use it:
-   - Open Windows Terminal → Settings → Ubuntu profile
-   - Under **Appearance** → **Font face** → Select `JetBrainsMono Nerd Font`
+```powershell
+winget install DEVCOM.JetBrainsMonoNerdFont
+```
+
+Then configure Windows Terminal to use it:
+- Open Windows Terminal → Settings → Ubuntu profile
+- Under **Appearance** → **Font face** → Select `JetBrainsMono Nerd Font`
 
 ### Step 4: Install VS Code with WSL Extension
 
-1. Download and install [VS Code](https://code.visualstudio.com/) on Windows
-2. Install the [WSL extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl)
-3. Recommended: Install [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=github.copilot) extension
+Install VS Code on Windows:
+
+```powershell
+winget install Microsoft.VisualStudioCode
+```
+
+Then install the required extensions:
+1. [WSL extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl)
+2. [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=github.copilot) (recommended)
 
 ---
 
