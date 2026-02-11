@@ -32,6 +32,12 @@ export KODRA_DIR="${KODRA_DIR:-$HOME/.kodra}"
 export KODRA_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/kodra"
 export KODRA_LOG_FILE="/tmp/kodra-wsl-install-$(date +%Y%m%d-%H%M%S).log"
 
+# If stdin is not a terminal (i.e., script is piped), redirect from /dev/tty
+# This allows interactive prompts (sudo password, confirmations) to work
+if [ ! -t 0 ]; then
+    exec < /dev/tty
+fi
+
 # Start logging everything to file
 exec > >(tee -a "$KODRA_LOG_FILE") 2>&1
 
@@ -87,12 +93,6 @@ trap 'kodra_error_handler $LINENO' ERR
 source "$KODRA_DIR/lib/utils.sh"
 source "$KODRA_DIR/lib/ui.sh"
 
-# Reconnect stdin to terminal for interactive prompts
-if [ ! -t 0 ] && [ -z "$KODRA_SKIP_PROMPTS" ]; then
-    if ( exec 0</dev/tty ) 2>/dev/null; then
-        exec < /dev/tty
-    fi
-fi
 
 # Display banner
 show_banner
@@ -144,14 +144,20 @@ else
     exit 1
 fi
 
-# Sudo access
+# Sudo access - prompt for password if needed
 if sudo -n true 2>/dev/null; then
     show_check "Sudo access" "ok"
 else
-    show_check "Sudo access" "fail"
-    end_preflight
-    echo -e "    ${C_RED}Sudo access required${C_RESET}"
-    exit 1
+    # Need to prompt for password
+    echo -e "    ${C_YELLOW}▶${C_RESET} Sudo password required for installation..."
+    if sudo true; then
+        show_check "Sudo access" "ok"
+    else
+        show_check "Sudo access" "fail"
+        end_preflight
+        echo -e "    ${C_RED}Sudo access required${C_RESET}"
+        exit 1
+    fi
 fi
 
 # Disk space
@@ -197,7 +203,7 @@ if [ -z "$KODRA_SKIP_PROMPTS" ]; then
             exit 0
         fi
     else
-        read -p "    Continue with installation? [Y/n] " -n 1 -r REPLY < /dev/tty
+        read -p "    Continue with installation? [Y/n] " -n 1 -r REPLY
         echo ""
         if [[ $REPLY =~ ^[Nn]$ ]]; then
             echo ""
@@ -377,7 +383,7 @@ if [ -z "$KODRA_SKIP_PROMPTS" ]; then
             show_info "Skipped. Run 'kodra setup' anytime to configure."
         fi
     else
-        read -p "    Run first-time setup? (GitHub, Azure, Git) [Y/n] " -n 1 -r REPLY < /dev/tty
+        read -p "    Run first-time setup? (GitHub, Azure, Git) [Y/n] " -n 1 -r REPLY
         echo ""
         if [[ ! $REPLY =~ ^[Nn]$ ]]; then
             "$KODRA_DIR/bin/kodra-sub/first-run.sh"

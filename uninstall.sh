@@ -6,6 +6,11 @@
 KODRA_DIR="${KODRA_DIR:-$HOME/.kodra}"
 KODRA_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/kodra"
 
+# If stdin is not a terminal (i.e., script is piped), redirect from /dev/tty
+if [ ! -t 0 ]; then
+    exec < /dev/tty
+fi
+
 # Colors
 C_RESET='\033[0m'
 C_RED='\033[0;31m'
@@ -24,7 +29,7 @@ echo -e "${C_YELLOW}This will remove Kodra WSL configurations.${C_RESET}"
 echo -e "${C_YELLOW}Installed tools (Docker, Azure CLI, etc.) will remain.${C_RESET}"
 echo ""
 
-read -p "    Are you sure you want to uninstall? [y/N] " -n 1 -r REPLY < /dev/tty
+read -p "    Are you sure you want to uninstall? [y/N] " -n 1 -r REPLY
 echo ""
 
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then

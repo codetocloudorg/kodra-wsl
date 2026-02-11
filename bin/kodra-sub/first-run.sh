@@ -5,6 +5,11 @@
 
 KODRA_DIR="${KODRA_DIR:-$HOME/.kodra}"
 
+# If stdin is not a terminal (i.e., script is piped), redirect from /dev/tty
+if [ ! -t 0 ]; then
+    exec < /dev/tty
+fi
+
 # Colors
 C_RESET='\033[0m'
 C_GREEN='\033[0;32m'
@@ -33,7 +38,7 @@ GIT_EMAIL=$(git config --global user.email 2>/dev/null)
 
 if [ -z "$GIT_NAME" ]; then
     echo -e "  ${C_CYAN}▶${C_RESET} Enter your name for Git commits:"
-    read -p "    Name: " GIT_NAME < /dev/tty
+    read -p "    Name: " GIT_NAME
     if [ -n "$GIT_NAME" ]; then
         git config --global user.name "$GIT_NAME"
         echo -e "  ${C_GREEN}✔${C_RESET} Git name set"
@@ -44,7 +49,7 @@ fi
 
 if [ -z "$GIT_EMAIL" ]; then
     echo -e "  ${C_CYAN}▶${C_RESET} Enter your email for Git commits:"
-    read -p "    Email: " GIT_EMAIL < /dev/tty
+    read -p "    Email: " GIT_EMAIL
     if [ -n "$GIT_EMAIL" ]; then
         git config --global user.email "$GIT_EMAIL"
         echo -e "  ${C_GREEN}✔${C_RESET} Git email set"
@@ -71,7 +76,7 @@ if command -v gh &> /dev/null; then
     else
         echo -e "  ${C_YELLOW}⚠${C_RESET} GitHub CLI not authenticated"
         echo ""
-        read -p "    Login to GitHub now? [Y/n] " -n 1 -r REPLY < /dev/tty
+        read -p "    Login to GitHub now? [Y/n] " -n 1 -r REPLY
         echo ""
         if [[ ! $REPLY =~ ^[Nn]$ ]]; then
             gh auth login
@@ -102,7 +107,7 @@ if command -v az &> /dev/null; then
     else
         echo -e "  ${C_YELLOW}⚠${C_RESET} Azure CLI not authenticated"
         echo ""
-        read -p "    Login to Azure now? [Y/n] " -n 1 -r REPLY < /dev/tty
+        read -p "    Login to Azure now? [Y/n] " -n 1 -r REPLY
         echo ""
         if [[ ! $REPLY =~ ^[Nn]$ ]]; then
             az login
@@ -124,7 +129,7 @@ if command -v docker &> /dev/null; then
     else
         echo -e "  ${C_YELLOW}⚠${C_RESET} Docker daemon not running"
         echo ""
-        read -p "    Start Docker now? [Y/n] " -n 1 -r REPLY < /dev/tty
+        read -p "    Start Docker now? [Y/n] " -n 1 -r REPLY
         echo ""
         if [[ ! $REPLY =~ ^[Nn]$ ]]; then
             if command -v systemctl &> /dev/null && systemctl is-system-running &> /dev/null 2>&1; then
