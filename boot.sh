@@ -71,6 +71,12 @@ echo -e "    ${C_GRAY}Agentic Azure engineering for Windows developers${C_RESET}
 echo -e "    ${C_GRAY}Docker CE • Azure CLI • Kubernetes • CLI Tools${C_RESET}"
 echo ""
 
+# If stdin is not a terminal (i.e., script is piped), redirect from /dev/tty
+# This allows interactive prompts to work with: wget -qO- ... | bash
+if [ ! -t 0 ]; then
+    exec < /dev/tty
+fi
+
 # Helper functions
 show_step() {
     echo -e "    ${C_CYAN}▶${C_RESET} $1"
@@ -141,7 +147,7 @@ else
         show_warn "Native Ubuntu detected (non-WSL)"
         echo -e "    ${C_GRAY}For full desktop experience, use: https://kodra.codetocloud.io${C_RESET}"
         echo ""
-        read -p "    Continue with CLI-only install? (y/N) " -n 1 -r REPLY < /dev/tty
+        read -p "    Continue with CLI-only install? (y/N) " -n 1 -r REPLY
         echo
         if [[ ! $REPLY =~ ^[Yy]$ ]]; then
             exit 0
@@ -158,7 +164,7 @@ if [ -f /etc/os-release ]; then
     . /etc/os-release
     if [ "$ID" != "ubuntu" ]; then
         show_warn "Kodra WSL is designed for Ubuntu. Your OS: $ID"
-        read -p "    Continue anyway? (y/N) " -n 1 -r REPLY < /dev/tty
+        read -p "    Continue anyway? (y/N) " -n 1 -r REPLY
         echo
         if [[ ! $REPLY =~ ^[Yy]$ ]]; then
             exit 1
@@ -170,7 +176,7 @@ if [ -f /etc/os-release ]; then
     VERSION_NUM=$(echo "$VERSION_ID" | cut -d. -f1)
     if [ "$VERSION_NUM" -lt 24 ]; then
         show_warn "Kodra WSL requires Ubuntu 24.04+. Your version: $VERSION_ID"
-        read -p "    Continue anyway? (y/N) " -n 1 -r REPLY < /dev/tty
+        read -p "    Continue anyway? (y/N) " -n 1 -r REPLY
         echo
         if [[ ! $REPLY =~ ^[Yy]$ ]]; then
             exit 1
@@ -247,8 +253,9 @@ elif [ "$KODRA_EXISTS" = true ]; then
     echo -e "    ${C_CYAN}3)${C_RESET} Uninstall"
     echo -e "    ${C_CYAN}4)${C_RESET} Exit"
     echo ""
-    # Read from /dev/tty to work when script is piped (wget | bash)
-    read -p "    Choose an option [1-4]: " -n 1 -r REPLY < /dev/tty
+    
+    printf "    Choose an option [1-4]: "
+    read -n 1 -r REPLY
     echo
     echo ""
     
