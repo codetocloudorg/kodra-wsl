@@ -181,10 +181,8 @@ install_gum
 section "Installation Options" "⚙️"
 
 echo ""
-echo -e "    ${C_WHITE}Choose what to install:${C_RESET}"
-echo ""
 
-# Default selections
+# Default selections (full install)
 INSTALL_SHELL=true
 INSTALL_CLI_TOOLS=true
 INSTALL_GIT_TOOLS=true
@@ -192,65 +190,76 @@ INSTALL_AZURE=true
 INSTALL_CONTAINERS=true
 INSTALL_KUBERNETES=true
 
-if command -v gum &> /dev/null; then
-    # Use gum for beautiful multi-select
-    echo -e "    ${C_GRAY}(Use space to select/deselect, enter to confirm)${C_RESET}"
+# Check if we can do interactive selection
+if [ -t 0 ]; then
+    # Interactive mode - show options
+    echo -e "    ${C_WHITE}Choose what to install:${C_RESET}"
     echo ""
     
-    SELECTIONS=$(gum choose --no-limit --selected="Shell Environment,CLI Tools,Git Tools,Azure & Cloud,Containers,Kubernetes" \
-        "Shell Environment" \
-        "CLI Tools" \
-        "Git Tools" \
-        "Azure & Cloud" \
-        "Containers" \
-        "Kubernetes" 2>/dev/null) || SELECTIONS="Shell Environment
+    if command -v gum &> /dev/null; then
+        # Use gum for beautiful multi-select
+        echo -e "    ${C_GRAY}(Use space to select/deselect, enter to confirm)${C_RESET}"
+        echo ""
+        
+        SELECTIONS=$(gum choose --no-limit --selected="Shell Environment,CLI Tools,Git Tools,Azure & Cloud,Containers,Kubernetes" \
+            "Shell Environment" \
+            "CLI Tools" \
+            "Git Tools" \
+            "Azure & Cloud" \
+            "Containers" \
+            "Kubernetes" 2>/dev/null) || SELECTIONS="Shell Environment
 CLI Tools
 Git Tools
 Azure & Cloud
 Containers
 Kubernetes"
-    
-    # Parse selections
-    [[ "$SELECTIONS" == *"Shell Environment"* ]] && INSTALL_SHELL=true || INSTALL_SHELL=false
-    [[ "$SELECTIONS" == *"CLI Tools"* ]] && INSTALL_CLI_TOOLS=true || INSTALL_CLI_TOOLS=false
-    [[ "$SELECTIONS" == *"Git Tools"* ]] && INSTALL_GIT_TOOLS=true || INSTALL_GIT_TOOLS=false
-    [[ "$SELECTIONS" == *"Azure & Cloud"* ]] && INSTALL_AZURE=true || INSTALL_AZURE=false
-    [[ "$SELECTIONS" == *"Containers"* ]] && INSTALL_CONTAINERS=true || INSTALL_CONTAINERS=false
-    [[ "$SELECTIONS" == *"Kubernetes"* ]] && INSTALL_KUBERNETES=true || INSTALL_KUBERNETES=false
+        
+        # Parse selections
+        [[ "$SELECTIONS" == *"Shell Environment"* ]] && INSTALL_SHELL=true || INSTALL_SHELL=false
+        [[ "$SELECTIONS" == *"CLI Tools"* ]] && INSTALL_CLI_TOOLS=true || INSTALL_CLI_TOOLS=false
+        [[ "$SELECTIONS" == *"Git Tools"* ]] && INSTALL_GIT_TOOLS=true || INSTALL_GIT_TOOLS=false
+        [[ "$SELECTIONS" == *"Azure & Cloud"* ]] && INSTALL_AZURE=true || INSTALL_AZURE=false
+        [[ "$SELECTIONS" == *"Containers"* ]] && INSTALL_CONTAINERS=true || INSTALL_CONTAINERS=false
+        [[ "$SELECTIONS" == *"Kubernetes"* ]] && INSTALL_KUBERNETES=true || INSTALL_KUBERNETES=false
+    else
+        # Fallback to simple menu
+        echo -e "    ${C_CYAN}1)${C_RESET} Full Install (recommended) - all tools"
+        echo -e "    ${C_CYAN}2)${C_RESET} Minimal - shell + CLI tools only"
+        echo -e "    ${C_CYAN}3)${C_RESET} Developer - shell + CLI + Git + Containers"
+        echo -e "    ${C_CYAN}4)${C_RESET} Cloud Engineer - everything except Kubernetes"
+        echo ""
+        
+        printf "    Choose an option [1-4] (default: 1): "
+        read -n 1 -r REPLY
+        echo
+        
+        case $REPLY in
+            2)
+                INSTALL_AZURE=false
+                INSTALL_CONTAINERS=false
+                INSTALL_KUBERNETES=false
+                ;;
+            3)
+                INSTALL_AZURE=false
+                INSTALL_KUBERNETES=false
+                ;;
+            4)
+                INSTALL_KUBERNETES=false
+                ;;
+            *)
+                # Full install (default)
+                ;;
+        esac
+    fi
 else
-    # Fallback to simple menu
-    echo -e "    ${C_CYAN}1)${C_RESET} Full Install (recommended) - all tools"
-    echo -e "    ${C_CYAN}2)${C_RESET} Minimal - shell + CLI tools only"
-    echo -e "    ${C_CYAN}3)${C_RESET} Developer - shell + CLI + Git + Containers"
-    echo -e "    ${C_CYAN}4)${C_RESET} Cloud Engineer - everything except Kubernetes"
-    echo ""
-    
-    printf "    Choose an option [1-4] (default: 1): "
-    read -n 1 -r REPLY
-    echo
-    
-    case $REPLY in
-        2)
-            INSTALL_AZURE=false
-            INSTALL_CONTAINERS=false
-            INSTALL_KUBERNETES=false
-            ;;
-        3)
-            INSTALL_AZURE=false
-            INSTALL_KUBERNETES=false
-            ;;
-        4)
-            INSTALL_KUBERNETES=false
-            ;;
-        *)
-            # Full install (default)
-            ;;
-    esac
+    # Non-interactive mode (piped) - full install
+    echo -e "    ${C_YELLOW}▶${C_RESET} Non-interactive mode: Installing all components"
+    echo -e "    ${C_GRAY}For custom selection, run: ~/.kodra/install.sh${C_RESET}"
 fi
 
 echo ""
 echo -e "    ${C_WHITE}Will install:${C_RESET}"
-[ "$INSTALL_SHELL" = "true" ] && echo -e "    ${C_GREEN}✔${C_RESET} Shell environment (Zsh, Oh My Posh, aliases)"
+[ "$INSTALL_SHELL" = "true" ] && echo -e "    ${C_GREEN}✔${C_RESET} Shell environment (Oh My Posh prompt, aliases)"
 [ "$INSTALL_CLI_TOOLS" = "true" ] && echo -e "    ${C_GREEN}✔${C_RESET} CLI utilities (bat, eza, fzf, ripgrep, etc.)"
 [ "$INSTALL_GIT_TOOLS" = "true" ] && echo -e "    ${C_GREEN}✔${C_RESET} Git tools (GitHub CLI, lazygit, Copilot CLI)"
 [ "$INSTALL_AZURE" = "true" ] && echo -e "    ${C_GREEN}✔${C_RESET} Azure tools (CLI, azd, Bicep, Terraform, OpenTofu)"
@@ -322,7 +331,6 @@ if [ "$INSTALL_SHELL" = "true" ]; then
     section "Shell Environment" "🐚"
 
     show_tools_group "Setting up modern shell environment"
-    run_installer "$KODRA_DIR/install/terminal/zsh.sh"
     run_installer "$KODRA_DIR/install/terminal/oh-my-posh.sh"
     run_installer "$KODRA_DIR/install/terminal/nerd-fonts.sh"
 fi
@@ -477,5 +485,19 @@ else
 fi
 
 echo ""
-echo -e "    ${C_GREEN}Restart your terminal or run:${C_RESET} source ~/.zshrc"
+echo -e "╔══════════════════════════════════════════════════════════════════════════════╗"
+echo -e "║                           ${C_GREEN}NEXT STEPS${C_RESET}                                       ║"
+echo -e "╠══════════════════════════════════════════════════════════════════════════════╣"
+echo -e "║                                                                              ║"
+echo -e "║  ${C_CYAN}1. Restart your terminal${C_RESET} (close and reopen Windows Terminal)              ║"
+echo -e "║     Or run: ${C_WHITE}source ~/.bashrc${C_RESET}                                              ║"
+echo -e "║                                                                              ║"
+echo -e "║  ${C_CYAN}2. Configure your font${C_RESET} (required for prompt icons)                        ║"
+echo -e "║     In Windows Terminal: Settings → Ubuntu → Appearance → Font face         ║"
+echo -e "║     Select: ${C_WHITE}CaskaydiaCove Nerd Font${C_RESET} or any Nerd Font                       ║"
+echo -e "║                                                                              ║"
+echo -e "║  ${C_CYAN}3. Run first-time setup${C_RESET} (if you skipped it above)                         ║"
+echo -e "║     Run: ${C_WHITE}kodra setup${C_RESET}                                                       ║"
+echo -e "║                                                                              ║"
+echo -e "╚══════════════════════════════════════════════════════════════════════════════╝"
 echo ""

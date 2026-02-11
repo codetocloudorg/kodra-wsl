@@ -378,9 +378,9 @@ If you see a plain prompt instead of Oh My Posh:
    ls -la ~/.local/bin/oh-my-posh
    ```
 
-2. Check if init is in your `.zshrc`:
+2. Check if init is in your `.bashrc`:
    ```bash
-   grep "oh-my-posh" ~/.zshrc
+   grep "oh-my-posh" ~/.bashrc
    ```
 
 3. Re-run the Kodra installer:
@@ -390,7 +390,7 @@ If you see a plain prompt instead of Oh My Posh:
 
 4. Reload your shell:
    ```bash
-   source ~/.zshrc
+   source ~/.bashrc
    ```
 
 ## Next Steps

@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 #
-# Oh My Posh Installation and Configuration
+# Oh My Posh Installation and Shell Configuration
 # https://ohmyposh.dev/
+#
+# Configures your shell prompt with the 1_shell theme
+# Works with bash (default) or zsh if installed
 #
 
 source "$KODRA_DIR/lib/utils.sh" 2>/dev/null || true
@@ -9,27 +12,38 @@ source "$KODRA_DIR/lib/ui.sh" 2>/dev/null || true
 
 show_installing "Oh My Posh"
 
-# Check if already installed
+# Ensure ~/.local/bin exists and is in PATH
+mkdir -p "$HOME/.local/bin"
+export PATH="$HOME/.local/bin:$PATH"
+
+# Check if already installed and up to date
 if command_exists oh-my-posh; then
     version=$(oh-my-posh version 2>/dev/null)
     show_installed "Oh My Posh ($version)"
-    exit 0
+else
+    # Install Oh My Posh using official installer
+    # This is the recommended method per https://ohmyposh.dev/docs/installation/linux
+    curl -fsSL https://ohmyposh.dev/install.sh | bash -s -- -d "$HOME/.local/bin" >/dev/null 2>&1
+    
+    # Verify installation
+    if [ ! -x "$HOME/.local/bin/oh-my-posh" ]; then
+        # Fallback: direct download
+        wget -qO "$HOME/.local/bin/oh-my-posh" \
+            "https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64"
+        chmod +x "$HOME/.local/bin/oh-my-posh"
+    fi
 fi
-
-# Install Oh My Posh via wget (user already has wget installed)
-# This installs to ~/.local/bin which is in PATH
-mkdir -p "$HOME/.local/bin"
-wget -qO "$HOME/.local/bin/oh-my-posh" https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64
-chmod +x "$HOME/.local/bin/oh-my-posh"
 
 # Create themes directory
 mkdir -p "$HOME/.config/oh-my-posh/themes"
 
-# Download the 1_shell theme
-wget -qO "$HOME/.config/oh-my-posh/themes/1_shell.omp.json" \
-    https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/1_shell.omp.json
+# Download the 1_shell theme (the one user requested)
+if [ ! -f "$HOME/.config/oh-my-posh/themes/1_shell.omp.json" ]; then
+    wget -qO "$HOME/.config/oh-my-posh/themes/1_shell.omp.json" \
+        "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/1_shell.omp.json" 2>/dev/null || true
+fi
 
-# Create a custom Kodra theme based on 1_shell with Azure/K8s awareness
+# Create a custom Kodra theme with Azure/K8s/Docker context awareness
 cat > "$HOME/.config/oh-my-posh/themes/kodra.omp.json" << 'THEME'
 {
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
@@ -167,39 +181,58 @@ cat > "$HOME/.config/oh-my-posh/themes/kodra.omp.json" << 'THEME'
 }
 THEME
 
-# Add Oh My Posh initialization to shell RC files
-SHELL_RC="$HOME/.zshrc"
-[ ! -f "$SHELL_RC" ] && SHELL_RC="$HOME/.bashrc"
+# Theme to use (1_shell as requested)
+OMP_THEME="$HOME/.config/oh-my-posh/themes/1_shell.omp.json"
 
-# Remove any existing Starship initialization
-if grep -q 'eval "$(starship init' "$SHELL_RC" 2>/dev/null; then
-    sed -i '/# Starship prompt/d' "$SHELL_RC"
-    sed -i '/eval "$(starship init/d' "$SHELL_RC"
-fi
-
-# Add Oh My Posh initialization if not present
-if ! grep -q 'oh-my-posh init' "$SHELL_RC" 2>/dev/null; then
-    cat >> "$SHELL_RC" << 'POSH_INIT'
-
-# Oh My Posh prompt (1_shell theme)
-eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/themes/1_shell.omp.json)"
-POSH_INIT
-fi
-
-# Also configure for bash in case it's used
-if [ -f "$HOME/.bashrc" ]; then
-    if ! grep -q 'oh-my-posh init' "$HOME/.bashrc" 2>/dev/null; then
-        cat >> "$HOME/.bashrc" << 'POSH_INIT_BASH'
-
-# Oh My Posh prompt (1_shell theme)
-eval "$(oh-my-posh init bash --config ~/.config/oh-my-posh/themes/1_shell.omp.json)"
-POSH_INIT_BASH
+# Function to add Oh My Posh init to a shell RC file
+configure_shell_rc() {
+    local rc_file="$1"
+    local shell_name="$2"
+    
+    [ ! -f "$rc_file" ] && return
+    
+    # Remove any existing Starship initialization (we're replacing it)
+    if grep -q 'starship init' "$rc_file" 2>/dev/null; then
+        sed -i '/# Starship prompt/d' "$rc_file"
+        sed -i '/eval "$(starship init/d' "$rc_file"
     fi
+    
+    # Remove old Oh My Posh init if present (to update it)
+    if grep -q 'oh-my-posh init' "$rc_file" 2>/dev/null; then
+        sed -i '/# Oh My Posh prompt/d' "$rc_file"
+        sed -i '/oh-my-posh init/d' "$rc_file"
+    fi
+    
+    # Ensure PATH includes ~/.local/bin
+    if ! grep -q 'PATH.*\.local/bin' "$rc_file" 2>/dev/null; then
+        echo '' >> "$rc_file"
+        echo '# Add local bin to PATH' >> "$rc_file"
+        echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$rc_file"
+    fi
+    
+    # Add Oh My Posh initialization
+    cat >> "$rc_file" << POSH_INIT
+
+# Oh My Posh prompt (1_shell theme)
+# Change theme: oh-my-posh init $shell_name --config ~/.config/oh-my-posh/themes/THEME.omp.json
+eval "\$(oh-my-posh init $shell_name --config $OMP_THEME)"
+POSH_INIT
+}
+
+# Configure .bashrc (always - it's the default shell on Ubuntu)
+if [ -f "$HOME/.bashrc" ]; then
+    configure_shell_rc "$HOME/.bashrc" "bash"
 fi
 
+# Configure .zshrc if it exists (for zsh users)
+if [ -f "$HOME/.zshrc" ]; then
+    configure_shell_rc "$HOME/.zshrc" "zsh"
+fi
+
+# Verify installation
 if command_exists oh-my-posh || [ -x "$HOME/.local/bin/oh-my-posh" ]; then
     version=$("$HOME/.local/bin/oh-my-posh" version 2>/dev/null || oh-my-posh version 2>/dev/null)
     show_installed "Oh My Posh ($version) with 1_shell theme"
 else
-    show_warn "Oh My Posh installation failed"
+    show_warn "Oh My Posh installation may have issues"
 fi

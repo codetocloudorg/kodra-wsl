@@ -163,7 +163,7 @@ ssh -o StrictHostKeyChecking=no kodra@$VM_IP << 'EOF'
     wget -qO- https://raw.githubusercontent.com/codetocloudorg/kodra-wsl/main/boot.sh | bash --install
     
     # Source new shell config
-    source ~/.zshrc 2>/dev/null || source ~/.bashrc
+    source ~/.bashrc
     
     # Run doctor
     ~/.kodra/bin/kodra doctor

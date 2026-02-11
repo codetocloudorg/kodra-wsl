@@ -110,7 +110,7 @@ wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
 That's it! The installer will:
 1. Install all CLI tools for Azure and cloud-native development
 2. Configure Docker CE to run natively in WSL2 (no Docker Desktop needed)
-3. Set up Zsh with Oh My Posh prompt (1_shell theme) and productivity aliases
+3. Set up [Oh My Posh](https://ohmyposh.dev) prompt (1_shell theme) and productivity aliases
 4. Configure GitHub CLI with Copilot integration
 
 ---
@@ -119,7 +119,7 @@ That's it! The installer will:
 
 | Category | Tools |
 |----------|-------|
-| **Shell** | Zsh + [Oh My Posh](https://ohmyposh.dev) prompt (1_shell theme) + Nerd Fonts support |
+| **Shell** | [Oh My Posh](https://ohmyposh.dev) prompt (1_shell theme) + Nerd Fonts support |
 | **Editor** | Neovim (VS Code recommended on Windows side with WSL extension) |
 | **Cloud** | Azure CLI, azd, Bicep, Terraform, OpenTofu, PowerShell 7 |
 | **Kubernetes** | kubectl, Helm, k9s |
@@ -381,7 +381,7 @@ If you see a plain prompt instead of Oh My Posh:
 oh-my-posh --version
 
 # Reload your shell config
-source ~/.zshrc
+source ~/.bashrc
 
 # Or re-run the installer
 wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
