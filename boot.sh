@@ -5,9 +5,13 @@
 #
 # https://kodra.wsl.codetocloud.io
 #
-# Usage: 
-#   wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
-#   curl -fsSL https://kodra.wsl.codetocloud.io/boot.sh | bash
+# Usage (interactive - shows menu): 
+#   bash <(wget -qO- https://kodra.wsl.codetocloud.io/boot.sh)
+#   bash <(curl -fsSL https://kodra.wsl.codetocloud.io/boot.sh)
+#
+# Usage (direct install - non-interactive):
+#   wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash -s -- --install
+#   curl -fsSL https://kodra.wsl.codetocloud.io/boot.sh | bash -s -- --install
 #
 # Options:
 #   --install    Skip menu, go straight to install
@@ -71,10 +75,18 @@ echo -e "    ${C_GRAY}Agentic Azure engineering for Windows developers${C_RESET}
 echo -e "    ${C_GRAY}Docker CE • Azure CLI • Kubernetes • CLI Tools${C_RESET}"
 echo ""
 
-# If stdin is not a terminal (i.e., script is piped), redirect from /dev/tty
-# This allows interactive prompts to work with: wget -qO- ... | bash
+# Check if we're running interactively
+# When piped (wget | bash), stdin is not a tty - run non-interactively
+INTERACTIVE=true
 if [ ! -t 0 ]; then
-    exec < /dev/tty
+    INTERACTIVE=false
+    # If no action specified, default to install
+    if [ -z "$KODRA_ACTION" ]; then
+        echo -e "    ${C_YELLOW}⚠${C_RESET} Piped input detected - running in non-interactive mode"
+        echo -e "    ${C_GRAY}For menu options, use: bash <(wget -qO- https://kodra.wsl.codetocloud.io/boot.sh)${C_RESET}"
+        echo ""
+        export KODRA_ACTION="install"
+    fi
 fi
 
 # Helper functions

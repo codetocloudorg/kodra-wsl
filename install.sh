@@ -32,10 +32,10 @@ export KODRA_DIR="${KODRA_DIR:-$HOME/.kodra}"
 export KODRA_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/kodra"
 export KODRA_LOG_FILE="/tmp/kodra-wsl-install-$(date +%Y%m%d-%H%M%S).log"
 
-# If stdin is not a terminal (i.e., script is piped), redirect from /dev/tty
-# This allows interactive prompts (sudo password, confirmations) to work
+# Check if running interactively
+# Set KODRA_NON_INTERACTIVE if stdin is not a terminal
 if [ ! -t 0 ]; then
-    exec < /dev/tty
+    export KODRA_NON_INTERACTIVE=true
 fi
 
 # Start logging everything to file
@@ -148,15 +148,30 @@ fi
 if sudo -n true 2>/dev/null; then
     show_check "Sudo access" "ok"
 else
-    # Need to prompt for password
-    echo -e "    ${C_YELLOW}▶${C_RESET} Sudo password required for installation..."
-    if sudo true; then
-        show_check "Sudo access" "ok"
-    else
+    if [ "$KODRA_NON_INTERACTIVE" = "true" ]; then
+        # Can't prompt for password in non-interactive mode
         show_check "Sudo access" "fail"
         end_preflight
-        echo -e "    ${C_RED}Sudo access required${C_RESET}"
+        echo -e "    ${C_RED}Sudo password required but running non-interactively${C_RESET}"
+        echo ""
+        echo -e "    ${C_WHITE}Option 1:${C_RESET} Cache sudo credentials first, then re-run:"
+        echo -e "    ${C_GRAY}    sudo -v && wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash -s -- --install${C_RESET}"
+        echo ""
+        echo -e "    ${C_WHITE}Option 2:${C_RESET} Run interactively:"
+        echo -e "    ${C_GRAY}    bash <(wget -qO- https://kodra.wsl.codetocloud.io/boot.sh)${C_RESET}"
+        echo ""
         exit 1
+    else
+        # Interactive mode - prompt for password
+        echo -e "    ${C_YELLOW}▶${C_RESET} Sudo password required for installation..."
+        if sudo true; then
+            show_check "Sudo access" "ok"
+        else
+            show_check "Sudo access" "fail"
+            end_preflight
+            echo -e "    ${C_RED}Sudo access required${C_RESET}"
+            exit 1
+        fi
     fi
 fi
 

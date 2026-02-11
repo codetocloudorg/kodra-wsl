@@ -5,9 +5,11 @@
 
 KODRA_DIR="${KODRA_DIR:-$HOME/.kodra}"
 
-# If stdin is not a terminal (i.e., script is piped), redirect from /dev/tty
+# Check if running non-interactively
 if [ ! -t 0 ]; then
-    exec < /dev/tty
+    echo "Skipping first-run setup (non-interactive mode)"
+    echo "Run 'kodra setup' later to configure Git, GitHub, and Azure"
+    exit 0
 fi
 
 # Colors

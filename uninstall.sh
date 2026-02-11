@@ -6,11 +6,6 @@
 KODRA_DIR="${KODRA_DIR:-$HOME/.kodra}"
 KODRA_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/kodra"
 
-# If stdin is not a terminal (i.e., script is piped), redirect from /dev/tty
-if [ ! -t 0 ]; then
-    exec < /dev/tty
-fi
-
 # Colors
 C_RESET='\033[0m'
 C_RED='\033[0;31m'
