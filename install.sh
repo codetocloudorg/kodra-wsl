@@ -270,12 +270,15 @@ echo ""
 # Confirm
 if [ -z "$KODRA_SKIP_PROMPTS" ]; then
     if command -v gum &> /dev/null; then
+        echo -e "    ${C_GRAY}(Use arrow keys to select, Enter to confirm)${C_RESET}"
+        echo ""
         if ! gum confirm "Start installation?"; then
             echo ""
             show_info "Installation cancelled"
             exit 0
         fi
     else
+        echo -e "    ${C_GRAY}(Press Y for yes, N for no)${C_RESET}"
         printf "    Start installation? [Y/n] "
         read -n 1 -r REPLY
         echo ""
@@ -464,6 +467,8 @@ fi
 echo ""
 if [ -z "$KODRA_SKIP_PROMPTS" ]; then
     if command -v gum &> /dev/null; then
+        echo -e "    ${C_GRAY}(Use arrow keys to select, Enter to confirm)${C_RESET}"
+        echo ""
         if gum confirm "Run first-time setup? (GitHub login, Azure auth, Git config)"; then
             "$KODRA_DIR/bin/kodra-sub/first-run.sh"
         else
@@ -471,6 +476,7 @@ if [ -z "$KODRA_SKIP_PROMPTS" ]; then
             show_info "Skipped. Run 'kodra setup' anytime to configure."
         fi
     else
+        echo -e "    ${C_GRAY}(Press Y for yes, N for no)${C_RESET}"
         read -p "    Run first-time setup? (GitHub, Azure, Git) [Y/n] " -n 1 -r REPLY
         echo ""
         if [[ ! $REPLY =~ ^[Nn]$ ]]; then

@@ -24,6 +24,7 @@ echo -e "${C_YELLOW}This will remove Kodra WSL configurations.${C_RESET}"
 echo -e "${C_YELLOW}Installed tools (Docker, Azure CLI, etc.) will remain.${C_RESET}"
 echo ""
 
+echo -e "    ${C_GRAY}(Press Y for yes, N for no)${C_RESET}"
 read -p "    Are you sure you want to uninstall? [y/N] " -n 1 -r REPLY
 echo ""
 
