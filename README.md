@@ -69,15 +69,21 @@ After restarting:
 
 ### Step 3: Install Nerd Fonts (for terminal icons)
 
-Starship prompt and CLI tools use icons that require a Nerd Font. Install on **Windows**:
+Oh My Posh prompt and CLI tools use icons that require a Nerd Font. Install on **Windows**:
 
 ```powershell
 winget install DEVCOM.JetBrainsMonoNerdFont
 ```
 
 Then configure Windows Terminal to use it:
-- Open Windows Terminal → Settings → Ubuntu profile
-- Under **Appearance** → **Font face** → Select `JetBrainsMono Nerd Font`
+1. Open Windows Terminal → Settings (`Ctrl+,`)
+2. Select your **Ubuntu** profile in the left sidebar
+3. Click **Appearance**
+4. Set **Font face** to `JetBrainsMono Nerd Font`
+5. Click **Save**
+6. **Close and reopen Windows Terminal** (required for the font to take effect)
+
+> **Important:** If you skip this step, prompt icons will show as boxes or missing characters.
 
 ### Step 4: Install VS Code with WSL Extension
 
@@ -104,7 +110,7 @@ wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
 That's it! The installer will:
 1. Install all CLI tools for Azure and cloud-native development
 2. Configure Docker CE to run natively in WSL2 (no Docker Desktop needed)
-3. Set up Zsh with Starship prompt and productivity aliases
+3. Set up Zsh with Oh My Posh prompt (1_shell theme) and productivity aliases
 4. Configure GitHub CLI with Copilot integration
 
 ---
@@ -113,7 +119,7 @@ That's it! The installer will:
 
 | Category | Tools |
 |----------|-------|
-| **Shell** | Zsh + [Starship](https://starship.rs) prompt + Nerd Fonts support |
+| **Shell** | Zsh + [Oh My Posh](https://ohmyposh.dev) prompt (1_shell theme) + Nerd Fonts support |
 | **Editor** | Neovim (VS Code recommended on Windows side with WSL extension) |
 | **Cloud** | Azure CLI, azd, Bicep, Terraform, OpenTofu, PowerShell 7 |
 | **Kubernetes** | kubectl, Helm, k9s |
@@ -337,7 +343,8 @@ Your shell configuration is in `~/.kodra/`:
 | File | Purpose |
 |------|---------|
 | `~/.kodra/configs/shell/kodra.sh` | Shell aliases and functions |
-| `~/.kodra/configs/starship.toml` | Starship prompt config |
+| `~/.config/oh-my-posh/themes/1_shell.omp.json` | Oh My Posh prompt theme |
+| `~/.config/oh-my-posh/themes/kodra.omp.json` | Custom Kodra theme (Azure/K8s aware) |
 
 ---
 
@@ -350,6 +357,39 @@ wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
 # Or directly
 bash ~/.kodra/uninstall.sh
 ```
+
+---
+
+## Troubleshooting
+
+### Prompt Icons Show as Boxes/Missing Characters
+
+Windows Terminal is not using a Nerd Font:
+
+1. Install the font: `winget install DEVCOM.JetBrainsMonoNerdFont`
+2. Configure Windows Terminal:
+   - Settings (`Ctrl+,`) → Ubuntu profile → Appearance
+   - Set **Font face** to `JetBrainsMono Nerd Font`
+3. **Close and reopen Windows Terminal**
+
+### Oh My Posh Not Loading
+
+If you see a plain prompt instead of Oh My Posh:
+
+```bash
+# Check if installed
+oh-my-posh --version
+
+# Reload your shell config
+source ~/.zshrc
+
+# Or re-run the installer
+wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
+```
+
+### More Help
+
+See [docs/WSL-SETUP.md](docs/WSL-SETUP.md) for detailed troubleshooting.
 
 ---
 

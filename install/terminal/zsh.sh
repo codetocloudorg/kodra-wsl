@@ -55,7 +55,7 @@ setopt AUTO_PUSHD
 setopt PUSHD_IGNORE_DUPS
 setopt PUSHD_SILENT
 
-# Prompt (will be overridden by Starship)
+# Prompt (will be overridden by Oh My Posh)
 PROMPT='%F{cyan}%n@%m%f:%F{blue}%~%f$ '
 
 # PATH

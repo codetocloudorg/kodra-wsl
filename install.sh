@@ -248,7 +248,7 @@ section "Shell Environment" "🐚"
 
 show_tools_group "Setting up modern shell environment"
 run_installer "$KODRA_DIR/install/terminal/zsh.sh"
-run_installer "$KODRA_DIR/install/terminal/starship.sh"
+run_installer "$KODRA_DIR/install/terminal/oh-my-posh.sh"
 run_installer "$KODRA_DIR/install/terminal/nerd-fonts.sh"
 
 # -----------------------------------------------------------------------------

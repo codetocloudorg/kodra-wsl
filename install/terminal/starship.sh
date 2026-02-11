@@ -2,11 +2,15 @@
 #
 # Starship Prompt Installation
 #
+# DEPRECATED: Oh My Posh is now the default prompt in Kodra WSL.
+# This script is kept for users who prefer Starship.
+# To use Starship instead of Oh My Posh, run this script manually.
+#
 
 source "$KODRA_DIR/lib/utils.sh" 2>/dev/null || true
 source "$KODRA_DIR/lib/ui.sh" 2>/dev/null || true
 
-show_installing "Starship prompt"
+show_installing "Starship prompt (alternative to Oh My Posh)"
 
 if command_exists starship; then
     version=$(starship --version 2>/dev/null | head -1 | awk '{print $2}')

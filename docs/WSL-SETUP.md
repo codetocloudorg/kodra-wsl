@@ -4,10 +4,22 @@ This guide covers setting up WSL2 on Windows for use with Kodra WSL.
 
 ## Prerequisites
 
-- Windows 11
+- Windows 11 (tested on Windows 11 VM with WSL2)
 - Administrator access
 - At least 8GB RAM recommended
 - ~10GB free disk space
+
+## Tested Environments
+
+Kodra WSL has been tested on:
+
+| Environment | Windows Version | Ubuntu Version | Status |
+|------------|-----------------|----------------|--------|
+| Windows 11 VM (Azure/Hyper-V) | Windows 11 Pro/Enterprise | Ubuntu 24.04 LTS | ✅ Tested |
+| Native Windows 11 | Windows 11 Home/Pro | Ubuntu 24.04 LTS | ✅ Tested |
+| Native Windows 11 | Windows 11 Home/Pro | Ubuntu 22.04 LTS | ⚠️ Works (not officially supported) |
+
+> **Note:** We use a Windows 11 test VM with WSL2 and the latest Ubuntu LTS for CI/CD validation.
 
 ## Installing WSL2
 
@@ -157,8 +169,14 @@ Add this color scheme to the `schemes` array:
 
 ## Install Nerd Fonts on Windows
 
-For the Starship prompt and icons to display correctly, install a Nerd Font:
+For the Oh My Posh prompt and icons to display correctly, install a Nerd Font:
 
+### Option 1: Winget (Recommended)
+```powershell
+winget install DEVCOM.JetBrainsMonoNerdFont
+```
+
+### Option 2: Manual Download
 1. Download JetBrains Mono Nerd Font:
    https://github.com/ryanoasis/nerd-fonts/releases/latest
 
@@ -166,7 +184,36 @@ For the Starship prompt and icons to display correctly, install a Nerd Font:
 
 3. Select all `.ttf` files, right-click, and choose "Install for all users"
 
-4. Configure Windows Terminal to use the font (see configuration above)
+### Configure Windows Terminal to Use the Nerd Font
+
+**This step is required** - without it, prompt icons will show as boxes/missing characters.
+
+1. Open **Windows Terminal**
+2. Press `Ctrl+,` to open Settings
+3. In the left sidebar, click on your **Ubuntu** profile
+4. Click **Appearance**
+5. Under **Font face**, select `JetBrainsMono Nerd Font`
+6. Click **Save**
+
+Alternatively, add to your Windows Terminal `settings.json`:
+```json
+{
+    "profiles": {
+        "list": [
+            {
+                "name": "Ubuntu-24.04",
+                "source": "Windows.Terminal.Wsl",
+                "fontFace": "JetBrainsMono Nerd Font",
+                "fontSize": 12
+            }
+        ]
+    }
+}
+```
+
+**After configuring the font:**
+- Close and reopen Windows Terminal
+- Or open a new tab
 
 ## WSL Performance Optimization
 
@@ -304,6 +351,47 @@ If VS Code can't connect to WSL:
 1. Reinstall the WSL extension
 2. Clear VS Code server: `rm -rf ~/.vscode-server`
 3. Restart VS Code
+
+### Oh My Posh Prompt Shows Boxes/Missing Icons
+This means Windows Terminal is not using a Nerd Font:
+
+1. **Install the font** (if not already):
+   ```powershell
+   winget install DEVCOM.JetBrainsMonoNerdFont
+   ```
+
+2. **Configure Windows Terminal**:
+   - Open Windows Terminal Settings (`Ctrl+,`)
+   - Select your Ubuntu profile → **Appearance**
+   - Set **Font face** to `JetBrainsMono Nerd Font`
+   - Click **Save**
+
+3. **Restart your terminal** (close and reopen Windows Terminal)
+
+### Oh My Posh Not Loading
+If you see a plain prompt instead of Oh My Posh:
+
+1. Check if Oh My Posh is installed:
+   ```bash
+   oh-my-posh --version
+   # Or check ~/.local/bin
+   ls -la ~/.local/bin/oh-my-posh
+   ```
+
+2. Check if init is in your `.zshrc`:
+   ```bash
+   grep "oh-my-posh" ~/.zshrc
+   ```
+
+3. Re-run the Kodra installer:
+   ```bash
+   wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
+   ```
+
+4. Reload your shell:
+   ```bash
+   source ~/.zshrc
+   ```
 
 ## Next Steps
 

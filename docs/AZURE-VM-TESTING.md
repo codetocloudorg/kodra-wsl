@@ -10,6 +10,44 @@ This guide explains how to test Kodra WSL installation using an Azure VM running
 
 While Kodra WSL is designed for Windows Subsystem for Linux, the core installation (CLI tools, Docker, Azure tools) works identically on native Ubuntu. We use Azure VMs to test the installation scripts before releasing.
 
+## Testing Environments
+
+### Option A: Windows 11 VM with WSL2 (Recommended for Full Testing)
+
+For complete WSL2 integration testing, use a Windows 11 VM with nested virtualization:
+
+**Azure Windows 11 VM:**
+```powershell
+# Create Windows 11 VM with nested virtualization support
+az vm create `
+    --resource-group kodra-wsl-test `
+    --name kodra-win11-vm `
+    --image MicrosoftWindowsDesktop:windows-11:win11-24h2-pro:latest `
+    --size Standard_D4s_v3 `
+    --admin-username kodra `
+    --admin-password 'YourSecurePassword123!' `
+    --public-ip-sku Standard
+
+# Enable RDP access
+az vm open-port --resource-group kodra-wsl-test --name kodra-win11-vm --port 3389
+```
+
+**Setup WSL2 on the Windows 11 VM:**
+1. RDP into the Windows 11 VM
+2. Open PowerShell as Administrator:
+   ```powershell
+   wsl --install -d Ubuntu-24.04
+   ```
+3. Restart the VM and complete Ubuntu setup
+4. Run the Kodra WSL installer:
+   ```bash
+   wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
+   ```
+
+### Option B: Azure Ubuntu VM (Quick Validation)
+
+For faster CI/CD validation of the installation scripts (without WSL-specific features):
+
 ## Prerequisites
 
 - Azure CLI installed and authenticated (`az login`)
