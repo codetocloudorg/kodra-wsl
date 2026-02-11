@@ -149,7 +149,7 @@ show_completion() {
     echo -e "    ${C_GREEN}║${C_RESET}                                                                ${C_GREEN}║${C_RESET}"
     echo -e "    ${C_GREEN}║${C_RESET}   ${C_CYAN}Next steps:${C_RESET}                                                  ${C_GREEN}║${C_RESET}"
     echo -e "    ${C_GREEN}║${C_RESET}                                                                ${C_GREEN}║${C_RESET}"
-    echo -e "    ${C_GREEN}║${C_RESET}   ${BOX_DOT} Restart your terminal or run: ${C_WHITE}source ~/.zshrc${C_RESET}         ${C_GREEN}║${C_RESET}"
+    echo -e "    ${C_GREEN}║${C_RESET}   ${BOX_DOT} Restart your terminal or run: ${C_WHITE}source ~/.bashrc${C_RESET}        ${C_GREEN}║${C_RESET}"
     echo -e "    ${C_GREEN}║${C_RESET}   ${BOX_DOT} Run ${C_WHITE}kodra doctor${C_RESET} to verify installation              ${C_GREEN}║${C_RESET}"
     echo -e "    ${C_GREEN}║${C_RESET}   ${BOX_DOT} Run ${C_WHITE}kodra setup${C_RESET} to configure GitHub & Azure          ${C_GREEN}║${C_RESET}"
     echo -e "    ${C_GREEN}║${C_RESET}                                                                ${C_GREEN}║${C_RESET}"

@@ -42,15 +42,19 @@ if [ -L /usr/local/bin/kodra ]; then
     echo -e "  ${C_GREEN}✔${C_RESET} Removed /usr/local/bin/kodra"
 fi
 
-# Remove shell integration from .zshrc
-if [ -f "$HOME/.zshrc" ]; then
-    echo -e "  ${C_CYAN}▶${C_RESET} Cleaning shell config..."
-    sed -i '/# Kodra WSL/d' "$HOME/.zshrc" 2>/dev/null
-    sed -i '/kodra.sh/d' "$HOME/.zshrc" 2>/dev/null
-    sed -i '/# Auto-start Docker in WSL/d' "$HOME/.zshrc" 2>/dev/null
-    sed -i '/docker-wsl-start/d' "$HOME/.zshrc" 2>/dev/null
-    echo -e "  ${C_GREEN}✔${C_RESET} Cleaned .zshrc"
-fi
+# Remove shell integration from .bashrc and .zshrc
+echo -e "  ${C_CYAN}▶${C_RESET} Cleaning shell config..."
+for rc_file in "$HOME/.bashrc" "$HOME/.zshrc"; do
+    if [ -f "$rc_file" ]; then
+        sed -i '/# Kodra WSL/d' "$rc_file" 2>/dev/null
+        sed -i '/kodra.sh/d' "$rc_file" 2>/dev/null
+        sed -i '/# Auto-start Docker in WSL/d' "$rc_file" 2>/dev/null
+        sed -i '/docker-wsl-start/d' "$rc_file" 2>/dev/null
+        sed -i '/# Oh My Posh/d' "$rc_file" 2>/dev/null
+        sed -i '/oh-my-posh init/d' "$rc_file" 2>/dev/null
+    fi
+done
+echo -e "  ${C_GREEN}✔${C_RESET} Cleaned shell configs"
 
 # Remove Kodra directory
 if [ -d "$KODRA_DIR" ]; then

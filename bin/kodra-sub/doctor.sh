@@ -55,8 +55,7 @@ echo ""
 
 # Shell
 echo -e "${C_WHITE}Shell${C_RESET}"
-if check_tool "Zsh" "zsh" "zsh --version | awk '{print \$2}'"; then ((PASS++)); else ((FAIL++)); fi
-if check_tool "Starship" "starship" "starship --version | head -1 | awk '{print \$2}'"; then ((PASS++)); else ((FAIL++)); fi
+if check_tool "Oh My Posh" "oh-my-posh" "oh-my-posh version 2>/dev/null"; then ((PASS++)); else ((FAIL++)); fi
 echo ""
 
 # Cloud Tools

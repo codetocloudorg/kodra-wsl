@@ -101,8 +101,10 @@ add_to_path() {
     local dir="$1"
     local shell_rc=""
     
-    # Determine shell config file
-    if [ -n "$ZSH_VERSION" ] || [ -f "$HOME/.zshrc" ]; then
+    # Determine shell config file (prefer .bashrc)
+    if [ -f "$HOME/.bashrc" ]; then
+        shell_rc="$HOME/.bashrc"
+    elif [ -f "$HOME/.zshrc" ]; then
         shell_rc="$HOME/.zshrc"
     else
         shell_rc="$HOME/.bashrc"
@@ -123,8 +125,10 @@ add_to_path() {
 add_shell_integration() {
     local shell_rc=""
     
-    # Determine shell config file
-    if [ -f "$HOME/.zshrc" ]; then
+    # Determine shell config file (prefer .bashrc)
+    if [ -f "$HOME/.bashrc" ]; then
+        shell_rc="$HOME/.bashrc"
+    elif [ -f "$HOME/.zshrc" ]; then
         shell_rc="$HOME/.zshrc"
     else
         shell_rc="$HOME/.bashrc"
@@ -201,13 +205,10 @@ fi
 
 # Zoxide (smart cd)
 if command -v zoxide &> /dev/null; then
-    eval "$(zoxide init zsh 2>/dev/null || zoxide init bash)"
+    eval "$(zoxide init bash 2>/dev/null)"
 fi
 
-# Starship prompt
-if command -v starship &> /dev/null; then
-    eval "$(starship init zsh 2>/dev/null || starship init bash)"
-fi
+# Oh My Posh prompt (configured in oh-my-posh.sh, sourced from .bashrc)
 KODRA_SHELL
 
     # Source kodra.sh from shell config

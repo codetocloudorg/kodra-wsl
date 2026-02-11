@@ -22,8 +22,8 @@ if [ -d "$HOME/.azd/bin" ]; then
     export PATH="$HOME/.azd/bin:$PATH"
     
     # Add to shell RC
-    SHELL_RC="$HOME/.zshrc"
-    [ ! -f "$SHELL_RC" ] && SHELL_RC="$HOME/.bashrc"
+    SHELL_RC="$HOME/.bashrc"
+    [ ! -f "$SHELL_RC" ] && SHELL_RC="$HOME/.zshrc"
     
     if ! grep -q ".azd/bin" "$SHELL_RC" 2>/dev/null; then
         echo 'export PATH="$HOME/.azd/bin:$PATH"' >> "$SHELL_RC"

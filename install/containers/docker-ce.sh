@@ -75,8 +75,8 @@ DOCKER_START
 chmod +x "$HOME/.local/bin/docker-wsl-start"
 
 # Add to shell RC to auto-start Docker
-SHELL_RC="$HOME/.zshrc"
-[ ! -f "$SHELL_RC" ] && SHELL_RC="$HOME/.bashrc"
+SHELL_RC="$HOME/.bashrc"
+[ ! -f "$SHELL_RC" ] && SHELL_RC="$HOME/.zshrc"
 
 if ! grep -q "docker-wsl-start" "$SHELL_RC" 2>/dev/null; then
     echo "" >> "$SHELL_RC"

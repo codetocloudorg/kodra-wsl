@@ -53,11 +53,11 @@ if command -v gh &> /dev/null; then
     gh extension upgrade --all 2>/dev/null || true
 fi
 
-# Starship
-if command -v starship &> /dev/null; then
-    echo -e "  ${C_CYAN}▶${C_RESET} Updating Starship..."
-    curl -sS https://starship.rs/install.sh | sh -s -- -y >/dev/null 2>&1
-    echo -e "  ${C_GREEN}✔${C_RESET} Starship"
+# Oh My Posh
+if command -v oh-my-posh &> /dev/null; then
+    echo -e "  ${C_CYAN}▶${C_RESET} Updating Oh My Posh..."
+    curl -fsSL https://ohmyposh.dev/install.sh | bash -s -- -d "$HOME/.local/bin" >/dev/null 2>&1
+    echo -e "  ${C_GREEN}✔${C_RESET} Oh My Posh"
 fi
 
 echo ""

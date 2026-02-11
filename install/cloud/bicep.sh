@@ -28,8 +28,8 @@ chmod +x "$HOME/.azure/bin/bicep" 2>/dev/null
 # Add to PATH
 if [ -d "$HOME/.azure/bin" ]; then
     export PATH="$HOME/.azure/bin:$PATH"
-    SHELL_RC="$HOME/.zshrc"
-    [ ! -f "$SHELL_RC" ] && SHELL_RC="$HOME/.bashrc"
+    SHELL_RC="$HOME/.bashrc"
+    [ ! -f "$SHELL_RC" ] && SHELL_RC="$HOME/.zshrc"
     if ! grep -q ".azure/bin" "$SHELL_RC" 2>/dev/null; then
         echo 'export PATH="$HOME/.azure/bin:$PATH"' >> "$SHELL_RC"
     fi
