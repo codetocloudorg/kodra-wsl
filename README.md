@@ -104,11 +104,7 @@ Then install the required extensions:
 Once prerequisites are complete, open **Windows Terminal** → **Ubuntu** and run:
 
 ```bash
-# Option 1: Interactive (shows menu for install/update/uninstall)
-bash <(wget -qO- https://kodra.wsl.codetocloud.io/boot.sh)
-
-# Option 2: Direct install (non-interactive)
-sudo -v && wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
+wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
 ```
 
 That's it! The installer will:
@@ -313,11 +309,8 @@ az vm show -d -g kodra-wsl-test -n kodra-test-vm --query publicIps -o tsv
 # SSH into the VM
 ssh kodra@<public-ip>
 
-# Run the installer (interactive)
-bash <(wget -qO- https://kodra.wsl.codetocloud.io/boot.sh)
-
-# Or direct install (non-interactive)
-sudo -v && wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
+# Run the installer
+wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
 
 # Run health check
 kodra doctor

@@ -5,40 +5,12 @@
 #
 # https://kodra.wsl.codetocloud.io
 #
-# Usage (interactive - shows menu): 
-#   bash <(wget -qO- https://kodra.wsl.codetocloud.io/boot.sh)
-#   bash <(curl -fsSL https://kodra.wsl.codetocloud.io/boot.sh)
-#
-# Usage (direct install - non-interactive):
-#   wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash -s -- --install
-#   curl -fsSL https://kodra.wsl.codetocloud.io/boot.sh | bash -s -- --install
-#
-# Options:
-#   --install    Skip menu, go straight to install
-#   --uninstall  Skip menu, go straight to uninstall
-#   --update     Skip menu, go straight to update
+# Usage: 
+#   wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
+#   curl -fsSL https://kodra.wsl.codetocloud.io/boot.sh | bash
 #
 
 set -e
-
-# Parse arguments
-KODRA_ACTION=""
-for arg in "$@"; do
-    case $arg in
-        --install|-i)
-            KODRA_ACTION="install"
-            shift
-            ;;
-        --uninstall|--remove|-u)
-            KODRA_ACTION="uninstall"
-            shift
-            ;;
-        --update|-U)
-            KODRA_ACTION="update"
-            shift
-            ;;
-    esac
-done
 
 KODRA_REPO="https://github.com/codetocloudorg/kodra-wsl.git"
 KODRA_DIR="${KODRA_DIR:-$HOME/.kodra}"
@@ -74,20 +46,6 @@ echo ""
 echo -e "    ${C_GRAY}Agentic Azure engineering for Windows developers${C_RESET}"
 echo -e "    ${C_GRAY}Docker CE • Azure CLI • Kubernetes • CLI Tools${C_RESET}"
 echo ""
-
-# Check if we're running interactively
-# When piped (wget | bash), stdin is not a tty - run non-interactively
-INTERACTIVE=true
-if [ ! -t 0 ]; then
-    INTERACTIVE=false
-    # If no action specified, default to install
-    if [ -z "$KODRA_ACTION" ]; then
-        echo -e "    ${C_YELLOW}⚠${C_RESET} Piped input detected - running in non-interactive mode"
-        echo -e "    ${C_GRAY}For menu options, use: bash <(wget -qO- https://kodra.wsl.codetocloud.io/boot.sh)${C_RESET}"
-        echo ""
-        export KODRA_ACTION="install"
-    fi
-fi
 
 # Helper functions
 show_step() {
@@ -158,12 +116,7 @@ else
     elif [ -f /etc/os-release ] && grep -q "ubuntu" /etc/os-release 2>/dev/null; then
         show_warn "Native Ubuntu detected (non-WSL)"
         echo -e "    ${C_GRAY}For full desktop experience, use: https://kodra.codetocloud.io${C_RESET}"
-        echo ""
-        read -p "    Continue with CLI-only install? (y/N) " -n 1 -r REPLY
-        echo
-        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-            exit 0
-        fi
+        # Continue with CLI-only install
     else
         show_error "Unsupported environment"
         echo -e "    ${C_GRAY}Kodra WSL requires WSL2 with Ubuntu 24.04${C_RESET}"
@@ -176,11 +129,7 @@ if [ -f /etc/os-release ]; then
     . /etc/os-release
     if [ "$ID" != "ubuntu" ]; then
         show_warn "Kodra WSL is designed for Ubuntu. Your OS: $ID"
-        read -p "    Continue anyway? (y/N) " -n 1 -r REPLY
-        echo
-        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-            exit 1
-        fi
+        # Continue anyway
     else
         show_done "Ubuntu detected: $VERSION_ID"
     fi
@@ -188,11 +137,7 @@ if [ -f /etc/os-release ]; then
     VERSION_NUM=$(echo "$VERSION_ID" | cut -d. -f1)
     if [ "$VERSION_NUM" -lt 24 ]; then
         show_warn "Kodra WSL requires Ubuntu 24.04+. Your version: $VERSION_ID"
-        read -p "    Continue anyway? (y/N) " -n 1 -r REPLY
-        echo
-        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-            exit 1
-        fi
+        # Continue anyway
     fi
 fi
 echo ""
@@ -236,66 +181,7 @@ echo ""
 # Action menu
 cd "$KODRA_DIR"
 
-# Handle actions - default to install for fresh installs, update for existing
-if [ -n "$KODRA_ACTION" ]; then
-    # Explicit action from command line
-    case "$KODRA_ACTION" in
-        install)
-            echo -e "    ${C_PURPLE}Starting installation...${C_RESET}"
-            echo ""
-            bash ./install.sh "$@"
-            ;;
-        uninstall)
-            echo -e "    ${C_YELLOW}Preparing to uninstall...${C_RESET}"
-            echo ""
-            bash ./uninstall.sh
-            ;;
-        update)
-            echo -e "    ${C_CYAN}Updating Kodra WSL...${C_RESET}"
-            echo ""
-            bash ./bin/kodra update
-            ;;
-    esac
-elif [ "$KODRA_EXISTS" = true ]; then
-    # Existing installation - show menu
-    echo -e "    ${C_WHITE}What would you like to do?${C_RESET}"
-    echo ""
-    echo -e "    ${C_CYAN}1)${C_RESET} Update Kodra WSL"
-    echo -e "    ${C_CYAN}2)${C_RESET} Reinstall"
-    echo -e "    ${C_CYAN}3)${C_RESET} Uninstall"
-    echo -e "    ${C_CYAN}4)${C_RESET} Exit"
-    echo ""
-    
-    printf "    Choose an option [1-4]: "
-    read -n 1 -r REPLY
-    echo
-    echo ""
-    
-    case $REPLY in
-        1)
-            echo -e "    ${C_CYAN}Updating...${C_RESET}"
-            bash ./bin/kodra update
-            ;;
-        2)
-            echo -e "    ${C_PURPLE}Reinstalling...${C_RESET}"
-            bash ./install.sh "$@"
-            ;;
-        3)
-            echo -e "    ${C_YELLOW}Uninstalling...${C_RESET}"
-            bash ./uninstall.sh
-            ;;
-        4)
-            echo -e "    ${C_GRAY}Exiting...${C_RESET}"
-            exit 0
-            ;;
-        *)
-            echo -e "    ${C_YELLOW}Invalid option. Please choose 1-4.${C_RESET}"
-            exit 1
-            ;;
-    esac
-else
-    # Fresh install - go straight to installation
-    echo -e "    ${C_PURPLE}Starting installation...${C_RESET}"
-    echo ""
-    bash ./install.sh "$@"
-fi
+# Always run install - it handles both fresh install and reinstall
+echo -e "    ${C_PURPLE}Starting installation...${C_RESET}"
+echo ""
+bash ./install.sh "$@"

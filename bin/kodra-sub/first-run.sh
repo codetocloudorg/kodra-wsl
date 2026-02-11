@@ -5,13 +5,6 @@
 
 KODRA_DIR="${KODRA_DIR:-$HOME/.kodra}"
 
-# Check if running non-interactively
-if [ ! -t 0 ]; then
-    echo "Skipping first-run setup (non-interactive mode)"
-    echo "Run 'kodra setup' later to configure Git, GitHub, and Azure"
-    exit 0
-fi
-
 # Colors
 C_RESET='\033[0m'
 C_GREEN='\033[0;32m'

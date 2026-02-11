@@ -32,12 +32,6 @@ export KODRA_DIR="${KODRA_DIR:-$HOME/.kodra}"
 export KODRA_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/kodra"
 export KODRA_LOG_FILE="/tmp/kodra-wsl-install-$(date +%Y%m%d-%H%M%S).log"
 
-# Check if running interactively
-# Set KODRA_NON_INTERACTIVE if stdin is not a terminal
-if [ ! -t 0 ]; then
-    export KODRA_NON_INTERACTIVE=true
-fi
-
 # Start logging everything to file
 exec > >(tee -a "$KODRA_LOG_FILE") 2>&1
 
@@ -144,34 +138,22 @@ else
     exit 1
 fi
 
-# Sudo access - prompt for password if needed
+# Sudo access - check if we have it or can get it
 if sudo -n true 2>/dev/null; then
     show_check "Sudo access" "ok"
 else
-    if [ "$KODRA_NON_INTERACTIVE" = "true" ]; then
-        # Can't prompt for password in non-interactive mode
+    # Try to get sudo - this will prompt for password
+    echo -e "    ${C_YELLOW}▶${C_RESET} Sudo password required for installation..."
+    if sudo true 2>/dev/null; then
+        show_check "Sudo access" "ok"
+    else
         show_check "Sudo access" "fail"
         end_preflight
-        echo -e "    ${C_RED}Sudo password required but running non-interactively${C_RESET}"
+        echo -e "    ${C_RED}Sudo access required${C_RESET}"
         echo ""
-        echo -e "    ${C_WHITE}Option 1:${C_RESET} Cache sudo credentials first, then re-run:"
-        echo -e "    ${C_GRAY}    sudo -v && wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash -s -- --install${C_RESET}"
-        echo ""
-        echo -e "    ${C_WHITE}Option 2:${C_RESET} Run interactively:"
-        echo -e "    ${C_GRAY}    bash <(wget -qO- https://kodra.wsl.codetocloud.io/boot.sh)${C_RESET}"
+        echo -e "    ${C_GRAY}Try: sudo -v && wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash${C_RESET}"
         echo ""
         exit 1
-    else
-        # Interactive mode - prompt for password
-        echo -e "    ${C_YELLOW}▶${C_RESET} Sudo password required for installation..."
-        if sudo true; then
-            show_check "Sudo access" "ok"
-        else
-            show_check "Sudo access" "fail"
-            end_preflight
-            echo -e "    ${C_RED}Sudo access required${C_RESET}"
-            exit 1
-        fi
     fi
 fi
 
@@ -194,31 +176,99 @@ start_sudo_keepalive
 install_gum
 
 # -----------------------------------------------------------------------------
-# Confirmation
+# Installation Options
 # -----------------------------------------------------------------------------
-section "Configuration" "⚙️"
+section "Installation Options" "⚙️"
 
 echo ""
-echo -e "    ${C_WHITE}Kodra WSL will install:${C_RESET}"
-echo ""
-echo -e "    ${C_CYAN}•${C_RESET} Shell environment (Zsh, Starship, aliases)"
-echo -e "    ${C_CYAN}•${C_RESET} Azure tools (CLI, azd, Bicep, Terraform, OpenTofu)"
-echo -e "    ${C_CYAN}•${C_RESET} Container tools (Docker CE, lazydocker)"
-echo -e "    ${C_CYAN}•${C_RESET} Kubernetes tools (kubectl, Helm, k9s)"
-echo -e "    ${C_CYAN}•${C_RESET} CLI utilities (bat, eza, fzf, ripgrep, etc.)"
-echo -e "    ${C_CYAN}•${C_RESET} Git tools (GitHub CLI, lazygit, Copilot CLI)"
+echo -e "    ${C_WHITE}Choose what to install:${C_RESET}"
 echo ""
 
-# Skip confirmation if KODRA_SKIP_PROMPTS is set (for non-interactive installs)
+# Default selections
+INSTALL_SHELL=true
+INSTALL_CLI_TOOLS=true
+INSTALL_GIT_TOOLS=true
+INSTALL_AZURE=true
+INSTALL_CONTAINERS=true
+INSTALL_KUBERNETES=true
+
+if command -v gum &> /dev/null; then
+    # Use gum for beautiful multi-select
+    echo -e "    ${C_GRAY}(Use space to select/deselect, enter to confirm)${C_RESET}"
+    echo ""
+    
+    SELECTIONS=$(gum choose --no-limit --selected="Shell Environment,CLI Tools,Git Tools,Azure & Cloud,Containers,Kubernetes" \
+        "Shell Environment" \
+        "CLI Tools" \
+        "Git Tools" \
+        "Azure & Cloud" \
+        "Containers" \
+        "Kubernetes" 2>/dev/null) || SELECTIONS="Shell Environment
+CLI Tools
+Git Tools
+Azure & Cloud
+Containers
+Kubernetes"
+    
+    # Parse selections
+    [[ "$SELECTIONS" == *"Shell Environment"* ]] && INSTALL_SHELL=true || INSTALL_SHELL=false
+    [[ "$SELECTIONS" == *"CLI Tools"* ]] && INSTALL_CLI_TOOLS=true || INSTALL_CLI_TOOLS=false
+    [[ "$SELECTIONS" == *"Git Tools"* ]] && INSTALL_GIT_TOOLS=true || INSTALL_GIT_TOOLS=false
+    [[ "$SELECTIONS" == *"Azure & Cloud"* ]] && INSTALL_AZURE=true || INSTALL_AZURE=false
+    [[ "$SELECTIONS" == *"Containers"* ]] && INSTALL_CONTAINERS=true || INSTALL_CONTAINERS=false
+    [[ "$SELECTIONS" == *"Kubernetes"* ]] && INSTALL_KUBERNETES=true || INSTALL_KUBERNETES=false
+else
+    # Fallback to simple menu
+    echo -e "    ${C_CYAN}1)${C_RESET} Full Install (recommended) - all tools"
+    echo -e "    ${C_CYAN}2)${C_RESET} Minimal - shell + CLI tools only"
+    echo -e "    ${C_CYAN}3)${C_RESET} Developer - shell + CLI + Git + Containers"
+    echo -e "    ${C_CYAN}4)${C_RESET} Cloud Engineer - everything except Kubernetes"
+    echo ""
+    
+    printf "    Choose an option [1-4] (default: 1): "
+    read -n 1 -r REPLY
+    echo
+    
+    case $REPLY in
+        2)
+            INSTALL_AZURE=false
+            INSTALL_CONTAINERS=false
+            INSTALL_KUBERNETES=false
+            ;;
+        3)
+            INSTALL_AZURE=false
+            INSTALL_KUBERNETES=false
+            ;;
+        4)
+            INSTALL_KUBERNETES=false
+            ;;
+        *)
+            # Full install (default)
+            ;;
+    esac
+fi
+
+echo ""
+echo -e "    ${C_WHITE}Will install:${C_RESET}"
+[ "$INSTALL_SHELL" = "true" ] && echo -e "    ${C_GREEN}✔${C_RESET} Shell environment (Zsh, Oh My Posh, aliases)"
+[ "$INSTALL_CLI_TOOLS" = "true" ] && echo -e "    ${C_GREEN}✔${C_RESET} CLI utilities (bat, eza, fzf, ripgrep, etc.)"
+[ "$INSTALL_GIT_TOOLS" = "true" ] && echo -e "    ${C_GREEN}✔${C_RESET} Git tools (GitHub CLI, lazygit, Copilot CLI)"
+[ "$INSTALL_AZURE" = "true" ] && echo -e "    ${C_GREEN}✔${C_RESET} Azure tools (CLI, azd, Bicep, Terraform, OpenTofu)"
+[ "$INSTALL_CONTAINERS" = "true" ] && echo -e "    ${C_GREEN}✔${C_RESET} Container tools (Docker CE, lazydocker)"
+[ "$INSTALL_KUBERNETES" = "true" ] && echo -e "    ${C_GREEN}✔${C_RESET} Kubernetes tools (kubectl, Helm, k9s)"
+echo ""
+
+# Confirm
 if [ -z "$KODRA_SKIP_PROMPTS" ]; then
     if command -v gum &> /dev/null; then
-        if ! gum confirm "Continue with installation?"; then
+        if ! gum confirm "Start installation?"; then
             echo ""
             show_info "Installation cancelled"
             exit 0
         fi
     else
-        read -p "    Continue with installation? [Y/n] " -n 1 -r REPLY
+        printf "    Start installation? [Y/n] "
+        read -n 1 -r REPLY
         echo ""
         if [[ $REPLY =~ ^[Nn]$ ]]; then
             echo ""
@@ -227,6 +277,9 @@ if [ -z "$KODRA_SKIP_PROMPTS" ]; then
         fi
     fi
 fi
+
+# Export selections for use in the rest of the script
+export INSTALL_SHELL INSTALL_CLI_TOOLS INSTALL_GIT_TOOLS INSTALL_AZURE INSTALL_CONTAINERS INSTALL_KUBERNETES
 
 # -----------------------------------------------------------------------------
 # System updates and base packages
@@ -265,68 +318,80 @@ show_installed "Base packages ready"
 # -----------------------------------------------------------------------------
 # Shell Setup
 # -----------------------------------------------------------------------------
-section "Shell Environment" "🐚"
+if [ "$INSTALL_SHELL" = "true" ]; then
+    section "Shell Environment" "🐚"
 
-show_tools_group "Setting up modern shell environment"
-run_installer "$KODRA_DIR/install/terminal/zsh.sh"
-run_installer "$KODRA_DIR/install/terminal/oh-my-posh.sh"
-run_installer "$KODRA_DIR/install/terminal/nerd-fonts.sh"
+    show_tools_group "Setting up modern shell environment"
+    run_installer "$KODRA_DIR/install/terminal/zsh.sh"
+    run_installer "$KODRA_DIR/install/terminal/oh-my-posh.sh"
+    run_installer "$KODRA_DIR/install/terminal/nerd-fonts.sh"
+fi
 
 # -----------------------------------------------------------------------------
 # CLI Tools
 # -----------------------------------------------------------------------------
-section "CLI Tools" "⚡"
+if [ "$INSTALL_CLI_TOOLS" = "true" ]; then
+    section "CLI Tools" "⚡"
 
-show_tools_group "Installing modern CLI utilities"
-run_installer "$KODRA_DIR/install/cli-tools/bat.sh"
-run_installer "$KODRA_DIR/install/cli-tools/eza.sh"
-run_installer "$KODRA_DIR/install/cli-tools/fzf.sh"
-run_installer "$KODRA_DIR/install/cli-tools/ripgrep.sh"
-run_installer "$KODRA_DIR/install/cli-tools/zoxide.sh"
-run_installer "$KODRA_DIR/install/cli-tools/btop.sh"
-run_installer "$KODRA_DIR/install/cli-tools/fastfetch.sh"
-run_installer "$KODRA_DIR/install/cli-tools/yq.sh"
+    show_tools_group "Installing modern CLI utilities"
+    run_installer "$KODRA_DIR/install/cli-tools/bat.sh"
+    run_installer "$KODRA_DIR/install/cli-tools/eza.sh"
+    run_installer "$KODRA_DIR/install/cli-tools/fzf.sh"
+    run_installer "$KODRA_DIR/install/cli-tools/ripgrep.sh"
+    run_installer "$KODRA_DIR/install/cli-tools/zoxide.sh"
+    run_installer "$KODRA_DIR/install/cli-tools/btop.sh"
+    run_installer "$KODRA_DIR/install/cli-tools/fastfetch.sh"
+    run_installer "$KODRA_DIR/install/cli-tools/yq.sh"
+fi
 
 # -----------------------------------------------------------------------------
 # Git Tools
 # -----------------------------------------------------------------------------
-section "Git Tools" "🐱"
+if [ "$INSTALL_GIT_TOOLS" = "true" ]; then
+    section "Git Tools" "🐱"
 
-show_tools_group "Setting up Git and GitHub tools"
-run_installer "$KODRA_DIR/install/cli-tools/github-cli.sh"
-run_installer "$KODRA_DIR/install/cli-tools/lazygit.sh"
+    show_tools_group "Setting up Git and GitHub tools"
+    run_installer "$KODRA_DIR/install/cli-tools/github-cli.sh"
+    run_installer "$KODRA_DIR/install/cli-tools/lazygit.sh"
+fi
 
 # -----------------------------------------------------------------------------
 # Azure & Cloud Tools
 # -----------------------------------------------------------------------------
-section "Azure & Cloud Tools" "☁️"
+if [ "$INSTALL_AZURE" = "true" ]; then
+    section "Azure & Cloud Tools" "☁️"
 
-show_tools_group "Installing cloud-native toolchain"
-run_installer "$KODRA_DIR/install/cloud/azure-cli.sh"
-run_installer "$KODRA_DIR/install/cloud/azd.sh"
-run_installer "$KODRA_DIR/install/cloud/bicep.sh"
-run_installer "$KODRA_DIR/install/cloud/terraform.sh"
-run_installer "$KODRA_DIR/install/cloud/opentofu.sh"
-run_installer "$KODRA_DIR/install/cloud/powershell.sh"
+    show_tools_group "Installing cloud-native toolchain"
+    run_installer "$KODRA_DIR/install/cloud/azure-cli.sh"
+    run_installer "$KODRA_DIR/install/cloud/azd.sh"
+    run_installer "$KODRA_DIR/install/cloud/bicep.sh"
+    run_installer "$KODRA_DIR/install/cloud/terraform.sh"
+    run_installer "$KODRA_DIR/install/cloud/opentofu.sh"
+    run_installer "$KODRA_DIR/install/cloud/powershell.sh"
+fi
 
 # -----------------------------------------------------------------------------
 # Container Runtime (Docker CE for WSL2)
 # -----------------------------------------------------------------------------
-section "Container Development" "🐳"
+if [ "$INSTALL_CONTAINERS" = "true" ]; then
+    section "Container Development" "🐳"
 
-show_tools_group "Setting up Docker CE for WSL2"
-run_installer "$KODRA_DIR/install/containers/docker-ce.sh"
-run_installer "$KODRA_DIR/install/containers/lazydocker.sh"
+    show_tools_group "Setting up Docker CE for WSL2"
+    run_installer "$KODRA_DIR/install/containers/docker-ce.sh"
+    run_installer "$KODRA_DIR/install/containers/lazydocker.sh"
+fi
 
 # -----------------------------------------------------------------------------
 # Kubernetes Tools
 # -----------------------------------------------------------------------------
-section "Kubernetes" "☸️"
+if [ "$INSTALL_KUBERNETES" = "true" ]; then
+    section "Kubernetes" "☸️"
 
-show_tools_group "Installing Kubernetes management tools"
-run_installer "$KODRA_DIR/install/cloud/kubectl.sh"
-run_installer "$KODRA_DIR/install/cloud/helm.sh"
-run_installer "$KODRA_DIR/install/cloud/k9s.sh"
+    show_tools_group "Installing Kubernetes management tools"
+    run_installer "$KODRA_DIR/install/cloud/kubectl.sh"
+    run_installer "$KODRA_DIR/install/cloud/helm.sh"
+    run_installer "$KODRA_DIR/install/cloud/k9s.sh"
+fi
 
 # -----------------------------------------------------------------------------
 # Finalization
