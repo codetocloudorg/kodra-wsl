@@ -197,7 +197,7 @@ if [ -z "$KODRA_SKIP_PROMPTS" ]; then
             exit 0
         fi
     else
-        read -p "    Continue with installation? [Y/n] " -n 1 -r
+        read -p "    Continue with installation? [Y/n] " -n 1 -r REPLY < /dev/tty
         echo ""
         if [[ $REPLY =~ ^[Nn]$ ]]; then
             echo ""
@@ -377,7 +377,7 @@ if [ -z "$KODRA_SKIP_PROMPTS" ]; then
             show_info "Skipped. Run 'kodra setup' anytime to configure."
         fi
     else
-        read -p "    Run first-time setup? (GitHub, Azure, Git) [Y/n] " -n 1 -r
+        read -p "    Run first-time setup? (GitHub, Azure, Git) [Y/n] " -n 1 -r REPLY < /dev/tty
         echo ""
         if [[ ! $REPLY =~ ^[Nn]$ ]]; then
             "$KODRA_DIR/bin/kodra-sub/first-run.sh"

@@ -141,7 +141,7 @@ else
         show_warn "Native Ubuntu detected (non-WSL)"
         echo -e "    ${C_GRAY}For full desktop experience, use: https://kodra.codetocloud.io${C_RESET}"
         echo ""
-        read -p "    Continue with CLI-only install? (y/N) " -n 1 -r
+        read -p "    Continue with CLI-only install? (y/N) " -n 1 -r REPLY < /dev/tty
         echo
         if [[ ! $REPLY =~ ^[Yy]$ ]]; then
             exit 0
@@ -158,7 +158,7 @@ if [ -f /etc/os-release ]; then
     . /etc/os-release
     if [ "$ID" != "ubuntu" ]; then
         show_warn "Kodra WSL is designed for Ubuntu. Your OS: $ID"
-        read -p "    Continue anyway? (y/N) " -n 1 -r
+        read -p "    Continue anyway? (y/N) " -n 1 -r REPLY < /dev/tty
         echo
         if [[ ! $REPLY =~ ^[Yy]$ ]]; then
             exit 1
@@ -170,7 +170,7 @@ if [ -f /etc/os-release ]; then
     VERSION_NUM=$(echo "$VERSION_ID" | cut -d. -f1)
     if [ "$VERSION_NUM" -lt 24 ]; then
         show_warn "Kodra WSL requires Ubuntu 24.04+. Your version: $VERSION_ID"
-        read -p "    Continue anyway? (y/N) " -n 1 -r
+        read -p "    Continue anyway? (y/N) " -n 1 -r REPLY < /dev/tty
         echo
         if [[ ! $REPLY =~ ^[Yy]$ ]]; then
             exit 1
@@ -247,7 +247,8 @@ elif [ "$KODRA_EXISTS" = true ]; then
     echo -e "    ${C_CYAN}3)${C_RESET} Uninstall"
     echo -e "    ${C_CYAN}4)${C_RESET} Exit"
     echo ""
-    read -p "    Choose an option [1-4]: " -n 1 -r
+    # Read from /dev/tty to work when script is piped (wget | bash)
+    read -p "    Choose an option [1-4]: " -n 1 -r REPLY < /dev/tty
     echo
     echo ""
     
@@ -264,9 +265,13 @@ elif [ "$KODRA_EXISTS" = true ]; then
             echo -e "    ${C_YELLOW}Uninstalling...${C_RESET}"
             bash ./uninstall.sh
             ;;
-        *)
+        4)
             echo -e "    ${C_GRAY}Exiting...${C_RESET}"
             exit 0
+            ;;
+        *)
+            echo -e "    ${C_YELLOW}Invalid option. Please choose 1-4.${C_RESET}"
+            exit 1
             ;;
     esac
 else
