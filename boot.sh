@@ -44,7 +44,7 @@ echo -e "\033[38;5;147m              ☁️  W S L   E D I T I O N  •  W I N D
 echo -e "\033[38;5;39m    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 echo ""
 echo -e "    ${C_GRAY}Agentic Azure engineering for Windows developers${C_RESET}"
-echo -e "    ${C_GRAY}Docker CE • Azure CLI • Kubernetes • CLI Tools${C_RESET}"
+echo -e "    ${C_GRAY}GitHub CLI • Copilot CLI • Docker CE • Azure CLI • Kubernetes${C_RESET}"
 echo ""
 
 # Helper functions

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# GitHub CLI with Copilot extension
+# GitHub CLI
 source "$KODRA_DIR/lib/utils.sh" 2>/dev/null || true
 source "$KODRA_DIR/lib/ui.sh" 2>/dev/null || true
 
@@ -8,13 +8,6 @@ show_installing "GitHub CLI"
 if command_exists gh; then
     version=$(gh --version 2>/dev/null | head -1 | awk '{print $3}')
     show_installed "GitHub CLI ($version)"
-    
-    # Check for Copilot extension
-    if ! gh extension list 2>/dev/null | grep -q "copilot"; then
-        show_installing "GitHub Copilot CLI"
-        gh extension install github/gh-copilot 2>/dev/null || true
-        show_installed "GitHub Copilot CLI"
-    fi
     exit 0
 fi
 

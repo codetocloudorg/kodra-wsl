@@ -26,7 +26,7 @@ show_help() {
     echo -e "\033[38;5;27m    ██║  ██╗╚██████╔╝██████╔╝██║  ██║██║  ██║    ╚███╔███╔╝███████║███████╗\033[0m"
     echo -e "\033[38;5;21m    ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝     ╚══╝╚══╝ ╚══════╝╚══════╝\033[0m"
     echo ""
-    echo -e "${C_CYAN}Kodra WSL${C_RESET} v$(show_version) - Agentic Azure engineering for Windows developers"
+    echo -e "${C_CYAN}Kodra WSL${C_RESET} v$(show_version) - Agentic Azure engineering with GitHub CLI & Copilot"
     echo ""
     echo -e "${C_WHITE}Usage:${C_RESET}"
     echo "  kodra <command>"

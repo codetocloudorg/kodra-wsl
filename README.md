@@ -9,9 +9,9 @@
     ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝     ╚══╝╚══╝ ╚══════╝╚══════╝
 ```
 
-**Agentic Azure engineering in WSL—cloud-native CLI tools for Windows developers.**
+**Agentic Azure engineering in WSL—GitHub CLI, Copilot CLI, and cloud-native CLI tools for Windows developers.**
 
-[![Version](https://img.shields.io/badge/version-0.5.0-blue?style=flat-square)](VERSION)
+[![Version](https://img.shields.io/badge/version-0.6.0-blue?style=flat-square)](VERSION)
 [![WSL2](https://img.shields.io/badge/WSL2-Ubuntu_24.04+-E95420?style=flat-square&logo=ubuntu&logoColor=white)](https://learn.microsoft.com/en-us/windows/wsl/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 [![Discord](https://img.shields.io/badge/Discord-Join-5865F2?style=flat-square&logo=discord&logoColor=white)](https://discord.gg/vwfwq2EpXJ)
@@ -22,7 +22,7 @@
 
 ---
 
-**The WSL edition of Kodra.** All the CLI tools, Azure integrations, and GitHub Copilot—running natively in Windows Subsystem for Linux. Perfect for Windows developers who want the power of Linux tooling without leaving their desktop.
+**The WSL edition of Kodra.** All the CLI tools, Azure integrations, GitHub CLI and Copilot CLI—running natively in Windows Subsystem for Linux. Perfect for Windows developers who want the power of Linux tooling without leaving their desktop.
 
 This is the **CLI-focused variant** of [Kodra Desktop](https://github.com/codetocloudorg/kodra). No GNOME desktop, no window tiling—just pure terminal productivity optimized for WSL2.
 
@@ -111,7 +111,7 @@ That's it! The installer will:
 1. Install all CLI tools for Azure and cloud-native development
 2. Configure Docker CE to run natively in WSL2 (no Docker Desktop needed)
 3. Set up [Oh My Posh](https://ohmyposh.dev) prompt (1_shell theme) and productivity aliases
-4. Configure GitHub CLI with Copilot integration
+4. Install Copilot CLI for AI-assisted shell commands
 
 ---
 
@@ -125,7 +125,7 @@ That's it! The installer will:
 | **Kubernetes** | kubectl, Helm, k9s |
 | **Containers** | Docker CE (WSL2 native), lazydocker, Dev Containers support |
 | **Git** | GitHub CLI, lazygit |
-| **AI** | GitHub Copilot CLI (`gh copilot suggest`) |
+| **AI** | Copilot CLI (`copilot -p "prompt"`) |
 | **CLI Utils** | bat, eza, fzf, ripgrep, zoxide, btop, fastfetch, jq, yq |
 
 ---

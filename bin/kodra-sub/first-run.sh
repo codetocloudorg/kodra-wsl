@@ -77,12 +77,11 @@ if command -v gh &> /dev/null; then
         if [[ ! $REPLY =~ ^[Nn]$ ]]; then
             gh auth login
             
-            # Install Copilot extension if authenticated
+            # Remind about Copilot CLI
             if gh auth status &>/dev/null; then
                 echo ""
-                echo -e "  ${C_CYAN}▶${C_RESET} Installing GitHub Copilot CLI..."
-                gh extension install github/gh-copilot 2>/dev/null || true
-                echo -e "  ${C_GREEN}✔${C_RESET} GitHub Copilot CLI installed"
+                echo -e "  ${C_GREEN}✔${C_RESET} GitHub authenticated"
+                echo -e "  ${C_CYAN}ℹ${C_RESET} Copilot CLI: run 'copilot' then '/login' to authenticate"
             fi
         fi
     fi

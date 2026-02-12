@@ -363,6 +363,7 @@ if [ "$INSTALL_GIT_TOOLS" = "true" ]; then
 
     show_tools_group "Setting up Git and GitHub tools"
     run_installer "$KODRA_DIR/install/cli-tools/github-cli.sh"
+    run_installer "$KODRA_DIR/install/cli-tools/copilot-cli.sh"
     run_installer "$KODRA_DIR/install/cli-tools/lazygit.sh"
 fi
 

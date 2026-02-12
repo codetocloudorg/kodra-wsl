@@ -186,6 +186,10 @@ alias az-sub='az account show --query name -o tsv'
 alias azd-up='azd up'
 alias azd-down='azd down'
 
+# Copilot CLI aliases
+alias '??'='copilot -p'
+alias 'explain'='copilot -p "Explain this command:"'
+
 # Navigation
 alias ..='cd ..'
 alias ...='cd ../..'

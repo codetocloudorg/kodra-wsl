@@ -15,6 +15,7 @@ show_banner() {
     echo -e "\033[38;5;21m    ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝     ╚══╝╚══╝ ╚══════╝╚══════╝\033[0m"
     echo ""
     echo -e "    ${C_GRAY}Agentic Azure engineering for Windows developers${C_RESET}"
+    echo -e "    ${C_GRAY}GitHub CLI • Copilot CLI • Docker CE • Azure CLI${C_RESET}"
     echo ""
 }
 
