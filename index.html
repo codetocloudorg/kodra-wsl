@@ -3,9 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Kodra WSL - Agentic Azure engineering in WSL. GitHub CLI, Copilot CLI, and cloud-native CLI tools for Windows developers. One command to ship.">
+    <meta name="description" content="Kodra WSL: Free Docker CE for WSL2. Azure CLI, GitHub Copilot CLI, Kubernetes tools for Windows. No Docker Desktop license required.">
+    <meta name="keywords" content="wsl, wsl2, windows subsystem for linux, ubuntu on windows, github copilot, azure cli, windows terminal, docker ce, free docker alternative, docker desktop alternative, azure developer tools, kubernetes wsl, devcontainers, copilot cli">
     <meta name="theme-color" content="#0d1117">
-    <title>Kodra WSL - Agentic Azure Engineering for Windows</title>
+    <meta name="author" content="Code To Cloud">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kodra.wsl.codetocloud.io">
+    <meta property="og:title" content="Kodra WSL - Free Docker CE for Windows WSL2 Developers">
+    <meta property="og:description" content="Free Docker Desktop alternative. One-command Azure dev environment for WSL2 with GitHub Copilot CLI, Azure CLI, and Kubernetes tools.">
+    <meta property="og:image" content="https://kodra.wsl.codetocloud.io/assets/screenshots/social-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Kodra WSL">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://kodra.wsl.codetocloud.io">
+    <meta name="twitter:title" content="Kodra WSL - Free Docker CE for Windows WSL2 Developers">
+    <meta name="twitter:description" content="Free Docker Desktop alternative. One-command Azure dev environment for WSL2 with GitHub Copilot CLI, Azure CLI, and Kubernetes tools.">
+    <meta name="twitter:image" content="https://kodra.wsl.codetocloud.io/assets/screenshots/social-preview.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://kodra.wsl.codetocloud.io">
+    
+    <title>Kodra WSL - Free Docker CE for Windows WSL2 | Azure Dev Environment</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -1058,6 +1082,43 @@
             color: var(--text-primary);
         }
     </style>
+    
+    <!-- Schema.org JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Kodra WSL Edition",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows 10/11 with WSL2",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "description": "One-command Azure developer environment for WSL2. Free Docker CE alternative to Docker Desktop. GitHub Copilot CLI, Azure CLI, Kubernetes tools for Windows developers.",
+        "url": "https://kodra.wsl.codetocloud.io",
+        "downloadUrl": "https://kodra.wsl.codetocloud.io/boot.sh",
+        "softwareVersion": "0.6.0",
+        "creator": {
+            "@type": "Organization",
+            "name": "Code To Cloud",
+            "url": "https://www.codetocloud.io"
+        },
+        "featureList": [
+            "Docker CE in WSL2 (free Docker Desktop alternative)",
+            "Azure CLI and azd",
+            "GitHub Copilot CLI",
+            "Windows Terminal integration",
+            "Oh My Posh prompt",
+            "Kubernetes tools (kubectl, Helm, k9s)",
+            "Terraform and OpenTofu",
+            "VS Code WSL integration"
+        ],
+        "screenshot": "https://kodra.wsl.codetocloud.io/assets/screenshots/Kodra_Boot.png",
+        "license": "https://opensource.org/licenses/MIT"
+    }
+    </script>
 </head>
 <body>
     <!-- Navigation -->
@@ -1071,6 +1132,7 @@
                 <a href="#features">Features</a>
                 <a href="#tools">Tools</a>
                 <a href="#docker">Docker</a>
+                <a href="#faq">FAQ</a>
                 <a href="https://discord.gg/vwfwq2EpXJ" class="nav-btn" style="background: #5865F2; border-color: #5865F2;">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                         <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/>
@@ -1221,7 +1283,7 @@
                         </div>
                         <span class="chrome-title">Installation</span>
                     </div>
-                    <img src="assets/screenshots/Kodra_Boot.png" alt="Kodra WSL Installation" onclick="openLightbox(this.src)">
+                    <img src="assets/screenshots/Kodra_Boot.png" alt="Kodra WSL2 installation showing Docker CE and Azure CLI setup in Windows Terminal" onclick="openLightbox(this.src)">
                     <div class="gallery-item-label">One-command installation</div>
                 </div>
                 <!-- Cloud Tools -->
@@ -1234,7 +1296,7 @@
                         </div>
                         <span class="chrome-title">Cloud Tools</span>
                     </div>
-                    <img src="assets/screenshots/Kodra_Cloud_Tools_Setup.png" alt="Cloud Tools Setup" onclick="openLightbox(this.src)">
+                    <img src="assets/screenshots/Kodra_Cloud_Tools_Setup.png" alt="Azure CLI, azd, Bicep, and Terraform cloud tools installing in WSL2 Ubuntu" onclick="openLightbox(this.src)">
                     <div class="gallery-item-label">Azure CLI • azd • Bicep • Terraform</div>
                 </div>
                 <!-- GitHub CLI -->
@@ -1247,7 +1309,7 @@
                         </div>
                         <span class="chrome-title">GitHub CLI</span>
                     </div>
-                    <img src="assets/screenshots/WSL_GitHub_CLI_Setup.png" alt="GitHub CLI Setup" onclick="openLightbox(this.src)">
+                    <img src="assets/screenshots/WSL_GitHub_CLI_Setup.png" alt="GitHub CLI and Copilot CLI setup in WSL2 with authentication" onclick="openLightbox(this.src)">
                     <div class="gallery-item-label">GitHub CLI • Copilot • Authentication</div>
                 </div>
                 <!-- Terminal -->
@@ -1260,7 +1322,7 @@
                         </div>
                         <span class="chrome-title">Terminal</span>
                     </div>
-                    <img src="assets/screenshots/WSL_Terminal_Deployed.png" alt="WSL Terminal" onclick="openLightbox(this.src)">
+                    <img src="assets/screenshots/WSL_Terminal_Deployed.png" alt="WSL2 terminal with Oh My Posh prompt after Kodra installation complete" onclick="openLightbox(this.src)">
                     <div class="gallery-item-label">Oh My Posh • Nerd Fonts • Ready to ship</div>
                 </div>
             </div>
@@ -1574,6 +1636,114 @@
             </div>
         </div>
     </section>
+
+    <!-- FAQ Section -->
+    <section id="faq">
+        <div class="section-header">
+            <span class="section-label">FAQ</span>
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-subtitle">
+                Common questions about Kodra WSL and Docker CE in WSL2.
+            </p>
+        </div>
+        
+        <div class="commands-list" style="max-width: 800px;">
+            <div class="command-item" style="flex-direction: column; align-items: flex-start; gap: 0.75rem;">
+                <strong style="color: var(--text-primary);">Is Kodra WSL free?</strong>
+                <span class="command-desc">Yes, Kodra WSL is 100% free and open source under the MIT license. Docker CE is also free with no licensing restrictions.</span>
+            </div>
+            <div class="command-item" style="flex-direction: column; align-items: flex-start; gap: 0.75rem;">
+                <strong style="color: var(--text-primary);">Does it work on Windows 10 or only Windows 11?</strong>
+                <span class="command-desc">WSL2 works on both Windows 10 (version 2004+) and Windows 11. Kodra WSL is tested on Windows 11 but should work on Windows 10 with WSL2.</span>
+            </div>
+            <div class="command-item" style="flex-direction: column; align-items: flex-start; gap: 0.75rem;">
+                <strong style="color: var(--text-primary);">Do I need Docker Desktop?</strong>
+                <span class="command-desc">No! Kodra WSL installs Docker CE directly in WSL2. This is a free Docker Desktop alternative with no licensing fees for any organization size.</span>
+            </div>
+            <div class="command-item" style="flex-direction: column; align-items: flex-start; gap: 0.75rem;">
+                <strong style="color: var(--text-primary);">How is Docker CE different from Docker Desktop?</strong>
+                <span class="command-desc">Docker CE is the open-source Docker engine. Docker Desktop adds a GUI and requires paid licenses for companies with 250+ employees or $10M+ revenue. Docker CE in WSL2 is free for everyone.</span>
+            </div>
+            <div class="command-item" style="flex-direction: column; align-items: flex-start; gap: 0.75rem;">
+                <strong style="color: var(--text-primary);">What's the difference between Kodra WSL and Kodra Desktop?</strong>
+                <span class="command-desc">Kodra WSL is for Windows users via WSL2 (CLI only). Kodra Desktop is for native Ubuntu with full GNOME desktop theming and Ghostty terminal.</span>
+            </div>
+            <div class="command-item" style="flex-direction: column; align-items: flex-start; gap: 0.75rem;">
+                <strong style="color: var(--text-primary);">Can I use this for commercial projects?</strong>
+                <span class="command-desc">Yes! MIT license allows commercial use. Docker CE has no commercial restrictions unlike Docker Desktop.</span>
+            </div>
+            <div class="command-item" style="flex-direction: column; align-items: flex-start; gap: 0.75rem;">
+                <strong style="color: var(--text-primary);">Does it work with VS Code?</strong>
+                <span class="command-desc">Yes! Install VS Code on Windows with the WSL extension. Open projects from WSL with 'code .' for seamless integration.</span>
+            </div>
+        </div>
+    </section>
+    
+    <!-- FAQ Schema Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Is Kodra WSL free?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, Kodra WSL is 100% free and open source under the MIT license. Docker CE is also free with no licensing restrictions."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does it work on Windows 10 or only Windows 11?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "WSL2 works on both Windows 10 (version 2004+) and Windows 11. Kodra WSL is tested on Windows 11 but should work on Windows 10 with WSL2."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do I need Docker Desktop?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No! Kodra WSL installs Docker CE directly in WSL2. This is a free Docker Desktop alternative with no licensing fees for any organization size."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How is Docker CE different from Docker Desktop?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Docker CE is the open-source Docker engine. Docker Desktop adds a GUI and requires paid licenses for companies with 250+ employees or $10M+ revenue. Docker CE in WSL2 is free for everyone."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What's the difference between Kodra WSL and Kodra Desktop?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Kodra WSL is for Windows users via WSL2 (CLI only). Kodra Desktop is for native Ubuntu with full GNOME desktop theming and Ghostty terminal."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I use this for commercial projects?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! MIT license allows commercial use. Docker CE has no commercial restrictions unlike Docker Desktop."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does it work with VS Code?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! Install VS Code on Windows with the WSL extension. Open projects from WSL with 'code .' for seamless integration."
+                }
+            }
+        ]
+    }
+    </script>
 
     <!-- Footer -->
     <footer>

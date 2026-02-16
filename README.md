@@ -15,6 +15,9 @@
 [![WSL2](https://img.shields.io/badge/WSL2-Ubuntu_24.04+-E95420?style=flat-square&logo=ubuntu&logoColor=white)](https://learn.microsoft.com/en-us/windows/wsl/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 [![Discord](https://img.shields.io/badge/Discord-Join-5865F2?style=flat-square&logo=discord&logoColor=white)](https://discord.gg/vwfwq2EpXJ)
+[![GitHub stars](https://img.shields.io/github/stars/codetocloudorg/kodra-wsl?style=flat-square)](https://github.com/codetocloudorg/kodra-wsl/stargazers)
+[![GitHub last commit](https://img.shields.io/github/last-commit/codetocloudorg/kodra-wsl?style=flat-square)](https://github.com/codetocloudorg/kodra-wsl/commits)
+[![GitHub issues](https://img.shields.io/github/issues/codetocloudorg/kodra-wsl?style=flat-square)](https://github.com/codetocloudorg/kodra-wsl/issues)
 
 *A WSL-focused variant of [Kodra](https://github.com/codetocloudorg/kodra) • Developed by [Code To Cloud](https://www.codetocloud.io)*
 

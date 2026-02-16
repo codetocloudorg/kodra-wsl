@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discord Community
+    url: https://discord.gg/vwfwq2EpXJ
+    about: Ask questions and get help from the community
+  - name: WSL Setup Guide
+    url: https://github.com/codetocloudorg/kodra-wsl/blob/main/docs/WSL-SETUP.md
+    about: Check the WSL setup guide for common issues
