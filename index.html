@@ -1099,7 +1099,7 @@
         "description": "One-command Azure developer environment for WSL2. Free Docker CE alternative to Docker Desktop. GitHub Copilot CLI, Azure CLI, Kubernetes tools for Windows developers.",
         "url": "https://kodra.wsl.codetocloud.io",
         "downloadUrl": "https://kodra.wsl.codetocloud.io/boot.sh",
-        "softwareVersion": "0.6.0",
+        "softwareVersion": "0.7.0",
         "creator": {
             "@type": "Organization",
             "name": "Code To Cloud",
@@ -1113,7 +1113,10 @@
             "Oh My Posh prompt",
             "Kubernetes tools (kubectl, Helm, k9s)",
             "Terraform and OpenTofu",
-            "VS Code WSL integration"
+            "VS Code WSL integration",
+            "Self-healing repair command",
+            "Doctor --fix auto-remediation",
+            "Full tool update system (25+ tools)"
         ],
         "screenshot": "https://kodra.wsl.codetocloud.io/assets/screenshots/Kodra_Boot.png",
         "license": "https://opensource.org/licenses/MIT"
@@ -1153,7 +1156,7 @@
     <section class="hero">
         <div class="hero-badge">
             <span class="hero-badge-dot"></span>
-            v0.6.0 — Standalone Copilot CLI support
+            v0.7.0 — Self-healing repair & doctor --fix
         </div>
         
         <pre class="ascii-art">
@@ -1258,7 +1261,7 @@
                         ✓ GitHub CLI + Copilot ready<br>
                         ✓ Shell configured with Oh My Posh<br>
                         <br>
-                        <span style="color: var(--accent-green);">Done in 3m 45s</span> — Run <span style="color: var(--accent-cyan);">kodra doctor</span> to verify
+                        <span style="color: var(--accent-green);">Done in 3m 45s</span> — Run <span style="color: var(--accent-cyan);">kodra doctor</span> to verify, <span style="color: var(--accent-cyan);">kodra repair</span> to fix issues
                     </div>
                 </div>
             </div>
@@ -1462,7 +1465,12 @@
                 <p class="feature-description">Oh My Posh prompt (1_shell theme), Nerd Fonts support, and intelligent aliases.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🔗</div>
+                <div class="feature-icon">�</div>
+                <h3 class="feature-title">Self-Healing</h3>
+                <p class="feature-description">Built-in repair and doctor --fix commands auto-detect and resolve broken configs, missing tools, and stalled services.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">�🔗</div>
                 <h3 class="feature-title">VS Code Integration</h3>
                 <p class="feature-description">Seamless connection from Windows VS Code to your WSL environment.</p>
             </div>
@@ -1527,7 +1535,7 @@
             <span class="section-label">Batteries Included</span>
             <h2 class="section-title">The complete CLI toolkit</h2>
             <p class="section-subtitle">
-                25+ carefully selected tools, configured for WSL2.
+                25+ carefully selected tools, configured and auto-updated for WSL2.
             </p>
         </div>
         
@@ -1623,8 +1631,20 @@
                 <span class="command-desc">Check system health & WSL status</span>
             </div>
             <div class="command-item">
+                <code class="command-code">kodra doctor --fix</code>
+                <span class="command-desc">Auto-fix missing tools & broken configs</span>
+            </div>
+            <div class="command-item">
+                <code class="command-code">kodra repair</code>
+                <span class="command-desc">Interactive repair (shell, Docker, WSL, PATH)</span>
+            </div>
+            <div class="command-item">
+                <code class="command-code">kodra repair --all</code>
+                <span class="command-desc">Repair everything at once</span>
+            </div>
+            <div class="command-item">
                 <code class="command-code">kodra update</code>
-                <span class="command-desc">Update all tools</span>
+                <span class="command-desc">Update all 25+ tools</span>
             </div>
             <div class="command-item">
                 <code class="command-code">kodra setup</code>

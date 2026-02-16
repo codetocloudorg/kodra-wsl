@@ -11,7 +11,7 @@
 
 **Agentic Azure engineering in WSL—GitHub CLI, Copilot CLI, and cloud-native CLI tools for Windows developers.**
 
-[![Version](https://img.shields.io/badge/version-0.6.0-blue?style=flat-square)](VERSION)
+[![Version](https://img.shields.io/badge/version-0.7.0-blue?style=flat-square)](VERSION)
 [![WSL2](https://img.shields.io/badge/WSL2-Ubuntu_24.04+-E95420?style=flat-square&logo=ubuntu&logoColor=white)](https://learn.microsoft.com/en-us/windows/wsl/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 [![Discord](https://img.shields.io/badge/Discord-Join-5865F2?style=flat-square&logo=discord&logoColor=white)](https://discord.gg/vwfwq2EpXJ)
@@ -25,7 +25,7 @@
 
 ---
 
-**The WSL edition of Kodra.** All the CLI tools, Azure integrations, GitHub CLI and Copilot CLI—running natively in Windows Subsystem for Linux. Perfect for Windows developers who want the power of Linux tooling without leaving their desktop.
+**The WSL edition of Kodra.** All the CLI tools, Azure integrations, GitHub CLI and Copilot CLI—running natively in Windows Subsystem for Linux. Built-in self-healing with `kodra repair` and `kodra doctor --fix`. Perfect for Windows developers who want the power of Linux tooling without leaving their desktop.
 
 This is the **CLI-focused variant** of [Kodra Desktop](https://github.com/codetocloudorg/kodra). No GNOME desktop, no window tiling—just pure terminal productivity optimized for WSL2.
 
@@ -40,6 +40,7 @@ This is the **CLI-focused variant** of [Kodra Desktop](https://github.com/codeto
 | **Azure Tools** | ✅ Full suite | ✅ Full suite |
 | **GitHub Copilot CLI** | ✅ | ✅ |
 | **VS Code** | Windows VS Code + WSL extension | Native VS Code |
+| **Self-Healing** | `kodra repair`, `doctor --fix` | `kodra repair`, `doctor --fix` |
 | **Window Tiling** | Use Windows PowerToys | Tactile extension |
 
 ## Prerequisites
@@ -130,6 +131,7 @@ That's it! The installer will:
 | **Git** | GitHub CLI, lazygit |
 | **AI** | Copilot CLI (`copilot -p "prompt"`) |
 | **CLI Utils** | bat, eza, fzf, ripgrep, zoxide, btop, fastfetch, jq, yq |
+| **Maintenance** | `kodra repair`, `kodra doctor --fix`, `kodra update` (all 25+ tools) |
 
 ---
 
@@ -195,10 +197,23 @@ code --install-extension eamodio.gitlens
 ## Commands
 
 ```bash
-kodra doctor      # Check system health and WSL integration
-kodra update      # Update all tools
-kodra fetch       # Show system info (fastfetch)
-kodra setup       # Re-run first-time setup (GitHub, Azure login)
+kodra doctor            # Check system health and WSL integration
+kodra doctor --fix      # Auto-fix missing tools and broken configs
+kodra repair            # Interactive repair (shell, Docker, WSL, PATH)
+kodra repair --all      # Repair everything at once
+kodra update            # Update all 25+ installed tools
+kodra setup             # Re-run first-time setup (GitHub, Azure login)
+kodra fetch             # Show system info (fastfetch)
+```
+
+### Repair Flags
+
+```bash
+kodra repair --shell    # Fix shell integration and Oh My Posh
+kodra repair --docker   # Start Docker daemon, fix permissions
+kodra repair --wsl      # Repair /etc/wsl.conf (systemd, interop)
+kodra repair --tools    # Restore tool configurations
+kodra repair --path     # Fix PATH for all tool directories
 ```
 
 ---

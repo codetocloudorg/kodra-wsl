@@ -5,6 +5,26 @@ All notable changes to Kodra WSL will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2026-02-16
+
+### Added
+- `kodra repair` command with interactive and flag-based modes (--all, --shell, --docker, --wsl, --tools, --path)
+- `kodra doctor --fix` auto-remediation mode — reinstalls missing tools using original installers
+- Enhanced `kodra update` now updates all 25+ installed tools (cloud, containers, Kubernetes, CLI)
+- Self-healing shell integration, Docker daemon, WSL config, and PATH repair
+- Tool update support for Docker CE, kubectl, Helm, k9s, azd, Bicep, Terraform, OpenTofu, lazygit, lazydocker, btop, fastfetch, yq, zoxide
+- Cleanup step in update (apt autoremove)
+
+### Changed
+- `kodra` CLI router now passes flags to subcommands (e.g., `kodra doctor --fix`)
+- `kodra help` now shows flags and repair examples
+- `kodra repair` aliased as `kodra fix`
+- Doctor now checks shell integration status and btop/fastfetch/yq
+
+### Fixed
+- Update script now has proper error tracking per tool
+- Doctor correctly counts all tool categories
+
 ## [0.6.0] - 2026-02-16
 
 ### Added
@@ -85,6 +105,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Basic shell aliases and functions
 - One-command installer via boot.sh
 
+[0.7.0]: https://github.com/codetocloudorg/kodra-wsl/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/codetocloudorg/kodra-wsl/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/codetocloudorg/kodra-wsl/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/codetocloudorg/kodra-wsl/compare/v0.3.0...v0.4.0

@@ -2,7 +2,7 @@
 
 Future plans for Kodra WSL. This is a living document — priorities may shift based on community feedback.
 
-## Current Version: 0.6.0
+## Current Version: 0.7.0
 
 ---
 
@@ -43,6 +43,9 @@ Future plans for Kodra WSL. This is a living document — priorities may shift b
 ---
 
 ## Completed
+- [x] `kodra repair` self-healing command (shell, Docker, WSL, PATH)
+- [x] `kodra doctor --fix` auto-remediation mode
+- [x] Enhanced `kodra update` for all 25+ tools
 - [x] Docker CE installation and WSL2 configuration
 - [x] Copilot CLI standalone support
 - [x] Azure VM testing workflow
