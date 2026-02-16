@@ -105,7 +105,8 @@ check_tool() {
     local version_cmd="${3:-$cmd --version 2>/dev/null | head -1}"
     
     if command -v "$cmd" &> /dev/null; then
-        local version=$(eval "$version_cmd" 2>/dev/null | head -1)
+        local version
+        version=$(eval "$version_cmd" 2>/dev/null | head -1)
         echo -e "  ${C_GREEN}✔${C_RESET} $name ${C_GRAY}$version${C_RESET}"
         return 0
     else

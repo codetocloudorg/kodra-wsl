@@ -44,7 +44,7 @@ echo ""
 echo -e "${C_WHITE}Kodra WSL${C_RESET}"
 echo ""
 echo -e "  ${C_CYAN}▶${C_RESET} Pulling latest..."
-cd "$KODRA_DIR"
+cd "$KODRA_DIR" || { update_fail "Could not cd to $KODRA_DIR"; return 1; }
 if git fetch origin --quiet 2>/dev/null && git reset --hard origin/main --quiet 2>/dev/null; then
     update_ok "Kodra WSL updated to $(cat "$KODRA_DIR/VERSION" 2>/dev/null || echo 'latest')"
 else
@@ -112,7 +112,7 @@ fi
 # Azure Developer CLI
 if command -v azd &> /dev/null; then
     echo -e "  ${C_CYAN}▶${C_RESET} Updating azd..."
-    if curl -fsSL https://aka.ms/install-azd.sh | bash -s -- -a $(uname -m) 2>/dev/null | tail -1; then
+    if curl -fsSL https://aka.ms/install-azd.sh | bash -s -- -a "$(uname -m)" 2>/dev/null | tail -1; then
         update_ok "azd $(azd version 2>/dev/null | head -1)"
     else
         update_fail "azd"
