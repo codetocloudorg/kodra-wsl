@@ -2,8 +2,22 @@
 #
 # Kodra WSL Doctor - System health check
 #
+# Usage:
+#   kodra doctor          Check system health (read-only)
+#   kodra doctor --fix    Check and auto-fix issues
+#
 
 KODRA_DIR="${KODRA_DIR:-$HOME/.kodra}"
+
+# Parse flags
+FIX_MODE=false
+for arg in "$@"; do
+    case "$arg" in
+        --fix|-f)
+            FIX_MODE=true
+            ;;
+    esac
+done
 
 # Extend PATH with common tool locations
 export PATH="$HOME/.local/bin:$HOME/.fzf/bin:$HOME/.azure/bin:$HOME/.cargo/bin:/usr/local/bin:$PATH"
@@ -18,10 +32,72 @@ C_WHITE='\033[1;37m'
 C_GRAY='\033[0;90m'
 
 echo ""
-echo -e "${C_CYAN}╭──────────────────────────────────────────────────────────────────╮${C_RESET}"
-echo -e "${C_CYAN}│${C_RESET}  ${C_WHITE}Kodra WSL Health Check${C_RESET}                                        ${C_CYAN}│${C_RESET}"
-echo -e "${C_CYAN}╰──────────────────────────────────────────────────────────────────╯${C_RESET}"
+if [ "$FIX_MODE" = "true" ]; then
+    echo -e "${C_CYAN}╭──────────────────────────────────────────────────────────────────╮${C_RESET}"
+    echo -e "${C_CYAN}│${C_RESET}  ${C_WHITE}Kodra WSL Health Check${C_RESET}  ${C_YELLOW}(fix mode)${C_RESET}                            ${C_CYAN}│${C_RESET}"
+    echo -e "${C_CYAN}╰──────────────────────────────────────────────────────────────────╯${C_RESET}"
+else
+    echo -e "${C_CYAN}╭──────────────────────────────────────────────────────────────────╮${C_RESET}"
+    echo -e "${C_CYAN}│${C_RESET}  ${C_WHITE}Kodra WSL Health Check${C_RESET}                                        ${C_CYAN}│${C_RESET}"
+    echo -e "${C_CYAN}╰──────────────────────────────────────────────────────────────────╯${C_RESET}"
+fi
 echo ""
+
+# Map tool names to their installer scripts
+get_installer() {
+    local cmd="$1"
+    case "$cmd" in
+        oh-my-posh)  echo "$KODRA_DIR/install/terminal/oh-my-posh.sh" ;;
+        az)          echo "$KODRA_DIR/install/cloud/azure-cli.sh" ;;
+        azd)         echo "$KODRA_DIR/install/cloud/azd.sh" ;;
+        bicep)       echo "$KODRA_DIR/install/cloud/bicep.sh" ;;
+        terraform)   echo "$KODRA_DIR/install/cloud/terraform.sh" ;;
+        tofu)        echo "$KODRA_DIR/install/cloud/opentofu.sh" ;;
+        pwsh)        echo "$KODRA_DIR/install/cloud/powershell.sh" ;;
+        docker)      echo "$KODRA_DIR/install/containers/docker-ce.sh" ;;
+        lazydocker)  echo "$KODRA_DIR/install/containers/lazydocker.sh" ;;
+        kubectl)     echo "$KODRA_DIR/install/cloud/kubectl.sh" ;;
+        helm)        echo "$KODRA_DIR/install/cloud/helm.sh" ;;
+        k9s)         echo "$KODRA_DIR/install/cloud/k9s.sh" ;;
+        gh)          echo "$KODRA_DIR/install/cli-tools/github-cli.sh" ;;
+        bat|batcat)  echo "$KODRA_DIR/install/cli-tools/bat.sh" ;;
+        eza)         echo "$KODRA_DIR/install/cli-tools/eza.sh" ;;
+        fzf)         echo "$KODRA_DIR/install/cli-tools/fzf.sh" ;;
+        rg)          echo "$KODRA_DIR/install/cli-tools/ripgrep.sh" ;;
+        zoxide)      echo "$KODRA_DIR/install/cli-tools/zoxide.sh" ;;
+        lazygit)     echo "$KODRA_DIR/install/cli-tools/lazygit.sh" ;;
+        btop)        echo "$KODRA_DIR/install/cli-tools/btop.sh" ;;
+        fastfetch)   echo "$KODRA_DIR/install/cli-tools/fastfetch.sh" ;;
+        yq)          echo "$KODRA_DIR/install/cli-tools/yq.sh" ;;
+        *)           echo "" ;;
+    esac
+}
+
+try_fix() {
+    local name="$1"
+    local cmd="$2"
+
+    if [ "$FIX_MODE" != "true" ]; then
+        return 1
+    fi
+
+    local installer
+    installer=$(get_installer "$cmd")
+    if [ -n "$installer" ] && [ -f "$installer" ]; then
+        echo -e "  ${C_YELLOW}⟳${C_RESET} Attempting to install $name..."
+        if bash "$installer" >/dev/null 2>&1; then
+            # Refresh PATH
+            export PATH="$HOME/.local/bin:$HOME/.fzf/bin:$HOME/.azure/bin:$HOME/.cargo/bin:/usr/local/bin:$PATH"
+            hash -r 2>/dev/null
+            if command -v "$cmd" &> /dev/null; then
+                echo -e "  ${C_GREEN}✔${C_RESET} $name ${C_GRAY}fixed!${C_RESET}"
+                return 0
+            fi
+        fi
+        echo -e "  ${C_RED}✖${C_RESET} $name ${C_GRAY}fix failed — run installer manually${C_RESET}"
+    fi
+    return 1
+}
 
 check_tool() {
     local name="$1"
@@ -34,12 +110,16 @@ check_tool() {
         return 0
     else
         echo -e "  ${C_RED}✖${C_RESET} $name ${C_GRAY}not installed${C_RESET}"
+        if try_fix "$name" "$cmd"; then
+            return 0
+        fi
         return 1
     fi
 }
 
 PASS=0
 FAIL=0
+FIXED=0
 
 # Environment
 echo -e "${C_WHITE}Environment${C_RESET}"
@@ -51,6 +131,22 @@ else
 fi
 
 if check_tool "Ubuntu" "lsb_release" "lsb_release -rs"; then ((PASS++)); else ((FAIL++)); fi
+
+# Shell integration check
+if [ -f "$KODRA_DIR/configs/shell/kodra.sh" ]; then
+    echo -e "  ${C_GREEN}✔${C_RESET} Shell integration ${C_GRAY}configured${C_RESET}"
+    ((PASS++))
+else
+    echo -e "  ${C_RED}✖${C_RESET} Shell integration ${C_GRAY}missing${C_RESET}"
+    if [ "$FIX_MODE" = "true" ]; then
+        echo -e "  ${C_YELLOW}⟳${C_RESET} Running repair..."
+        "$KODRA_DIR/bin/kodra-sub/repair.sh" --shell --path >/dev/null 2>&1 && \
+            echo -e "  ${C_GREEN}✔${C_RESET} Shell integration ${C_GRAY}fixed!${C_RESET}" && ((FIXED++)) || \
+            ((FAIL++))
+    else
+        ((FAIL++))
+    fi
+fi
 echo ""
 
 # Shell
@@ -77,7 +173,24 @@ if check_tool "Docker" "docker" "docker --version 2>/dev/null | awk '{print \$3}
         echo -e "  ${C_GREEN}✔${C_RESET} Docker daemon ${C_GRAY}running${C_RESET}"
         ((PASS++))
     else
-        echo -e "  ${C_YELLOW}⚠${C_RESET} Docker daemon ${C_GRAY}not running (start with: sudo service docker start)${C_RESET}"
+        echo -e "  ${C_YELLOW}⚠${C_RESET} Docker daemon ${C_GRAY}not running${C_RESET}"
+        if [ "$FIX_MODE" = "true" ]; then
+            echo -e "  ${C_YELLOW}⟳${C_RESET} Starting Docker daemon..."
+            if command -v systemctl &> /dev/null && systemctl is-system-running &>/dev/null 2>&1; then
+                sudo systemctl start docker 2>/dev/null
+            else
+                sudo service docker start 2>/dev/null
+            fi
+            sleep 2
+            if docker info &>/dev/null; then
+                echo -e "  ${C_GREEN}✔${C_RESET} Docker daemon ${C_GRAY}started!${C_RESET}"
+                ((FIXED++))
+            else
+                echo -e "  ${C_RED}✖${C_RESET} Docker daemon ${C_GRAY}could not be started${C_RESET}"
+            fi
+        else
+            echo -e "    ${C_GRAY}Start with: sudo service docker start${C_RESET}"
+        fi
     fi
 else 
     ((FAIL++))
@@ -101,15 +214,26 @@ if check_tool "fzf" "fzf" "fzf --version 2>/dev/null | awk '{print \$1}'"; then 
 if check_tool "ripgrep" "rg" "rg --version 2>/dev/null | head -1 | awk '{print \$2}'"; then ((PASS++)); else ((FAIL++)); fi
 if check_tool "zoxide" "zoxide" "zoxide --version 2>/dev/null | awk '{print \$2}'"; then ((PASS++)); else ((FAIL++)); fi
 if check_tool "lazygit" "lazygit"; then ((PASS++)); else ((FAIL++)); fi
+if check_tool "btop" "btop" "btop --version 2>/dev/null | head -1"; then ((PASS++)); else ((FAIL++)); fi
+if check_tool "fastfetch" "fastfetch" "fastfetch --version 2>/dev/null | head -1"; then ((PASS++)); else ((FAIL++)); fi
+if check_tool "yq" "yq" "yq --version 2>/dev/null | awk '{print \$NF}'"; then ((PASS++)); else ((FAIL++)); fi
 echo ""
 
 # Summary
 echo -e "${C_CYAN}────────────────────────────────────────────────────────────────────${C_RESET}"
 if [ $FAIL -eq 0 ]; then
-    echo -e "  ${C_GREEN}All checks passed!${C_RESET} ($PASS tools verified)"
+    if [ $FIXED -gt 0 ]; then
+        echo -e "  ${C_GREEN}All checks passed!${C_RESET} ($PASS verified, $FIXED fixed)"
+    else
+        echo -e "  ${C_GREEN}All checks passed!${C_RESET} ($PASS tools verified)"
+    fi
 else
-    echo -e "  ${C_GREEN}$PASS passed${C_RESET}, ${C_RED}$FAIL failed${C_RESET}"
+    echo -e "  ${C_GREEN}$PASS passed${C_RESET}, ${C_RED}$FAIL failed${C_RESET}$([ $FIXED -gt 0 ] && echo ", ${C_YELLOW}$FIXED fixed${C_RESET}")"
     echo ""
-    echo -e "  ${C_GRAY}Run 'kodra update' to fix missing tools${C_RESET}"
+    if [ "$FIX_MODE" = "true" ]; then
+        echo -e "  ${C_GRAY}Some tools could not be auto-fixed. Try reinstalling manually.${C_RESET}"
+    else
+        echo -e "  ${C_GRAY}Run 'kodra doctor --fix' to auto-fix missing tools${C_RESET}"
+    fi
 fi
 echo ""

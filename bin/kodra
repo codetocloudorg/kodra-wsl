@@ -29,18 +29,27 @@ show_help() {
     echo -e "${C_CYAN}Kodra WSL${C_RESET} v$(show_version) - Agentic Azure engineering with GitHub CLI & Copilot"
     echo ""
     echo -e "${C_WHITE}Usage:${C_RESET}"
-    echo "  kodra <command>"
+    echo "  kodra <command> [flags]"
     echo ""
     echo -e "${C_WHITE}Commands:${C_RESET}"
     echo "  doctor      Check system health and tool installations"
+    echo "  repair      Repair Kodra WSL configuration and tools"
     echo "  update      Update all installed tools"
     echo "  setup       Run first-time setup (GitHub, Azure, Git config)"
     echo "  fetch       Show system information"
     echo "  version     Show Kodra WSL version"
     echo "  help        Show this help message"
     echo ""
+    echo -e "${C_WHITE}Flags:${C_RESET}"
+    echo "  doctor --fix                  Auto-fix missing tools"
+    echo "  repair --all                  Repair everything"
+    echo "  repair --shell|--docker|--wsl Repair specific area"
+    echo ""
     echo -e "${C_WHITE}Examples:${C_RESET}"
     echo "  kodra doctor        # Verify all tools are working"
+    echo "  kodra doctor --fix  # Fix missing tools automatically"
+    echo "  kodra repair        # Interactive repair"
+    echo "  kodra repair --all  # Repair everything"
     echo "  kodra setup         # Configure GitHub and Azure"
     echo ""
 }
@@ -54,7 +63,11 @@ show_version() {
 }
 
 run_doctor() {
-    "$KODRA_DIR/bin/kodra-sub/doctor.sh"
+    "$KODRA_DIR/bin/kodra-sub/doctor.sh" "$@"
+}
+
+run_repair() {
+    "$KODRA_DIR/bin/kodra-sub/repair.sh" "$@"
 }
 
 run_update() {
@@ -87,7 +100,12 @@ run_fetch() {
 # Main command router
 case "${1:-help}" in
     doctor)
-        run_doctor
+        shift
+        run_doctor "$@"
+        ;;
+    repair|fix)
+        shift
+        run_repair "$@"
         ;;
     update)
         run_update
