@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# GitHub Copilot CLI (standalone)
+# GitHub Copilot CLI (via npm)
+# https://github.com/github/copilot-cli
 source "$KODRA_DIR/lib/utils.sh" 2>/dev/null || true
 source "$KODRA_DIR/lib/ui.sh" 2>/dev/null || true
 
@@ -11,15 +12,15 @@ if command_exists copilot; then
     exit 0
 fi
 
-# Copilot CLI requires Homebrew
-if ! command_exists brew; then
-    show_warn "Copilot CLI requires Homebrew - skipping"
-    echo -e "    ${C_GRAY}Install Homebrew: https://brew.sh${C_RESET}"
+# Copilot CLI requires Node.js / npm
+if ! command_exists npm; then
+    show_warn "Copilot CLI requires npm (Node.js) - skipping"
+    echo -e "    ${C_GRAY}Install Node.js: https://nodejs.org${C_RESET}"
     exit 0
 fi
 
-# Install via Homebrew
-brew install copilot-cli >/dev/null 2>&1
+# Install via npm (global)
+npm install -g @github/copilot >/dev/null 2>&1
 
 if command_exists copilot; then
     version=$(copilot --version 2>/dev/null | head -1)

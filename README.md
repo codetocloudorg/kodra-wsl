@@ -11,7 +11,7 @@
 
 **Agentic Azure engineering in WSL—GitHub CLI, Copilot CLI, and cloud-native CLI tools for Windows developers.**
 
-[![Version](https://img.shields.io/badge/version-0.7.0-blue?style=flat-square)](VERSION)
+[![Version](https://img.shields.io/badge/version-0.7.1-blue?style=flat-square)](VERSION)
 [![WSL2](https://img.shields.io/badge/WSL2-Ubuntu_24.04+-E95420?style=flat-square&logo=ubuntu&logoColor=white)](https://learn.microsoft.com/en-us/windows/wsl/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 [![Discord](https://img.shields.io/badge/Discord-Join-5865F2?style=flat-square&logo=discord&logoColor=white)](https://discord.gg/vwfwq2EpXJ)
