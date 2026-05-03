@@ -300,3 +300,87 @@ cleanup_on_exit() {
 }
 
 trap 'cleanup_on_exit' EXIT
+
+# ──────────────────────────────────────────────
+# Additional utility helpers
+# ──────────────────────────────────────────────
+
+# Create directory with error handling
+ensure_dir() {
+    local path="$1"
+    if [ -z "${path}" ]; then
+        echo -e "    ${C_RED}${BOX_CROSS}${C_RESET} ensure_dir: path required" >&2
+        return 1
+    fi
+    if [ ! -d "${path}" ]; then
+        mkdir -p "${path}" || {
+            echo -e "    ${C_RED}${BOX_CROSS}${C_RESET} Failed to create directory: ${path}" >&2
+            return 1
+        }
+    fi
+}
+
+# Get latest release tag from GitHub
+get_github_release() {
+    local owner="$1"
+    local repo="$2"
+
+    local tag
+    tag="$(curl -fsSL "https://api.github.com/repos/${owner}/${repo}/releases/latest" 2>/dev/null \
+        | grep '"tag_name"' | head -1 | cut -d'"' -f4)"
+
+    if [ -n "${tag}" ]; then
+        echo "${tag}"
+    else
+        return 1
+    fi
+}
+
+# Download and install a .deb package
+install_deb() {
+    local url="$1"
+    local workdir="${HOME}/.cache/kodra/downloads"
+    mkdir -p "${workdir}"
+
+    local filename
+    filename="$(basename "${url}")"
+    curl -fsSL -o "${workdir}/${filename}" "${url}" || return 1
+    sudo dpkg -i "${workdir}/${filename}" 2>&1 || sudo apt-get install -f -y -qq 2>&1
+    rm -f "${workdir}/${filename}"
+}
+
+# Append to the install log file
+log_to_file() {
+    local level="$1"
+    local message="$2"
+    local log_file="${HOME}/.config/kodra/install.log"
+    local timestamp
+    timestamp="$(date +%Y-%m-%dT%H:%M:%S%z)"
+
+    mkdir -p "$(dirname "${log_file}")"
+    printf '[%s] %-5s %s\n' "${timestamp}" "${level}" "${message}" >> "${log_file}"
+}
+
+# Check if running in WSL (return 0 if yes)
+is_wsl() {
+    grep -qEi '(microsoft|wsl)' /proc/version 2>/dev/null
+}
+
+# Check specifically for WSL2 (return 0 if yes)
+is_wsl2() {
+    if grep -qEi '(microsoft|wsl)' /proc/version 2>/dev/null; then
+        grep -qi 'microsoft-standard' /proc/version 2>/dev/null && return 0
+        [ -f /proc/sys/fs/binfmt_misc/WSLInterop ] && return 0
+    fi
+    return 1
+}
+
+# Read the VERSION file
+get_kodra_version() {
+    local version_file="${KODRA_DIR:-${HOME}/.kodra}/VERSION"
+    if [ -f "${version_file}" ]; then
+        cat "${version_file}"
+    else
+        echo "unknown"
+    fi
+}

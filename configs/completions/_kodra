@@ -1,0 +1,120 @@
+#compdef kodra
+# ╔══════════════════════════════════════════════════════════════╗
+# ║  Kodra WSL — Zsh Completions                                ║
+# ╚══════════════════════════════════════════════════════════════╝
+
+_kodra() {
+    local -a commands
+    commands=(
+        'doctor:Check system health and diagnose issues'
+        'repair:Fix detected issues'
+        'update:Update kodra to the latest version'
+        'setup:Run initial setup wizard'
+        'fetch:Fetch latest configuration from remote'
+        'version:Show kodra version'
+        'help:Show help information'
+        'install:Install components'
+        'uninstall:Uninstall components'
+        'backup:Manage configuration backups'
+        'restore:Restore a configuration backup'
+        'resume:Resume an interrupted operation'
+        'migrate:Migrate configuration to new format'
+        'cleanup:Clean up temporary files and caches'
+        'refresh:Refresh shell environment'
+        'menu:Show interactive menu'
+        'welcome:Show welcome screen'
+        'motd:Show message of the day'
+        'dev:Developer tools and utilities'
+        'extensions:Manage VS Code extensions'
+        'shortcuts:Manage keyboard shortcuts'
+        'db:Database operations'
+    )
+
+    _arguments -C \
+        '1:command:->command' \
+        '*::arg:->args'
+
+    case "$state" in
+        command)
+            _describe -t commands 'kodra command' commands
+            ;;
+        args)
+            case "$words[1]" in
+                doctor)
+                    _arguments \
+                        '--fix[Automatically fix detected issues]' \
+                        '--verbose[Show detailed diagnostic output]' \
+                        '--json[Output results as JSON]'
+                    ;;
+                repair)
+                    _arguments \
+                        '--all[Repair all components]' \
+                        '--force[Force repair even if no issues detected]' \
+                        '--dry-run[Show what would be repaired without making changes]'
+                    ;;
+                update)
+                    _arguments \
+                        '--force[Force update even if already current]' \
+                        '--channel[Update channel]:channel:(stable beta nightly)'
+                    ;;
+                setup)
+                    _arguments \
+                        '--minimal[Minimal setup without optional components]' \
+                        '--force[Re-run setup even if already configured]'
+                    ;;
+                backup)
+                    local -a backup_commands
+                    backup_commands=(
+                        'create:Create a new backup'
+                        'list:List available backups'
+                        'restore:Restore from a backup'
+                        'delete:Delete a backup'
+                    )
+                    _arguments -C \
+                        '1:backup command:->backup_command'
+                    case "$state" in
+                        backup_command)
+                            _describe -t backup_commands 'backup command' backup_commands
+                            ;;
+                    esac
+                    ;;
+                install|uninstall)
+                    _arguments \
+                        '1:component:(all shell tools azure kubernetes docker git)'
+                    ;;
+                dev)
+                    local -a dev_commands
+                    dev_commands=(
+                        'lint:Run linters'
+                        'test:Run tests'
+                        'build:Build project'
+                        'clean:Clean build artifacts'
+                    )
+                    _describe -t dev_commands 'dev command' dev_commands
+                    ;;
+                extensions)
+                    _arguments \
+                        '1:action:(install list sync export import)'
+                    ;;
+                shortcuts)
+                    _arguments \
+                        '1:action:(list add remove reset)'
+                    ;;
+                db)
+                    _arguments \
+                        '1:action:(init migrate reset status)'
+                    ;;
+                cleanup)
+                    _arguments \
+                        '--all[Clean everything including caches]' \
+                        '--dry-run[Show what would be cleaned]'
+                    ;;
+                *)
+                    _default
+                    ;;
+            esac
+            ;;
+    esac
+}
+
+_kodra "$@"
