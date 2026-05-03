@@ -3,66 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Kodra WSL: Free Docker CE for WSL2. Azure CLI, GitHub Copilot CLI, Kubernetes tools for Windows. No Docker Desktop license required.">
-    <meta name="keywords" content="wsl, wsl2, windows subsystem for linux, ubuntu on windows, github copilot, azure cli, windows terminal, docker ce, free docker alternative, docker desktop alternative, azure developer tools, kubernetes wsl, devcontainers, copilot cli">
-    <meta name="theme-color" content="#0d1117">
-    <meta name="author" content="Code To Cloud">
-    <meta name="robots" content="index, follow">
+    
+    <!-- Primary Meta Tags -->
+    <title>Kodra WSL — One-Command Azure Dev Environment for WSL2</title>
+    <meta name="title" content="Kodra WSL — One-Command Azure Dev Environment for WSL2">
+    <meta name="description" content="One command installs 25+ cloud-native tools on WSL2 Ubuntu. Azure CLI, Docker, Kubernetes, GitHub Copilot — ready in 10 minutes.">
+    <meta name="keywords" content="WSL2 Azure developer environment, cloud native dev setup, Docker WSL2, kubectl WSL, azd up WSL2, developer tools Windows">
+    <meta name="author" content="Code To Cloud Inc.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://kodra.wsl.codetocloud.io/">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://kodra.wsl.codetocloud.io">
-    <meta property="og:title" content="Kodra WSL - Free Docker CE for Windows WSL2 Developers">
-    <meta property="og:description" content="Free Docker Desktop alternative. One-command Azure dev environment for WSL2 with GitHub Copilot CLI, Azure CLI, and Kubernetes tools.">
-    <meta property="og:image" content="https://kodra.wsl.codetocloud.io/assets/screenshots/social-preview.png">
+    <meta property="og:url" content="https://kodra.wsl.codetocloud.io/">
+    <meta property="og:title" content="Kodra WSL — One-Command Azure Dev Environment for WSL2">
+    <meta property="og:description" content="From fresh WSL2 Ubuntu to azd up in 10 minutes. 25+ cloud-native tools, zero config.">
+    <meta property="og:image" content="https://kodra.wsl.codetocloud.io/assets/og-image.png">
+    <meta property="og:image:alt" content="Kodra WSL developer environment running on WSL2 with Azure tools">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="Kodra WSL">
+    <meta property="og:locale" content="en_US">
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://kodra.wsl.codetocloud.io">
-    <meta name="twitter:title" content="Kodra WSL - Free Docker CE for Windows WSL2 Developers">
-    <meta name="twitter:description" content="Free Docker Desktop alternative. One-command Azure dev environment for WSL2 with GitHub Copilot CLI, Azure CLI, and Kubernetes tools.">
-    <meta name="twitter:image" content="https://kodra.wsl.codetocloud.io/assets/screenshots/social-preview.png">
+    <meta name="twitter:url" content="https://kodra.wsl.codetocloud.io/">
+    <meta name="twitter:title" content="Kodra WSL — One-Command Azure Dev Environment for WSL2">
+    <meta name="twitter:description" content="25+ cloud-native tools installed in one command on WSL2. Azure CLI, Docker, Kubernetes — ready in 10 min.">
+    <meta name="twitter:image" content="https://kodra.wsl.codetocloud.io/assets/og-image.png">
+    <meta name="twitter:image:alt" content="Kodra WSL developer environment running on WSL2 with Azure tools">
     
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://kodra.wsl.codetocloud.io">
+    <!-- Theme & Icons -->
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="msapplication-TileColor" content="#0a0a0f">
+    <link rel="icon" type="image/png" href="/assets/favicon.ico.png">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon.ico.png">
+    <link rel="manifest" href="/manifest.json">
     
-    <title>Kodra WSL - Free Docker CE for Windows WSL2 | Azure Dev Environment</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Structured Data: SoftwareApplication -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Kodra WSL",
+        "applicationCategory": "DeveloperApplication",
+        "applicationSubCategory": "Cloud Development Tools",
+        "operatingSystem": "WSL2 Ubuntu on Windows 10/11",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+        },
+        "description": "Kodra WSL: One-command WSL2 setup for Azure cloud-native developers. GitHub CLI, Docker CE, Kubernetes, AI-powered workflows. From fresh WSL to production in minutes.",
+        "url": "https://kodra.wsl.codetocloud.io",
+        "downloadUrl": "https://kodra.wsl.codetocloud.io/boot.sh",
+        "softwareVersion": "0.7.1",
+        "datePublished": "2025-01-01",
+        "dateModified": "2025-07-18",
+        "license": "https://opensource.org/licenses/MIT",
+        "creator": {
+            "@type": "Organization",
+            "name": "Code To Cloud Inc.",
+            "url": "https://www.codetocloud.io",
+            "logo": "https://codetocloud.io/assets/images/logo.svg",
+            "sameAs": [
+                "https://www.linkedin.com/company/code-to-cloud",
+                "https://github.com/codetocloudorg"
+            ]
+        },
+        "featureList": [
+            "Azure CLI and Azure Developer CLI (azd)",
+            "GitHub CLI with Copilot CLI",
+            "Kubernetes tools (kubectl, Helm, k9s)",
+            "Container tools (Docker CE via WSL systemd, lazydocker)",
+            "Infrastructure as Code (Terraform, Bicep, OpenTofu)",
+            "Oh My Posh prompt theming",
+            "VS Code with cloud-native extensions",
+            "JetBrains Mono Nerd Font",
+            "PowerShell 7 integration"
+        ],
+        "softwareRequirements": "Windows 10/11 with WSL2 and Ubuntu",
+        "fileSize": "< 1MB installer",
+        "permissions": "internet access for package installation"
+    }
+    </script>
+    
+    <!-- Structured Data: Organization -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Code To Cloud Inc.",
+        "url": "https://www.codetocloud.io",
+        "logo": "https://codetocloud.io/assets/images/logo.svg",
+        "description": "Fractional CTO and technology advisory for startups. Technology leadership, security, and AI readiness.",
+        "sameAs": [
+            "https://www.linkedin.com/company/code-to-cloud",
+            "https://github.com/codetocloudorg"
+        ]
+    }
+    </script>
+    
+    <!-- Structured Data: BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Code To Cloud",
+                "item": "https://www.codetocloud.io"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Kodra",
+                "item": "https://kodra.codetocloud.io"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Kodra WSL",
+                "item": "https://kodra.wsl.codetocloud.io"
+            }
+        ]
+    }
+    </script>
+    
+    <!-- Structured Data: FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Will it break my existing WSL setup?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. Kodra WSL backs up your existing shell configuration (.bashrc, .zshrc, .gitconfig) before making any changes. You can restore them anytime."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I customize what gets installed?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The WSL edition installs a curated set of 25+ tools optimized for WSL2. It has fewer customization flags than the full Ubuntu edition, focusing on the most essential cloud-native tools."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does it require Docker Desktop?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. Kodra WSL installs Docker CE that runs natively inside WSL2 via systemd. No Docker Desktop license needed — great for enterprise teams."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What Windows versions are supported?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Kodra WSL supports Windows 10 (build 19041+) and Windows 11 with WSL2 enabled and Ubuntu installed from the Microsoft Store."
+                }
+            }
+        ]
+    }
+    </script>
+    
+    <!-- Structured Data: WebSite -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Kodra WSL",
+        "url": "https://kodra.wsl.codetocloud.io",
+        "description": "One-command Azure developer environment for WSL2",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Code To Cloud Inc.",
+            "url": "https://www.codetocloud.io"
+        }
+    }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.min.css" rel="stylesheet">
     <style>
         :root {
-            /* GitHub Dark Colors */
-            --bg-primary: #0d1117;
-            --bg-secondary: #161b22;
-            --bg-tertiary: #21262d;
-            --border-default: #30363d;
-            --border-muted: #21262d;
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #111118;
+            --bg-tertiary: #1a1a24;
+            --border-default: rgba(255, 255, 255, 0.07);
+            --border-muted: rgba(255, 255, 255, 0.04);
             
-            /* Text */
-            --text-primary: #e6edf3;
-            --text-secondary: #8b949e;
-            --text-muted: #6e7681;
+            --text-primary: #e8e8f0;
+            --text-secondary: #9898a8;
+            --text-muted: #6b6b80;
             
-            /* Accent Colors */
-            --accent-blue: #58a6ff;
-            --accent-green: #3fb950;
-            --accent-purple: #a371f7;
-            --accent-cyan: #79c0ff;
-            --accent-orange: #d29922;
-            --accent-red: #f85149;
+            --accent-blue: #7c6aff;
+            --accent-green: #00d4aa;
+            --accent-purple: #7c6aff;
+            --accent-cyan: #00d4aa;
+            --accent-orange: #f0a030;
+            --accent-red: #ff6b6b;
             
-            /* WSL/Windows Colors */
-            --wsl-orange: #E95420;
-            --windows-blue: #0078D4;
-            
-            /* Gradients */
-            --gradient-blue: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);
-            --gradient-wsl: linear-gradient(135deg, #E95420 0%, #0078D4 100%);
-            --gradient-glow: radial-gradient(ellipse at center, rgba(88, 166, 255, 0.15) 0%, transparent 70%);
+            --gradient-blue: linear-gradient(135deg, #7c6aff 0%, #00d4aa 100%);
+            --gradient-glow: radial-gradient(ellipse at center, rgba(124, 106, 255, 0.12) 0%, transparent 70%);
         }
 
         * {
@@ -75,12 +230,29 @@
             scroll-behavior: smooth;
         }
 
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
+        }
+
+        h1, h2, .section-title, .hero-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
         }
 
         /* Navigation */
@@ -90,7 +262,7 @@
             left: 0;
             right: 0;
             z-index: 100;
-            background: rgba(13, 17, 23, 0.8);
+            background: rgba(10, 10, 15, 0.8);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border-muted);
             padding: 1rem 2rem;
@@ -118,7 +290,7 @@
         .logo-icon {
             width: 32px;
             height: 32px;
-            background: var(--gradient-wsl);
+            background: var(--gradient-blue);
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -126,10 +298,10 @@
             font-size: 1rem;
         }
 
-        .logo-wsl {
-            font-size: 0.7rem;
+        .logo-sub {
+            font-size: 0.75rem;
             color: var(--accent-cyan);
-            margin-left: 0.25rem;
+            font-weight: 500;
         }
 
         .nav-links {
@@ -165,6 +337,33 @@
             background: var(--border-default);
         }
 
+        .nav-cta {
+            background: var(--accent-blue);
+            border: 1px solid var(--accent-blue);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            color: var(--bg-primary) !important;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .nav-cta:hover {
+            background: #9080ff;
+            border-color: #9080ff;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
         /* Hero Section */
         .hero {
             min-height: 100vh;
@@ -189,6 +388,33 @@
             pointer-events: none;
         }
 
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badges {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
         .hero-badge {
             display: inline-flex;
             align-items: center;
@@ -199,7 +425,12 @@
             border-radius: 50px;
             font-size: 0.85rem;
             color: var(--text-secondary);
-            margin-bottom: 2rem;
+        }
+
+        .hero-badge-accent {
+            background: rgba(124, 106, 255, 0.15) !important;
+            border-color: rgba(124, 106, 255, 0.3) !important;
+            color: #7c6aff !important;
         }
 
         .hero-badge-dot {
@@ -217,12 +448,12 @@
 
         .ascii-art {
             font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(0.4rem, 1.5vw, 0.8rem);
+            font-size: clamp(0.5rem, 2vw, 1rem);
             line-height: 1.2;
             color: var(--accent-blue);
             text-align: center;
             margin-bottom: 1.5rem;
-            background: var(--gradient-wsl);
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -231,12 +462,12 @@
 
         @media (max-width: 640px) {
             .ascii-art {
-                font-size: 0.35rem;
+                font-size: 0.4rem;
             }
         }
 
         .hero-title {
-            font-size: clamp(2.5rem, 7vw, 4rem);
+            font-size: clamp(3rem, 8vw, 5rem);
             font-weight: 800;
             text-align: center;
             line-height: 1.1;
@@ -245,7 +476,7 @@
         }
 
         .hero-title .gradient {
-            background: var(--gradient-wsl);
+            background: var(--gradient-blue);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -255,7 +486,14 @@
             font-size: 1.25rem;
             color: var(--text-secondary);
             text-align: center;
-            max-width: 650px;
+            max-width: 600px;
+            margin-bottom: 1rem;
+        }
+
+        .hero-agentic {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            text-align: center;
             margin-bottom: 3rem;
         }
 
@@ -282,14 +520,14 @@
         }
 
         .btn-primary {
-            background: var(--windows-blue);
-            color: white;
+            background: var(--accent-blue);
+            color: var(--bg-primary);
         }
 
         .btn-primary:hover {
-            background: #1a8cff;
+            background: #9080ff;
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 120, 212, 0.3);
+            box-shadow: 0 8px 25px rgba(124, 106, 255, 0.3);
         }
 
         .btn-secondary {
@@ -315,29 +553,35 @@
         }
 
         .terminal-header {
-            background: var(--bg-tertiary);
-            padding: 0.75rem 1rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            border-bottom: 1px solid var(--border-muted);
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px 12px 0 0;
         }
 
-        .terminal-dot {
+        .terminal-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .terminal-header .dot {
             width: 12px;
             height: 12px;
             border-radius: 50%;
         }
 
-        .terminal-dot.red { background: #f85149; }
-        .terminal-dot.yellow { background: #d29922; }
-        .terminal-dot.green { background: #3fb950; }
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
 
         .terminal-title {
             flex: 1;
             text-align: center;
             color: var(--text-muted);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-family: 'JetBrains Mono', monospace;
         }
 
@@ -346,6 +590,7 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.9rem;
             line-height: 1.8;
+            position: relative;
         }
 
         .terminal-line {
@@ -361,23 +606,38 @@
 
         .terminal-command {
             color: var(--text-primary);
+            word-break: break-all;
         }
 
-        .terminal-output {
-            color: var(--text-secondary);
-            margin-top: 0.5rem;
-            padding-left: 1.5rem;
+        /* Stats Row */
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2.5rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
         }
 
-        .typing-animation {
-            overflow: hidden;
-            white-space: nowrap;
-            animation: typing 2s steps(50, end);
+        .stat {
+            text-align: center;
         }
 
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
+        .stat-value {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         /* Section Styling */
@@ -415,167 +675,6 @@
             margin: 0 auto;
         }
 
-        /* WSL Advantage Section */
-        .wsl-advantage {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-default);
-            border-radius: 16px;
-            padding: 3rem;
-            margin-bottom: 4rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .wsl-advantage::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(0, 120, 212, 0.1) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .wsl-advantage-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        @media (max-width: 768px) {
-            .wsl-advantage-content {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .wsl-advantage h3 {
-            font-size: 1.75rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .wsl-advantage h3 svg {
-            width: 32px;
-            height: 32px;
-        }
-
-        .wsl-advantage p {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            line-height: 1.7;
-        }
-
-        .why-reasons {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .reason {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-        }
-
-        .reason-icon {
-            width: 24px;
-            height: 24px;
-            background: rgba(0, 120, 212, 0.2);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        .reason-icon svg {
-            width: 14px;
-            height: 14px;
-            color: var(--windows-blue);
-        }
-
-        .reason-text strong {
-            display: block;
-            color: var(--text-primary);
-            margin-bottom: 0.25rem;
-        }
-
-        .reason-text span {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .desktop-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: linear-gradient(135deg, rgba(233, 84, 32, 0.2), rgba(163, 113, 247, 0.2));
-            border: 1px solid rgba(233, 84, 32, 0.3);
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
-
-        .desktop-badge svg {
-            width: 20px;
-            height: 20px;
-            color: var(--wsl-orange);
-        }
-
-        .desktop-badge span {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .desktop-badge strong {
-            color: var(--wsl-orange);
-        }
-
-        /* Comparison Table */
-        .comparison-table {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-default);
-            border-radius: 12px;
-            overflow: hidden;
-            margin-top: 2rem;
-        }
-
-        .comparison-table table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .comparison-table th,
-        .comparison-table td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border-muted);
-        }
-
-        .comparison-table th {
-            background: var(--bg-tertiary);
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .comparison-table td {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .comparison-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .check-icon {
-            color: var(--accent-green);
-        }
-
         /* Features Grid */
         .features-grid {
             display: grid;
@@ -597,18 +696,6 @@
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
         }
 
-        .feature-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--bg-tertiary);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
         .feature-title {
             font-size: 1.125rem;
             font-weight: 600;
@@ -619,6 +706,33 @@
             color: var(--text-secondary);
             font-size: 0.9rem;
         }
+
+        .feature-description code {
+            background: var(--bg-tertiary);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Bracket code labels */
+        .bracket-code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            padding: 4px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 0.75rem;
+        }
+
+        .bracket-code--azure { background: rgba(124, 106, 255, 0.12); color: #7c6aff; }
+        .bracket-code--k8s { background: rgba(0, 212, 170, 0.12); color: #00d4aa; }
+        .bracket-code--ai { background: rgba(240, 160, 48, 0.12); color: #f0a030; }
+        .bracket-code--cli { background: rgba(255, 107, 107, 0.12); color: #ff6b6b; }
+        .bracket-code--dev { background: rgba(0, 212, 170, 0.12); color: #00d4aa; }
+        .bracket-code--sec { background: rgba(255, 107, 107, 0.12); color: #ff6b6b; }
 
         /* Tools Grid */
         .tools-grid {
@@ -651,152 +765,200 @@
             font-weight: 500;
         }
 
-        /* Commands Section */
-        .commands-list {
-            display: grid;
-            gap: 1rem;
-            max-width: 700px;
-            margin: 0 auto;
-        }
+        .tool-category-cloud { border-left: 3px solid #7c6aff; }
+        .tool-category-container { border-left: 3px solid #00d4aa; }
+        .tool-category-terminal { border-left: 3px solid #ff6b6b; }
+        .tool-category-ai { border-left: 3px solid #f0a030; }
 
-        /* Prerequisite Cards */
-        .prereq-grid {
+        /* WSL Setup Section */
+        .wsl-setup-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            margin-top: 3rem;
         }
 
-        .prereq-card {
+        .wsl-card {
             background: var(--bg-secondary);
             border: 1px solid var(--border-default);
             border-radius: 12px;
             padding: 1.5rem;
         }
 
-        .prereq-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .prereq-number {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-        }
-
-        .prereq-card h3 {
-            font-size: 1.1rem;
+        .wsl-card h3 {
+            font-size: 1rem;
             font-weight: 600;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .prereq-card p {
+        .wsl-card p {
             color: var(--text-secondary);
             font-size: 0.9rem;
             margin-bottom: 1rem;
         }
 
-        .prereq-code {
-            background: var(--bg-tertiary);
-            padding: 0.5rem 0.75rem;
-            border-radius: 6px;
-            font-size: 0.85rem;
+        .wsl-card code {
             display: block;
-        }
-
-        .prereq-link {
             background: var(--bg-tertiary);
-            padding: 0.5rem 0.75rem;
+            padding: 0.75rem;
             border-radius: 6px;
-            font-size: 0.85rem;
-            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
             color: var(--accent-cyan);
-            text-decoration: none;
+            overflow-x: auto;
         }
 
-        .prereq-link:hover {
-            background: var(--border-default);
+        /* Commands Table */
+        .commands-table-wrapper {
+            max-width: 640px;
+            margin: 2rem auto;
+            overflow-x: auto;
         }
 
-        .command-item {
+        .commands-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+        }
+
+        .commands-table th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .commands-table td {
+            padding: 0.6rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .commands-table td:first-child {
+            color: var(--accent-blue);
+            white-space: nowrap;
+        }
+
+        .commands-table td:last-child {
+            color: var(--text-secondary);
+        }
+
+        .commands-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* How It Works */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .step-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            background: rgba(124, 106, 255, 0.1);
+            border: 1px solid rgba(124, 106, 255, 0.2);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .step-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .step-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .step-card code {
+            display: block;
+            margin-top: 1rem;
+            background: var(--bg-tertiary);
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+        }
+
+        /* FAQ */
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .faq-item {
             background: var(--bg-secondary);
             border: 1px solid var(--border-default);
             border-radius: 8px;
             padding: 1rem 1.5rem;
+        }
+
+        .faq-item summary {
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-primary);
+            list-style: none;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 1rem;
         }
 
-        .command-code {
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--accent-cyan);
-            font-size: 0.9rem;
+        .faq-item summary::-webkit-details-marker {
+            display: none;
         }
 
-        .command-desc {
+        .faq-item summary .faq-icon {
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            transition: transform 0.2s;
+        }
+
+        .faq-item[open] summary .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-item p {
+            margin-top: 1rem;
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            line-height: 1.6;
         }
 
-        /* Docker Section */
-        .docker-section {
-            background: linear-gradient(135deg, rgba(0, 120, 212, 0.1), rgba(88, 166, 255, 0.05));
-            border: 1px solid var(--border-default);
-            border-radius: 16px;
-            padding: 3rem;
-            margin-top: 2rem;
-        }
-
-        .docker-section h3 {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .docker-benefits {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .docker-benefit {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-        }
-
-        .docker-benefit-icon {
-            width: 32px;
-            height: 32px;
-            background: rgba(88, 166, 255, 0.2);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .docker-benefit-text strong {
-            display: block;
-            color: var(--text-primary);
-            margin-bottom: 0.25rem;
-        }
-
-        .docker-benefit-text span {
-            color: var(--text-secondary);
+        .faq-item code {
+            background: var(--bg-tertiary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
             font-size: 0.85rem;
+            font-family: 'JetBrains Mono', monospace;
         }
 
         /* Footer */
@@ -813,12 +975,6 @@
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
             gap: 3rem;
-        }
-
-        @media (max-width: 768px) {
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
         }
 
         .footer-brand .logo {
@@ -891,539 +1047,267 @@
             font-size: 0.85rem;
         }
 
+        .footer-bottom a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .footer-bottom a:hover {
+            color: var(--text-primary);
+        }
+
+        /* GitHub star badge */
+        .star-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: rgba(255, 255, 255, 0.7);
+            margin-left: 4px;
+        }
+
+        .star-badge::before {
+            content: '★';
+            color: #f0c040;
+        }
+
+        /* Copy button */
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .copy-btn.copied {
+            background: rgba(0, 212, 170, 0.2);
+            border-color: rgba(0, 212, 170, 0.4);
+            color: #00d4aa;
+        }
+
+        /* Accessibility */
+        .skip-link {
+            position: absolute;
+            left: -9999px;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            z-index: 9999;
+        }
+
+        .skip-link:focus {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: auto;
+            height: auto;
+            padding: 10px 20px;
+            background: var(--accent-blue);
+            color: white;
+            z-index: 9999;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid var(--accent-blue);
+            outline-offset: 2px;
+        }
+
         /* Responsive */
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
         @media (max-width: 640px) {
             nav {
                 padding: 1rem;
             }
-            
+
             .nav-links {
                 display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(10, 10, 15, 0.95);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                padding: 1.5rem 2rem;
+                gap: 1rem;
+                border-bottom: 1px solid var(--border-default);
             }
-            
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
             .hero {
                 padding: 6rem 1rem 3rem;
             }
-            
+
             .terminal {
                 max-width: 100%;
             }
-            
+
             .terminal-body {
                 padding: 1rem;
                 font-size: 0.8rem;
             }
-            
+
+            .stats-row {
+                flex-wrap: wrap;
+                gap: 1.5rem;
+            }
+
+            .stat {
+                flex: 0 0 45%;
+            }
+
             section {
                 padding: 4rem 1rem;
             }
-            
-            .wsl-advantage {
-                padding: 2rem;
-            }
-        }
-
-        /* Screenshot Showcase */
-        .screenshot-showcase {
-            margin-top: 4rem;
-            text-align: center;
-        }
-
-        .screenshot-header {
-            margin-bottom: 2rem;
-        }
-
-        .screenshot-label {
-            color: var(--accent-purple);
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .screenshot-title {
-            color: var(--text-primary);
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-top: 0.5rem;
-        }
-
-        .screenshot-gallery {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            margin-top: 2rem;
-            max-width: 1000px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .gallery-item {
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border-default);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .gallery-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
-        }
-
-        .gallery-chrome {
-            background: var(--bg-tertiary);
-            padding: 0.5rem 0.75rem;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid var(--border-muted);
-        }
-
-        .gallery-chrome .chrome-dots {
-            display: flex;
-            gap: 4px;
-        }
-
-        .gallery-chrome .chrome-dots .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
-
-        .gallery-chrome .chrome-dots .dot.red { background: #f85149; }
-        .gallery-chrome .chrome-dots .dot.yellow { background: #d29922; }
-        .gallery-chrome .chrome-dots .dot.green { background: #3fb950; }
-
-        .gallery-chrome .chrome-title {
-            flex: 1;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.7rem;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            display: block;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .gallery-item img:hover {
-            opacity: 0.9;
-        }
-
-        .gallery-item-label {
-            padding: 0.75rem;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            background: var(--bg-tertiary);
-            border-top: 1px solid var(--border-muted);
-        }
-
-        .screenshot-caption {
-            color: var(--text-secondary);
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 768px) {
-            .screenshot-gallery {
-                grid-template-columns: 1fr;
-                max-width: 500px;
-            }
-        }
-
-        /* Lightbox */
-        .lightbox {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 1000;
-            cursor: zoom-out;
-            backdrop-filter: blur(10px);
-        }
-
-        .lightbox.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.2s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .lightbox img {
-            max-width: 95%;
-            max-height: 95%;
-            border-radius: 8px;
-            box-shadow: 0 25px 80px -12px rgba(0, 0, 0, 0.8);
-        }
-
-        .lightbox-close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: var(--text-secondary);
-            font-size: 2rem;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-
-        .lightbox-close:hover {
-            color: var(--text-primary);
         }
     </style>
-    
-    <!-- Schema.org JSON-LD Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "Kodra WSL Edition",
-        "applicationCategory": "DeveloperApplication",
-        "operatingSystem": "Windows 10/11 with WSL2",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "description": "One-command Azure developer environment for WSL2. Free Docker CE alternative to Docker Desktop. GitHub Copilot CLI, Azure CLI, Kubernetes tools for Windows developers.",
-        "url": "https://kodra.wsl.codetocloud.io",
-        "downloadUrl": "https://kodra.wsl.codetocloud.io/boot.sh",
-        "softwareVersion": "0.7.1",
-        "creator": {
-            "@type": "Organization",
-            "name": "Code To Cloud",
-            "url": "https://www.codetocloud.io"
-        },
-        "featureList": [
-            "Docker CE in WSL2 (free Docker Desktop alternative)",
-            "Azure CLI and azd",
-            "GitHub Copilot CLI",
-            "Windows Terminal integration",
-            "Oh My Posh prompt",
-            "Kubernetes tools (kubectl, Helm, k9s)",
-            "Terraform and OpenTofu",
-            "VS Code WSL integration",
-            "Self-healing repair command",
-            "Doctor --fix auto-remediation",
-            "Full tool update system (25+ tools)"
-        ],
-        "screenshot": "https://kodra.wsl.codetocloud.io/assets/screenshots/Kodra_Boot.png",
-        "license": "https://opensource.org/licenses/MIT"
-    }
-    </script>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <!-- Navigation -->
     <nav>
         <div class="nav-content">
             <a href="#" class="logo">
                 <div class="logo-icon">K</div>
-                Kodra<span class="logo-wsl">WSL</span>
+                Kodra <span class="logo-sub">WSL</span>
             </a>
+            <button class="mobile-toggle" aria-label="Toggle navigation" onclick="document.querySelector('.nav-links').classList.toggle('active')">☰</button>
             <div class="nav-links">
                 <a href="#features">Features</a>
                 <a href="#tools">Tools</a>
-                <a href="#docker">Docker</a>
-                <a href="#faq">FAQ</a>
+                <a href="#wsl-setup">WSL Setup</a>
+                <a href="https://github.com/codetocloudorg/kodra-wsl#readme">Docs</a>
                 <a href="https://discord.gg/vwfwq2EpXJ" class="nav-btn" style="background: #5865F2; border-color: #5865F2;">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                        <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/>
-                    </svg>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/></svg>
                     Discord
                 </a>
                 <a href="https://github.com/codetocloudorg/kodra-wsl" class="nav-btn">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-                    </svg>
-                    GitHub
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                    ★ GitHub
+                    <span id="github-stars" class="star-badge" style="display:none">0</span>
                 </a>
+                <a href="#install" class="nav-cta">Get Started</a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
+    <main id="main-content">
     <section class="hero">
-        <div class="hero-badge">
-            <span class="hero-badge-dot"></span>
-            v0.7.1 — Copilot CLI now installs via npm
+        <div class="hero-badges">
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                v0.7.1
+            </div>
+            <div class="hero-badge hero-badge-accent">
+                wsl2-native
+            </div>
+            <div class="hero-badge">
+                by <a href="https://www.codetocloud.io" style="color: inherit; text-decoration: none; border-bottom: 1px solid rgba(139, 148, 158, 0.3);" title="Code To Cloud - Fractional CTO &amp; Technology Advisory">Code To Cloud</a>
+            </div>
         </div>
-        
-        <pre class="ascii-art">
-██╗  ██╗ ██████╗ ██████╗ ██████╗  █████╗     ██╗    ██╗███████╗██╗     
-██║ ██╔╝██╔═══██╗██╔══██╗██╔══██╗██╔══██╗    ██║    ██║██╔════╝██║     
-█████╔╝ ██║   ██║██║  ██║██████╔╝███████║    ██║ █╗ ██║███████╗██║     
-██╔═██╗ ██║   ██║██║  ██║██╔══██╗██╔══██║    ██║███╗██║╚════██║██║     
-██║  ██╗╚██████╔╝██████╔╝██║  ██║██║  ██║    ╚███╔███╔╝███████║███████╗
-╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝     ╚══╝╚══╝ ╚══════╝╚══════╝
+
+        <h1 class="sr-only">Kodra WSL — One-Command Azure Dev Environment for WSL2</h1>
+        <pre class="ascii-art" aria-hidden="true">
+██╗  ██╗ ██████╗ ██████╗ ██████╗  █████╗ 
+██║ ██╔╝██╔═══██╗██╔══██╗██╔══██╗██╔══██╗
+█████╔╝ ██║   ██║██║  ██║██████╔╝███████║
+██╔═██╗ ██║   ██║██║  ██║██╔══██╗██╔══██║
+██║  ██╗╚██████╔╝██████╔╝██║  ██║██║  ██║
+╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
         </pre>
-        
-        <h1 class="hero-title">
-            Agentic Azure on<br>
-            <span class="gradient">Windows + WSL</span>
-        </h1>
-        
+
+        <div class="hero-title" role="heading" aria-level="2">
+            Fresh WSL2. <span class="gradient">azd up</span> in 10 min.
+        </div>
+
         <p class="hero-subtitle">
-            GitHub CLI, Copilot CLI, cloud-native CLI tools, Docker CE, and AI assistance—running natively in WSL2. From fresh Windows install to <code>azd up</code> in minutes.
+            One command installs 25+ cloud-native tools on WSL2 Ubuntu, configures Docker CE, and sets up your Azure dev environment. No hunting for docs. No config drift.
         </p>
-        
+
+        <p class="hero-agentic">🤖 This is agentic engineering — done for you.</p>
+
         <div class="hero-cta">
-            <a href="#prerequisites" class="btn btn-primary">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                    <path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06l2.97-2.97H3.75a.75.75 0 0 1 0-1.5h7.44L8.22 4.03a.75.75 0 0 1 0-1.06z"/>
-                </svg>
+            <a href="#install" class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06l2.97-2.97H3.75a.75.75 0 0 1 0-1.5h7.44L8.22 4.03a.75.75 0 0 1 0-1.06z"/></svg>
                 Get Started
             </a>
-            <a href="https://github.com/codetocloudorg/kodra" class="btn btn-secondary">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                    <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0z"/>
-                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                </svg>
-                Kodra Desktop
+            <a href="https://github.com/codetocloudorg/kodra-wsl" class="btn btn-secondary">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                View on GitHub
             </a>
         </div>
-    </section>
 
-    <!-- Prerequisites Section -->
-    <section id="prerequisites" style="padding-top: 2rem;">
-        <div class="section-header">
-            <span class="section-label">Before You Begin</span>
-            <h2 class="section-title">Windows Prerequisites</h2>
-            <p class="section-subtitle">Complete these steps on Windows before running the installer in WSL</p>
-        </div>
-
-        <div class="prereq-grid">
-            <div class="prereq-card">
-                <div class="prereq-header">
-                    <div class="prereq-number" style="background: var(--windows-blue);">1</div>
-                    <h3>Windows Terminal</h3>
+        <!-- Terminal Demo -->
+        <div class="terminal" id="install">
+            <div class="terminal-header">
+                <div class="terminal-dots">
+                    <span class="dot dot-red"></span>
+                    <span class="dot dot-yellow"></span>
+                    <span class="dot dot-green"></span>
                 </div>
-                <p>Modern terminal with tabs, split panes, and full Unicode support.</p>
-                <code class="prereq-code">winget install Microsoft.WindowsTerminal</code>
+                <span class="terminal-title">powershell — Windows Terminal</span>
             </div>
-
-            <div class="prereq-card">
-                <div class="prereq-header">
-                    <div class="prereq-number" style="background: var(--wsl-orange);">2</div>
-                    <h3>WSL2 + Ubuntu</h3>
+            <div class="terminal-body">
+                <div class="terminal-line">
+                    <span class="terminal-prompt">$</span>
+                    <span class="terminal-command">wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash</span>
                 </div>
-                <p>Windows Subsystem for Linux with Ubuntu 24.04. Run in PowerShell as Admin:</p>
-                <code class="prereq-code">wsl --install -d Ubuntu-24.04</code>
-            </div>
-
-            <div class="prereq-card">
-                <div class="prereq-header">
-                    <div class="prereq-number" style="background: var(--accent-purple);">3</div>
-                    <h3>Nerd Font</h3>
-                </div>
-                <p>Required for terminal icons. Then set font in Terminal settings.</p>
-                <code class="prereq-code">winget install DEVCOM.JetBrainsMonoNerdFont</code>
-            </div>
-
-            <div class="prereq-card">
-                <div class="prereq-header">
-                    <div class="prereq-number" style="background: var(--accent-blue);">4</div>
-                    <h3>VS Code + Extensions</h3>
-                </div>
-                <p>Install on Windows. Required extensions: WSL, GitHub Copilot.</p>
-                <code class="prereq-code">winget install Microsoft.VisualStudioCode</code>
             </div>
         </div>
 
-        <div style="text-align: center; margin-top: 3rem; padding-bottom: 2rem;">
-            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Prerequisites complete? Run this in Windows Terminal → Ubuntu:</p>
-            <!-- Terminal Demo -->
-            <div class="terminal" id="install" style="margin: 0 auto;">
-                <div class="terminal-header">
-                    <span class="terminal-dot red"></span>
-                    <span class="terminal-dot yellow"></span>
-                    <span class="terminal-dot green"></span>
-                    <span class="terminal-title">Windows Terminal — Ubuntu (WSL)</span>
-                </div>
-                <div class="terminal-body">
-                    <div class="terminal-line">
-                        <span class="terminal-prompt">$</span>
-                        <span class="terminal-command typing-animation">wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash</span>
-                    </div>
-                    <div class="terminal-output">
-                        ✓ Azure CLI + azd installed<br>
-                        ✓ Docker CE configured for WSL2<br>
-                        ✓ GitHub CLI + Copilot ready<br>
-                        ✓ Shell configured with Oh My Posh<br>
-                        <br>
-                        <span style="color: var(--accent-green);">Done in 3m 45s</span> — Run <span style="color: var(--accent-cyan);">kodra doctor</span> to verify, <span style="color: var(--accent-cyan);">kodra repair</span> to fix issues
-                    </div>
-                </div>
+        <!-- Stats Row -->
+        <div class="stats-row">
+            <div class="stat">
+                <span class="stat-value">25+</span>
+                <span class="stat-label">Tools</span>
             </div>
-        </div>
-    </section>
-
-    <!-- Screenshot Showcase -->
-    <section style="padding-top: 2rem;">
-        <div class="screenshot-showcase">
-            <div class="screenshot-header">
-                <span class="screenshot-label">See it in action</span>
-                <h3 class="screenshot-title">WSL Development Environment</h3>
+            <div class="stat">
+                <span class="stat-value">~10 min</span>
+                <span class="stat-label">Setup</span>
             </div>
-            <div class="screenshot-gallery">
-                <!-- Boot -->
-                <div class="gallery-item">
-                    <div class="gallery-chrome">
-                        <div class="chrome-dots">
-                            <span class="dot red"></span>
-                            <span class="dot yellow"></span>
-                            <span class="dot green"></span>
-                        </div>
-                        <span class="chrome-title">Installation</span>
-                    </div>
-                    <img src="assets/screenshots/Kodra_Boot.png" alt="Kodra WSL2 installation showing Docker CE and Azure CLI setup in Windows Terminal" onclick="openLightbox(this.src)">
-                    <div class="gallery-item-label">One-command installation</div>
-                </div>
-                <!-- Cloud Tools -->
-                <div class="gallery-item">
-                    <div class="gallery-chrome">
-                        <div class="chrome-dots">
-                            <span class="dot red"></span>
-                            <span class="dot yellow"></span>
-                            <span class="dot green"></span>
-                        </div>
-                        <span class="chrome-title">Cloud Tools</span>
-                    </div>
-                    <img src="assets/screenshots/Kodra_Cloud_Tools_Setup.png" alt="Azure CLI, azd, Bicep, and Terraform cloud tools installing in WSL2 Ubuntu" onclick="openLightbox(this.src)">
-                    <div class="gallery-item-label">Azure CLI • azd • Bicep • Terraform</div>
-                </div>
-                <!-- GitHub CLI -->
-                <div class="gallery-item">
-                    <div class="gallery-chrome">
-                        <div class="chrome-dots">
-                            <span class="dot red"></span>
-                            <span class="dot yellow"></span>
-                            <span class="dot green"></span>
-                        </div>
-                        <span class="chrome-title">GitHub CLI</span>
-                    </div>
-                    <img src="assets/screenshots/WSL_GitHub_CLI_Setup.png" alt="GitHub CLI and Copilot CLI setup in WSL2 with authentication" onclick="openLightbox(this.src)">
-                    <div class="gallery-item-label">GitHub CLI • Copilot • Authentication</div>
-                </div>
-                <!-- Terminal -->
-                <div class="gallery-item">
-                    <div class="gallery-chrome">
-                        <div class="chrome-dots">
-                            <span class="dot red"></span>
-                            <span class="dot yellow"></span>
-                            <span class="dot green"></span>
-                        </div>
-                        <span class="chrome-title">Terminal</span>
-                    </div>
-                    <img src="assets/screenshots/WSL_Terminal_Deployed.png" alt="WSL2 terminal with Oh My Posh prompt after Kodra installation complete" onclick="openLightbox(this.src)">
-                    <div class="gallery-item-label">Oh My Posh • Nerd Fonts • Ready to ship</div>
-                </div>
+            <div class="stat">
+                <span class="stat-value">WSL2</span>
+                <span class="stat-label">Native</span>
             </div>
-            <p class="screenshot-caption">Click any screenshot to enlarge</p>
-        </div>
-
-        <!-- Lightbox -->
-        <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-            <span class="lightbox-close">&times;</span>
-            <img src="" alt="Enlarged screenshot" id="lightbox-img">
-        </div>
-    </section>
-
-    <!-- WSL Advantage Section -->
-    <section>
-        <div class="wsl-advantage">
-            <div class="wsl-advantage-content">
-                <div>
-                    <h3>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--windows-blue);">
-                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                            <line x1="8" y1="21" x2="16" y2="21"></line>
-                            <line x1="12" y1="17" x2="12" y2="21"></line>
-                        </svg>
-                        Why WSL?
-                    </h3>
-                    <p>
-                        The best of both worlds: Windows for your desktop apps and WSL2 for Linux development. Native Docker performance, real Linux tooling, and seamless integration with VS Code.
-                    </p>
-                    
-                    <div class="why-reasons">
-                        <div class="reason">
-                            <div class="reason-icon">
-                                <svg viewBox="0 0 16 16" fill="currentColor">
-                                    <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.828 1.828l1.937.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.828l-.645 1.937a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828L1.06 11.2a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828l.645-1.937z"/>
-                                </svg>
-                            </div>
-                            <div class="reason-text">
-                                <strong>Native Linux Performance</strong>
-                                <span>Real Linux kernel via Hyper-V, not emulation. Docker runs at full speed.</span>
-                            </div>
-                        </div>
-                        <div class="reason">
-                            <div class="reason-icon">
-                                <svg viewBox="0 0 16 16" fill="currentColor">
-                                    <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"/>
-                                </svg>
-                            </div>
-                            <div class="reason-text">
-                                <strong>No Docker Desktop License</strong>
-                                <span>Docker CE runs free in WSL2—no licensing concerns for any organization size.</span>
-                            </div>
-                        </div>
-                        <div class="reason">
-                            <div class="reason-icon">
-                                <svg viewBox="0 0 16 16" fill="currentColor">
-                                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
-                                </svg>
-                            </div>
-                            <div class="reason-text">
-                                <strong>VS Code Integration</strong>
-                                <span>Edit code in Windows, run in Linux. Dev Containers just work.</span>
-                            </div>
-                        </div>
-                        <div class="reason">
-                            <div class="reason-icon">
-                                <svg viewBox="0 0 16 16" fill="currentColor">
-                                    <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07A7.001 7.001 0 0 0 8 16a7 7 0 0 0 7-7V8h-1a1 1 0 0 0-1 1v1.5a.5.5 0 0 1-.5.5H11a1 1 0 0 0-1 1v1.5a.5.5 0 0 1-1 0V12a1 1 0 0 0-1-1H7.5a.5.5 0 0 1-.5-.5V9a1 1 0 0 0-1-1H4.5a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5H6a1 1 0 0 0 1-1V2h.5a.5.5 0 0 0 0-1h-1z"/>
-                                </svg>
-                            </div>
-                            <div class="reason-text">
-                                <strong>Same Tools as CI/CD</strong>
-                                <span>Match your GitHub Actions environment locally. No more "works on my machine."</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div>
-                    <div style="background: var(--bg-tertiary); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
-                        <div style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem;">Supported</div>
-                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent-green);">WSL2 + Ubuntu 24.04</div>
-                        <div style="color: var(--text-secondary); font-size: 0.9rem;">Windows 11</div>
-                    </div>
-                    
-                    <div class="desktop-badge">
-                        <svg viewBox="0 0 256 256" fill="currentColor">
-                            <circle cx="128" cy="128" r="128" fill="#E95420"/>
-                            <circle cx="128" cy="128" r="100" fill="none" stroke="white" stroke-width="16"/>
-                            <circle cx="128" cy="36" r="20" fill="white"/>
-                        </svg>
-                        <span>Looking for <strong>native Ubuntu</strong>?</span>
-                    </div>
-                    
-                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;">
-                        <a href="https://github.com/codetocloudorg/kodra" style="color: var(--accent-blue);">Kodra Desktop</a> gives you full GNOME theming, Ghostty terminal, and window tiling on native Ubuntu.
-                    </p>
-                </div>
+            <div class="stat">
+                <span class="stat-value">MIT</span>
+                <span class="stat-label">License</span>
             </div>
         </div>
     </section>
@@ -1431,100 +1315,43 @@
     <!-- Features Section -->
     <section id="features">
         <div class="section-header">
-            <span class="section-label">Features</span>
-            <h2 class="section-title">CLI-first for WSL</h2>
+            <span class="section-label">What You Get</span>
+            <h2 class="section-title">Everything configured</h2>
             <p class="section-subtitle">
-                All the tools you need for Azure development—optimized for the WSL environment.
+                25+ cloud-native tools installed, configured, and ready to use on WSL2.
             </p>
         </div>
-        
+
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon">☁️</div>
-                <h3 class="feature-title">Azure-Native</h3>
-                <p class="feature-description">Azure CLI, azd, Bicep, Terraform, OpenTofu, and PowerShell 7—all configured and ready to deploy.</p>
+                <span class="bracket-code bracket-code--azure">[ AZURE ]</span>
+                <h3 class="feature-title">Cloud &amp; Azure</h3>
+                <p class="feature-description">Azure CLI, Azure Developer CLI (<code>azd</code>), Bicep, Terraform, and OpenTofu. Deploy to Azure from your WSL terminal.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🤖</div>
-                <h3 class="feature-title">AI-Assisted</h3>
-                <p class="feature-description">Copilot CLI for AI-assisted shell commands. Ask questions, generate code, explain errors.</p>
+                <span class="bracket-code bracket-code--k8s">[ K8S ]</span>
+                <h3 class="feature-title">Containers</h3>
+                <p class="feature-description">Docker CE running natively via WSL systemd, kubectl, Helm, k9s, and lazydocker. No Docker Desktop required.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🐳</div>
-                <h3 class="feature-title">Docker CE Native</h3>
-                <p class="feature-description">Docker running directly in WSL2—no Docker Desktop needed. Free for all use cases.</p>
+                <span class="bracket-code bracket-code--ai">[ AI ]</span>
+                <h3 class="feature-title">AI-Powered</h3>
+                <p class="feature-description">GitHub CLI with Copilot CLI for AI-assisted development. Type <code>??</code> to ask AI anything from your terminal.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">☸️</div>
-                <h3 class="feature-title">Kubernetes</h3>
-                <p class="feature-description">kubectl, Helm, and k9s for managing AKS clusters with style.</p>
+                <span class="bracket-code bracket-code--cli">[ CLI ]</span>
+                <h3 class="feature-title">Terminal</h3>
+                <p class="feature-description">Oh My Posh prompt theming, fzf, lazygit, zoxide, eza, bat, and btop. A beautiful, productive terminal in Windows Terminal.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3 class="feature-title">Modern Shell</h3>
-                <p class="feature-description">Oh My Posh prompt (1_shell theme), Nerd Fonts support, and intelligent aliases.</p>
+                <span class="bracket-code bracket-code--dev">[ DEV ]</span>
+                <h3 class="feature-title">Dev Tools</h3>
+                <p class="feature-description">VS Code extensions for Azure and containers. JetBrains Mono Nerd Font installed and configured for Windows Terminal.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">�</div>
-                <h3 class="feature-title">Self-Healing</h3>
-                <p class="feature-description">Built-in repair and doctor --fix commands auto-detect and resolve broken configs, missing tools, and stalled services.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">�🔗</div>
-                <h3 class="feature-title">VS Code Integration</h3>
-                <p class="feature-description">Seamless connection from Windows VS Code to your WSL environment.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Docker Section -->
-    <section id="docker">
-        <div class="section-header">
-            <span class="section-label">Docker</span>
-            <h2 class="section-title">Docker CE in WSL2</h2>
-            <p class="section-subtitle">
-                Native Docker performance without Docker Desktop licensing concerns.
-            </p>
-        </div>
-        
-        <div class="docker-section">
-            <h3>
-                <span style="font-size: 2rem;">🐳</span>
-                Why Docker CE in WSL2?
-            </h3>
-            <p style="color: var(--text-secondary); max-width: 600px;">
-                Docker Desktop requires a paid license for organizations with more than 250 employees or $10M+ revenue. Kodra WSL configures Docker CE to run natively in WSL2—completely free.
-            </p>
-            
-            <div class="docker-benefits">
-                <div class="docker-benefit">
-                    <div class="docker-benefit-icon">💰</div>
-                    <div class="docker-benefit-text">
-                        <strong>Free Forever</strong>
-                        <span>No licensing fees, regardless of organization size</span>
-                    </div>
-                </div>
-                <div class="docker-benefit">
-                    <div class="docker-benefit-icon">🚀</div>
-                    <div class="docker-benefit-text">
-                        <strong>Native Performance</strong>
-                        <span>Runs directly in Linux kernel, not through virtualization layers</span>
-                    </div>
-                </div>
-                <div class="docker-benefit">
-                    <div class="docker-benefit-icon">💻</div>
-                    <div class="docker-benefit-text">
-                        <strong>Lower Resource Usage</strong>
-                        <span>No separate Docker Desktop app consuming RAM</span>
-                    </div>
-                </div>
-                <div class="docker-benefit">
-                    <div class="docker-benefit-icon">🔧</div>
-                    <div class="docker-benefit-text">
-                        <strong>CI/CD Parity</strong>
-                        <span>Same Docker experience as your build pipelines</span>
-                    </div>
-                </div>
+                <span class="bracket-code bracket-code--sec">[ SEC ]</span>
+                <h3 class="feature-title">Security</h3>
+                <p class="feature-description">No Docker Desktop license needed. Docker CE runs natively inside WSL2 — great for enterprise teams with licensing constraints.</p>
             </div>
         </div>
     </section>
@@ -1533,280 +1360,310 @@
     <section id="tools">
         <div class="section-header">
             <span class="section-label">Batteries Included</span>
-            <h2 class="section-title">The complete CLI toolkit</h2>
+            <h2 class="section-title">The complete toolkit</h2>
             <p class="section-subtitle">
-                25+ carefully selected tools, configured and auto-updated for WSL2.
+                25+ carefully selected tools, configured to work together on WSL2.
             </p>
         </div>
-        
+
         <div class="tools-grid">
-            <div class="tool-item">
-                <div class="tool-icon">⚡</div>
-                <div class="tool-name">Oh My Posh</div>
-            </div>
-            <div class="tool-item">
+            <div class="tool-item tool-category-cloud">
                 <div class="tool-icon">☁️</div>
                 <div class="tool-name">Azure CLI</div>
             </div>
-            <div class="tool-item">
+            <div class="tool-item tool-category-cloud">
                 <div class="tool-icon">🚀</div>
                 <div class="tool-name">azd</div>
             </div>
-            <div class="tool-item">
+            <div class="tool-item tool-category-cloud">
                 <div class="tool-icon">💪</div>
                 <div class="tool-name">Bicep</div>
             </div>
-            <div class="tool-item">
+            <div class="tool-item tool-category-cloud">
                 <div class="tool-icon">🏗️</div>
                 <div class="tool-name">Terraform</div>
             </div>
-            <div class="tool-item">
-                <div class="tool-icon">🪨</div>
+            <div class="tool-item tool-category-cloud">
+                <div class="tool-icon">🔧</div>
                 <div class="tool-name">OpenTofu</div>
             </div>
-            <div class="tool-item">
+            <div class="tool-item tool-category-container">
                 <div class="tool-icon">🐳</div>
                 <div class="tool-name">Docker CE</div>
             </div>
-            <div class="tool-item">
+            <div class="tool-item tool-category-container">
                 <div class="tool-icon">☸️</div>
                 <div class="tool-name">kubectl</div>
             </div>
-            <div class="tool-item">
+            <div class="tool-item tool-category-container">
                 <div class="tool-icon">⎈</div>
                 <div class="tool-name">Helm</div>
             </div>
-            <div class="tool-item">
+            <div class="tool-item tool-category-container">
                 <div class="tool-icon">🐙</div>
                 <div class="tool-name">k9s</div>
             </div>
-            <div class="tool-item">
-                <div class="tool-icon">🐱</div>
-                <div class="tool-name">GitHub CLI</div>
+            <div class="tool-item tool-category-container">
+                <div class="tool-icon">🐋</div>
+                <div class="tool-name">lazydocker</div>
             </div>
-            <div class="tool-item">
-                <div class="tool-icon">🤖</div>
-                <div class="tool-name">Copilot CLI</div>
+            <div class="tool-item tool-category-terminal">
+                <div class="tool-icon">🎨</div>
+                <div class="tool-name">Oh My Posh</div>
             </div>
-            <div class="tool-item">
-                <div class="tool-icon">🦇</div>
-                <div class="tool-name">bat</div>
-            </div>
-            <div class="tool-item">
-                <div class="tool-icon">📂</div>
-                <div class="tool-name">eza</div>
-            </div>
-            <div class="tool-item">
+            <div class="tool-item tool-category-terminal">
                 <div class="tool-icon">🔍</div>
                 <div class="tool-name">fzf</div>
             </div>
-            <div class="tool-item">
-                <div class="tool-icon">🔎</div>
-                <div class="tool-name">ripgrep</div>
+            <div class="tool-item tool-category-terminal">
+                <div class="tool-icon">📂</div>
+                <div class="tool-name">lazygit</div>
             </div>
-            <div class="tool-item">
+            <div class="tool-item tool-category-terminal">
+                <div class="tool-icon">📌</div>
+                <div class="tool-name">zoxide</div>
+            </div>
+            <div class="tool-item tool-category-terminal">
+                <div class="tool-icon">📁</div>
+                <div class="tool-name">eza</div>
+            </div>
+            <div class="tool-item tool-category-terminal">
+                <div class="tool-icon">🦇</div>
+                <div class="tool-name">bat</div>
+            </div>
+            <div class="tool-item tool-category-terminal">
                 <div class="tool-icon">📊</div>
                 <div class="tool-name">btop</div>
             </div>
-            <div class="tool-item">
-                <div class="tool-icon">🎯</div>
-                <div class="tool-name">lazygit</div>
+            <div class="tool-item tool-category-terminal">
+                <div class="tool-icon">⚡</div>
+                <div class="tool-name">fastfetch</div>
+            </div>
+            <div class="tool-item tool-category-ai">
+                <div class="tool-icon">🐱</div>
+                <div class="tool-name">GitHub CLI</div>
+            </div>
+            <div class="tool-item tool-category-ai">
+                <div class="tool-icon">🤖</div>
+                <div class="tool-name">Copilot CLI</div>
             </div>
         </div>
     </section>
 
-    <!-- Commands Section -->
-    <section>
+    <!-- CLI Commands Section -->
+    <section id="commands">
         <div class="section-header">
             <span class="section-label">CLI</span>
-            <h2 class="section-title">Simple commands</h2>
+            <h2 class="section-title">One command interface</h2>
             <p class="section-subtitle">
-                Manage your setup with memorable commands.
+                Manage your entire WSL setup with simple, memorable commands.
             </p>
         </div>
-        
-        <div class="commands-list">
-            <div class="command-item">
-                <code class="command-code">kodra doctor</code>
-                <span class="command-desc">Check system health & WSL status</span>
+
+        <div class="commands-table-wrapper">
+            <table class="commands-table">
+                <thead>
+                    <tr>
+                        <th>Command</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>kodra doctor</code></td><td>Check system health and tool status</td></tr>
+                    <tr><td><code>kodra doctor --fix</code></td><td>Auto-reinstall missing tools</td></tr>
+                    <tr><td><code>kodra update</code></td><td>Update all 25+ installed tools</td></tr>
+                    <tr><td><code>kodra repair</code></td><td>Interactive repair menu</td></tr>
+                    <tr><td><code>kodra repair --all</code></td><td>Repair everything automatically</td></tr>
+                    <tr><td><code>kodra setup</code></td><td>Re-run first-time configuration</td></tr>
+                    <tr><td><code>kodra fetch</code></td><td>Show system info</td></tr>
+                    <tr><td><code>kodra version</code></td><td>Show current version</td></tr>
+                    <tr><td><code>kodra help</code></td><td>Show all commands</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- WSL Setup Section -->
+    <section id="wsl-setup">
+        <div class="section-header">
+            <span class="section-label">WSL-Specific</span>
+            <h2 class="section-title">Built for WSL2</h2>
+            <p class="section-subtitle">
+                Kodra WSL handles the tricky parts of configuring a development environment inside WSL2.
+            </p>
+        </div>
+
+        <div class="wsl-setup-grid">
+            <div class="wsl-card">
+                <h3>⚙️ WSL Systemd</h3>
+                <p>Enables systemd in WSL2 so Docker CE and other services start automatically on boot.</p>
+                <code>[boot]<br>systemd=true</code>
             </div>
-            <div class="command-item">
-                <code class="command-code">kodra doctor --fix</code>
-                <span class="command-desc">Auto-fix missing tools & broken configs</span>
+            <div class="wsl-card">
+                <h3>🐳 Docker CE Auto-Start</h3>
+                <p>Docker runs natively via wsl.conf — no Docker Desktop, no license costs, no overhead.</p>
+                <code>sudo service docker start</code>
             </div>
-            <div class="command-item">
-                <code class="command-code">kodra repair</code>
-                <span class="command-desc">Interactive repair (shell, Docker, WSL, PATH)</span>
+            <div class="wsl-card">
+                <h3>🔤 Windows Terminal Fonts</h3>
+                <p>Installs JetBrains Mono Nerd Font and guides you through Windows Terminal configuration.</p>
+                <code>"fontFace": "JetBrainsMono Nerd Font"</code>
             </div>
-            <div class="command-item">
-                <code class="command-code">kodra repair --all</code>
-                <span class="command-desc">Repair everything at once</span>
+            <div class="wsl-card">
+                <h3>🎨 Oh My Posh</h3>
+                <p>Beautiful prompt theming that works perfectly in Windows Terminal with full glyph support.</p>
+                <code>eval "$(oh-my-posh init bash)"</code>
             </div>
-            <div class="command-item">
-                <code class="command-code">kodra update</code>
-                <span class="command-desc">Update all 25+ tools</span>
+            <div class="wsl-card">
+                <h3>💠 PowerShell 7</h3>
+                <p>PowerShell 7 integration for cross-platform scripting alongside your Bash environment.</p>
+                <code>pwsh -Command "Get-AzContext"</code>
             </div>
-            <div class="command-item">
-                <code class="command-code">kodra setup</code>
-                <span class="command-desc">Re-run first-time setup</span>
+            <div class="wsl-card">
+                <h3>🔗 Windows Integration</h3>
+                <p>Seamless interop between WSL and Windows — open files, share paths, and access Windows apps.</p>
+                <code>explorer.exe . &amp;&amp; code .</code>
             </div>
-            <div class="command-item">
-                <code class="command-code">kodra fetch</code>
-                <span class="command-desc">Show system info</span>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works">
+        <div class="section-header">
+            <span class="section-label">Simple Setup</span>
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">
+                From fresh WSL2 to productive Azure development in three steps.
+            </p>
+        </div>
+
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Open PowerShell → Run Command</h3>
+                <p>Copy the install command and paste it into your WSL terminal. Kodra handles everything automatically.</p>
+                <code>wget -qO- kodra.wsl.codetocloud.io/boot.sh | bash</code>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Tools Install Automatically</h3>
+                <p>25+ tools are downloaded, installed, and configured. Docker, Azure CLI, kubectl, Oh My Posh — all wired together.</p>
+                <div style="margin-top: 1rem; color: var(--accent-green); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;">
+                    ⏱ ~10 minutes on a typical connection
+                </div>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Verify → Start Building</h3>
+                <p>Run <code style="background: var(--bg-tertiary); padding: 0.15rem 0.4rem; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;">kodra doctor</code> to verify everything is working, then start building.</p>
+                <div style="margin-top: 1rem; color: var(--accent-green); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;">
+                    ✓ Ready to go
+                </div>
             </div>
         </div>
     </section>
 
     <!-- FAQ Section -->
-    <section id="faq">
+    <section id="faq" style="max-width: 800px;">
         <div class="section-header">
-            <span class="section-label">FAQ</span>
-            <h2 class="section-title">Frequently Asked Questions</h2>
-            <p class="section-subtitle">
-                Common questions about Kodra WSL and Docker CE in WSL2.
-            </p>
+            <span class="section-label">Questions</span>
+            <h2 class="section-title">Frequently Asked</h2>
         </div>
-        
-        <div class="commands-list" style="max-width: 800px;">
-            <div class="command-item" style="flex-direction: column; align-items: flex-start; gap: 0.75rem;">
-                <strong style="color: var(--text-primary);">Is Kodra WSL free?</strong>
-                <span class="command-desc">Yes, Kodra WSL is 100% free and open source under the MIT license. Docker CE is also free with no licensing restrictions.</span>
-            </div>
-            <div class="command-item" style="flex-direction: column; align-items: flex-start; gap: 0.75rem;">
-                <strong style="color: var(--text-primary);">Does it work on Windows 10 or only Windows 11?</strong>
-                <span class="command-desc">WSL2 works on both Windows 10 (version 2004+) and Windows 11. Kodra WSL is tested on Windows 11 but should work on Windows 10 with WSL2.</span>
-            </div>
-            <div class="command-item" style="flex-direction: column; align-items: flex-start; gap: 0.75rem;">
-                <strong style="color: var(--text-primary);">Do I need Docker Desktop?</strong>
-                <span class="command-desc">No! Kodra WSL installs Docker CE directly in WSL2. This is a free Docker Desktop alternative with no licensing fees for any organization size.</span>
-            </div>
-            <div class="command-item" style="flex-direction: column; align-items: flex-start; gap: 0.75rem;">
-                <strong style="color: var(--text-primary);">How is Docker CE different from Docker Desktop?</strong>
-                <span class="command-desc">Docker CE is the open-source Docker engine. Docker Desktop adds a GUI and requires paid licenses for companies with 250+ employees or $10M+ revenue. Docker CE in WSL2 is free for everyone.</span>
-            </div>
-            <div class="command-item" style="flex-direction: column; align-items: flex-start; gap: 0.75rem;">
-                <strong style="color: var(--text-primary);">What's the difference between Kodra WSL and Kodra Desktop?</strong>
-                <span class="command-desc">Kodra WSL is for Windows users via WSL2 (CLI only). Kodra Desktop is for native Ubuntu with full GNOME desktop theming and Ghostty terminal.</span>
-            </div>
-            <div class="command-item" style="flex-direction: column; align-items: flex-start; gap: 0.75rem;">
-                <strong style="color: var(--text-primary);">Can I use this for commercial projects?</strong>
-                <span class="command-desc">Yes! MIT license allows commercial use. Docker CE has no commercial restrictions unlike Docker Desktop.</span>
-            </div>
-            <div class="command-item" style="flex-direction: column; align-items: flex-start; gap: 0.75rem;">
-                <strong style="color: var(--text-primary);">Does it work with VS Code?</strong>
-                <span class="command-desc">Yes! Install VS Code on Windows with the WSL extension. Open projects from WSL with 'code .' for seamless integration.</span>
-            </div>
+
+        <div class="faq-list">
+            <details class="faq-item">
+                <summary>
+                    Will it break my existing WSL setup?
+                    <span class="faq-icon">+</span>
+                </summary>
+                <p>No. Kodra WSL backs up your existing shell configuration (<code>.bashrc</code>, <code>.zshrc</code>, <code>.gitconfig</code>) before making any changes. Your original configs are preserved and can be restored.</p>
+            </details>
+
+            <details class="faq-item">
+                <summary>
+                    Can I customize what gets installed?
+                    <span class="faq-icon">+</span>
+                </summary>
+                <p>The WSL edition installs a curated set of 25+ tools optimized for WSL2. It has fewer customization flags than the full Ubuntu edition, focusing on the most essential cloud-native tools for Windows developers.</p>
+            </details>
+
+            <details class="faq-item">
+                <summary>
+                    Does it require Docker Desktop?
+                    <span class="faq-icon">+</span>
+                </summary>
+                <p>No. Kodra WSL installs Docker CE that runs natively inside WSL2 via systemd. No Docker Desktop license needed — great for enterprise teams with licensing constraints.</p>
+            </details>
+
+            <details class="faq-item">
+                <summary>
+                    What Windows versions are supported?
+                    <span class="faq-icon">+</span>
+                </summary>
+                <p>Windows 10 (build 19041 and later) and Windows 11 with WSL2 enabled. You need Ubuntu installed from the Microsoft Store. Kodra WSL will check your WSL version during installation.</p>
+            </details>
+
+            <details class="faq-item">
+                <summary>
+                    How is this different from the full Kodra?
+                    <span class="faq-icon">+</span>
+                </summary>
+                <p>The full <a href="https://kodra.codetocloud.io" style="color: var(--accent-blue); text-decoration: none;">Kodra</a> is designed for bare-metal Ubuntu 24.04 and includes desktop theming, Ghostty terminal, Starship prompt, and 40+ tools. Kodra WSL is tailored for WSL2 with Oh My Posh, Windows Terminal integration, and 25+ essential tools.</p>
+            </details>
+
+            <details class="faq-item">
+                <summary>
+                    Is it free and open source?
+                    <span class="faq-icon">+</span>
+                </summary>
+                <p>Yes! Kodra WSL is completely free under the MIT license. The code is on <a href="https://github.com/codetocloudorg/kodra-wsl" style="color: var(--accent-blue); text-decoration: none;">GitHub</a>. Contributions are welcome!</p>
+            </details>
         </div>
     </section>
-    
-    <!-- FAQ Schema Markup -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "Is Kodra WSL free?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes, Kodra WSL is 100% free and open source under the MIT license. Docker CE is also free with no licensing restrictions."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Does it work on Windows 10 or only Windows 11?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "WSL2 works on both Windows 10 (version 2004+) and Windows 11. Kodra WSL is tested on Windows 11 but should work on Windows 10 with WSL2."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Do I need Docker Desktop?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "No! Kodra WSL installs Docker CE directly in WSL2. This is a free Docker Desktop alternative with no licensing fees for any organization size."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "How is Docker CE different from Docker Desktop?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Docker CE is the open-source Docker engine. Docker Desktop adds a GUI and requires paid licenses for companies with 250+ employees or $10M+ revenue. Docker CE in WSL2 is free for everyone."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "What's the difference between Kodra WSL and Kodra Desktop?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Kodra WSL is for Windows users via WSL2 (CLI only). Kodra Desktop is for native Ubuntu with full GNOME desktop theming and Ghostty terminal."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Can I use this for commercial projects?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes! MIT license allows commercial use. Docker CE has no commercial restrictions unlike Docker Desktop."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Does it work with VS Code?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes! Install VS Code on Windows with the WSL extension. Open projects from WSL with 'code .' for seamless integration."
-                }
-            }
-        ]
-    }
-    </script>
+
+    </main>
 
     <!-- Footer -->
-    <footer>
+    <footer role="contentinfo">
         <div class="footer-content">
             <div class="footer-brand">
                 <a href="#" class="logo">
                     <div class="logo-icon">K</div>
-                    Kodra<span class="logo-wsl">WSL</span>
+                    Kodra <span class="logo-sub">WSL</span>
                 </a>
-                <p>Agentic Azure engineering in WSL—GitHub CLI, Copilot CLI, and cloud-native CLI tools for Windows developers.</p>
+                <p>Agentic Azure engineering for WSL2 — one command to ship.</p>
                 <div class="footer-social">
                     <a href="https://github.com/codetocloudorg/kodra-wsl" aria-label="GitHub">
-                        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
-                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-                        </svg>
+                        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
                     </a>
                     <a href="https://discord.gg/vwfwq2EpXJ" aria-label="Discord">
-                        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
-                            <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/>
-                        </svg>
+                        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/></svg>
                     </a>
                 </div>
             </div>
-            
+
             <div class="footer-column">
                 <h4>Product</h4>
                 <ul>
                     <li><a href="#features">Features</a></li>
                     <li><a href="#tools">Tools</a></li>
-                    <li><a href="#docker">Docker</a></li>
-                    <li><a href="https://github.com/codetocloudorg/kodra">Kodra Desktop</a></li>
+                    <li><a href="#wsl-setup">WSL Setup</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="https://kodra.codetocloud.io">Kodra (Full Ubuntu)</a></li>
                 </ul>
             </div>
-            
+
             <div class="footer-column">
                 <h4>Resources</h4>
                 <ul>
-                    <li><a href="https://github.com/codetocloudorg/kodra-wsl">Documentation</a></li>
+                    <li><a href="https://github.com/codetocloudorg/kodra-wsl#readme">Documentation</a></li>
                     <li><a href="https://github.com/codetocloudorg/kodra-wsl/issues">Report Issue</a></li>
                     <li><a href="https://github.com/codetocloudorg/kodra-wsl/blob/main/CONTRIBUTING.md">Contributing</a></li>
+                    <li><a href="https://github.com/codetocloudorg/kodra-wsl/blob/main/LICENSE">License</a></li>
                 </ul>
             </div>
-            
+
             <div class="footer-column">
                 <h4>Company</h4>
                 <ul>
@@ -1816,44 +1673,71 @@
                 </ul>
             </div>
         </div>
-        
+
         <div class="footer-bottom">
-            <p>A WSL variant of <a href="https://kodra.codetocloud.io" style="color: var(--accent-blue); text-decoration: none;">Kodra</a> • Developed by <a href="https://www.codetocloud.io" style="color: var(--accent-blue); text-decoration: none;">Code To Cloud</a>. Released under the MIT License.</p>
+            <p>&copy; <span id="footer-year"></span> <a href="https://www.codetocloud.io">Code To Cloud</a>. Released under the MIT License.</p>
         </div>
     </footer>
 
     <script>
-        // Add animation class when elements come into view
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
+        // Dynamic copyright year
+        document.getElementById('footer-year').textContent = new Date().getFullYear();
 
-        document.querySelectorAll('.feature-card, .tool-item').forEach(el => {
-            observer.observe(el);
+        // Fetch GitHub stars
+        fetch('https://api.github.com/repos/codetocloudorg/kodra-wsl')
+            .then(r => r.json())
+            .then(data => {
+                const starEl = document.getElementById('github-stars');
+                if (starEl && data.stargazers_count !== undefined) {
+                    starEl.textContent = data.stargazers_count;
+                    starEl.style.display = 'inline-flex';
+                }
+            })
+            .catch(() => {});
+
+        // Copy buttons on all code blocks
+        document.querySelectorAll('.terminal-body, .step-card code, .wsl-card code').forEach(block => {
+            if (block.querySelector('.copy-btn')) return;
+            const btn = document.createElement('button');
+            btn.textContent = 'copy';
+            btn.className = 'copy-btn';
+            btn.setAttribute('aria-label', 'Copy to clipboard');
+            btn.addEventListener('click', () => {
+                let text;
+                if (block.classList.contains('terminal-body')) {
+                    const cmd = block.querySelector('.terminal-command');
+                    text = cmd ? cmd.innerText.trim() : block.innerText.trim();
+                } else {
+                    text = block.innerText.replace(/copy(ed!)?$/m, '').trim();
+                }
+                navigator.clipboard.writeText(text);
+                btn.textContent = 'copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+            block.style.position = 'relative';
+            block.appendChild(btn);
         });
 
-        // Lightbox functions
-        function openLightbox(src) {
-            const lightbox = document.getElementById('lightbox');
-            const img = document.getElementById('lightbox-img');
-            img.src = src;
-            lightbox.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
+        // Mobile nav toggle — close on link click
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelector('.nav-links').classList.remove('active');
+            });
+        });
 
-        function closeLightbox() {
-            const lightbox = document.getElementById('lightbox');
-            lightbox.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        // Close on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeLightbox();
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
         });
     </script>
 </body>
