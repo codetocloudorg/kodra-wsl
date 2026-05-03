@@ -199,3 +199,133 @@ show_completion() {
         echo ""
     fi
 }
+
+# ──────────────────────────────────────────────
+# Additional UI helpers
+# ──────────────────────────────────────────────
+
+# Confirm with gum or fallback to read
+confirm_installation() {
+    local prompt="${1:-Proceed with installation?}"
+
+    if command -v gum &>/dev/null; then
+        gum confirm "${prompt}"
+    else
+        echo -ne "    ${C_CYAN}?${C_RESET} ${prompt} [y/N] "
+        local answer
+        read -r answer
+        case "${answer}" in
+            [yY]|[yY][eE][sS]) return 0 ;;
+            *) return 1 ;;
+        esac
+    fi
+}
+
+# Format seconds as "2m 15s"
+format_duration() {
+    local seconds="$1"
+    local mins=$((seconds / 60))
+    local secs=$((seconds % 60))
+
+    if [ "${mins}" -gt 0 ]; then
+        echo "${mins}m ${secs}s"
+    else
+        echo "${secs}s"
+    fi
+}
+
+# Show elapsed time since a timestamp
+show_elapsed_time() {
+    local start_time="$1"
+    local now
+    now="$(date +%s)"
+    local elapsed=$((now - start_time))
+    echo -e "    ${C_DIM}Elapsed: $(format_duration "${elapsed}")${C_RESET}"
+}
+
+# Show a progress bar
+show_progress() {
+    local current="$1"
+    local total="$2"
+    local label="${3:-Progress}"
+
+    if command -v gum &>/dev/null && [ "${current}" -eq "${total}" ] 2>/dev/null; then
+        echo -e "    ${C_GREEN}${BOX_CHECK}${C_RESET} ${label} [${current}/${total}]"
+        return
+    fi
+
+    local pct=0
+    if [ "${total}" -gt 0 ]; then
+        pct=$((current * 100 / total))
+    fi
+    local filled=$((pct / 5))
+    local empty=$((20 - filled))
+
+    local bar=""
+    local i
+    for ((i = 0; i < filled; i++)); do bar+="█"; done
+    for ((i = 0; i < empty; i++)); do bar+="░"; done
+
+    printf "\r    ${C_CYAN}%s${C_RESET} [${C_GREEN}%s${C_RESET}] %d%%  " "${label}" "${bar}" "${pct}"
+
+    if [ "${current}" -eq "${total}" ]; then
+        echo ""
+    fi
+}
+
+# Show a warning box
+show_warning() {
+    local message="$1"
+    echo -e "    ${C_YELLOW}${BOX_TL}${BOX_H}${BOX_H} ${BOX_WARN}  Warning ${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_TR}${C_RESET}"
+    echo -e "    ${C_YELLOW}${BOX_V}${C_RESET} ${message}"
+    echo -e "    ${C_YELLOW}${BOX_BL}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_BR}${C_RESET}"
+}
+
+# Run a command with a spinner
+spin() {
+    local cmd="$1"
+    local message="${2:-Working...}"
+
+    if command -v gum &>/dev/null; then
+        gum spin --spinner dot --title "${message}" -- bash -c "${cmd}"
+    else
+        echo -ne "    ${C_CYAN}${BOX_ARROW}${C_RESET} ${message}"
+        if bash -c "${cmd}" &>/dev/null; then
+            echo -e "\r    ${C_GREEN}${BOX_CHECK}${C_RESET} ${message}                    "
+        else
+            echo -e "\r    ${C_RED}${BOX_CROSS}${C_RESET} ${message}                    "
+            return 1
+        fi
+    fi
+}
+
+# Show a step indicator
+show_step() {
+    local number="$1"
+    local total="$2"
+    local description="$3"
+    echo -e "    ${C_CYAN}[${number}/${total}]${C_RESET} ${description}"
+}
+
+# Show a centered banner line
+show_banner_line() {
+    local text="$1"
+    local color="${2:-${C_CYAN}}"
+    local cols
+    cols="$(tput cols 2>/dev/null || echo 80)"
+    local text_len=${#text}
+    local padding=$(( (cols - text_len) / 2 ))
+    [ "${padding}" -lt 0 ] && padding=0
+    printf "%${padding}s" ""
+    echo -e "${color}${text}${C_RESET}"
+}
+
+# Show a horizontal separator
+show_separator() {
+    local cols
+    cols="$(tput cols 2>/dev/null || echo 80)"
+    local line=""
+    local i
+    for ((i = 0; i < cols; i++)); do line+="${BOX_H}"; done
+    echo -e "    ${C_DIM}${line}${C_RESET}"
+}
