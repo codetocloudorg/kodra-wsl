@@ -55,7 +55,13 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: "☁️ Verify WSL2 environment"
+      - name: "☁️ Install WSL2 with Ubuntu 24.04"
+        uses: Vampire/setup-wsl@v5
+        with:
+          distribution: Ubuntu-24.04
+          set-as-default: 'true'
+
+      - name: "🔍 Verify WSL2 environment"
         shell: pwsh
         run: |
           Write-Host ""
@@ -66,34 +72,23 @@ jobs:
           Write-Host "    ██║  ██╗╚██████╔╝██████╔╝██║  ██║██║  ██║"
           Write-Host "    ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝"
           Write-Host ""
-          Write-Host "    Verifying WSL2 on Windows runner..."
-          Write-Host ""
 
-          wsl --status
-          Write-Host ""
           wsl --list --verbose
           Write-Host ""
-          wsl -d Ubuntu -- bash -c "echo '✅ WSL2 Ubuntu is alive' && lsb_release -ds && uname -r"
+          wsl -d Ubuntu-24.04 -- bash -c "echo '✅ WSL2 Ubuntu is alive' && lsb_release -ds && uname -r"
 
       - name: "📦 Copy repo into WSL2"
         shell: pwsh
         run: |
-          # Convert Windows checkout path to WSL-accessible path
-          $wslPath = "/home/" + (wsl -d Ubuntu -- whoami).Trim() + "/.kodra"
-          Write-Host "Copying repo to WSL: $wslPath"
-
-          # Clean any previous install
-          wsl -d Ubuntu -- bash -c "rm -rf ~/.kodra"
-
-          # Copy checkout into WSL home
+          # Copy checkout into WSL home via /mnt path
           $winPath = "${{ github.workspace }}".Replace('\', '/')
           $mntPath = "/mnt/" + $winPath.Substring(0,1).ToLower() + $winPath.Substring(2)
-          wsl -d Ubuntu -- bash -c "cp -r '$mntPath' ~/.kodra && echo '✓ Copied to ~/.kodra' && ls ~/.kodra/VERSION"
+          wsl -d Ubuntu-24.04 -- bash -c "rm -rf ~/.kodra && cp -r '$mntPath' ~/.kodra && echo '✓ Copied to ~/.kodra' && cat ~/.kodra/VERSION"
 
       - name: "🔧 Install prerequisites in WSL2"
         shell: pwsh
         run: |
-          wsl -d Ubuntu -- bash -c '
+          wsl -d Ubuntu-24.04 -- bash -c '
             echo "Installing base packages..."
             sudo apt-get update -qq
             sudo apt-get install -y -qq \
@@ -110,7 +105,7 @@ jobs:
           New-Item -ItemType Directory -Force -Path "${{ github.workspace }}\test-output" | Out-Null
 
           # Run the actual installer inside WSL2
-          wsl -d Ubuntu -- bash -c '
+          wsl -d Ubuntu-24.04 -- bash -c '
             echo "╔══════════════════════════════════════════════════╗"
             echo "║  Kodra WSL E2E — Real WSL2 Install Test          ║"
             echo "║  Distro: $(lsb_release -ds)                      ║"
@@ -163,7 +158,7 @@ jobs:
           Write-Host ""
 
           # Verify tools inside the WSL2 instance
-          wsl -d Ubuntu -- bash -c '
+          wsl -d Ubuntu-24.04 -- bash -c '
             failures=0
             total=0
             skipped=0
@@ -268,15 +263,15 @@ jobs:
           Write-Host ""
 
           Write-Host "▶ kodra --version"
-          wsl -d Ubuntu -- bash -c 'export PATH="$HOME/.kodra/bin:$PATH"; export KODRA_DIR="$HOME/.kodra"; kodra --version'
+          wsl -d Ubuntu-24.04 -- bash -c 'export PATH="$HOME/.kodra/bin:$PATH"; export KODRA_DIR="$HOME/.kodra"; kodra --version'
           Write-Host ""
 
           Write-Host "▶ kodra help"
-          wsl -d Ubuntu -- bash -c 'export PATH="$HOME/.kodra/bin:$PATH"; export KODRA_DIR="$HOME/.kodra"; kodra help'
+          wsl -d Ubuntu-24.04 -- bash -c 'export PATH="$HOME/.kodra/bin:$PATH"; export KODRA_DIR="$HOME/.kodra"; kodra help'
           Write-Host ""
 
           Write-Host "▶ kodra doctor"
-          wsl -d Ubuntu -- bash -c 'export PATH="$HOME/.kodra/bin:$PATH"; export KODRA_DIR="$HOME/.kodra"; kodra doctor' 2>&1
+          wsl -d Ubuntu-24.04 -- bash -c 'export PATH="$HOME/.kodra/bin:$PATH"; export KODRA_DIR="$HOME/.kodra"; kodra doctor' 2>&1
           # doctor may return non-zero in CI, that's expected
           Write-Host ""
           Write-Host "✅ CLI commands completed"
@@ -288,9 +283,9 @@ jobs:
           New-Item -ItemType Directory -Force -Path "${{ github.workspace }}\test-output" | Out-Null
 
           # Copy logs from WSL2 to Windows workspace
-          wsl -d Ubuntu -- bash -c 'cat /tmp/kodra-wsl-install-*.log 2>/dev/null || echo "No install logs found"' > "${{ github.workspace }}\test-output\kodra-install.log"
-          wsl -d Ubuntu -- bash -c 'du -sh ~/.kodra 2>/dev/null; df -h / 2>/dev/null' > "${{ github.workspace }}\test-output\disk-usage.txt"
-          wsl -d Ubuntu -- bash -c 'dpkg --get-selections 2>/dev/null' > "${{ github.workspace }}\test-output\installed-packages.txt"
+          wsl -d Ubuntu-24.04 -- bash -c 'cat /tmp/kodra-wsl-install-*.log 2>/dev/null || echo "No install logs found"' > "${{ github.workspace }}\test-output\kodra-install.log"
+          wsl -d Ubuntu-24.04 -- bash -c 'du -sh ~/.kodra 2>/dev/null; df -h / 2>/dev/null' > "${{ github.workspace }}\test-output\disk-usage.txt"
+          wsl -d Ubuntu-24.04 -- bash -c 'dpkg --get-selections 2>/dev/null' > "${{ github.workspace }}\test-output\installed-packages.txt"
 
       - name: "📦 Upload test artifacts"
         if: always()
