@@ -59,15 +59,37 @@ show_help() {
         echo "    kodra repair        Interactive repair menu"
         echo "    kodra repair --all  Repair everything automatically"
         echo ""
-        echo "  Setup"
+        echo "  Package Management"
+        echo "    kodra install       Install tools (interactive menu)"
+        echo "    kodra uninstall     Remove a specific tool"
+        echo ""
+        echo "  Backup & Recovery"
+        echo "    kodra backup        Back up configs and dotfiles"
+        echo "    kodra restore       Restore from a backup"
+        echo "    kodra resume        Resume incomplete installation"
+        echo "    kodra migrate       Run version migrations"
+        echo ""
+        echo "  Configuration"
         echo "    kodra setup         Re-run first-time configuration"
-        echo "    kodra fetch         Show system info (fastfetch)"
+        echo "    kodra cleanup       Clean apt cache, Docker, logs"
+        echo "    kodra refresh       Refresh shell configs"
+        echo "    kodra menu          Interactive TUI menu"
+        echo "    kodra welcome       Show welcome screen"
+        echo "    kodra motd          Configure message of the day"
+        echo ""
+        echo "  Development"
+        echo "    kodra dev           Set up language runtimes"
+        echo "    kodra extensions    Manage VS Code extensions"
+        echo "    kodra db            Dev database containers"
+        echo "    kodra shortcuts     Show aliases and shortcuts"
         echo ""
         echo "  Info"
+        echo "    kodra fetch         Show system info (fastfetch)"
         echo "    kodra version       Show version"
         echo "    kodra help          Show this help"
         echo ""
         echo "  Tips:"
+        echo "    Run kodra menu for guided, interactive usage"
         echo "    Run kodra doctor after install to verify everything"
         echo "    Run kodra update to keep all tools current"
         echo "    Run kodra repair --all to fix any issues"
@@ -98,15 +120,37 @@ show_help() {
     echo -e "    ${C_LOGO_5}kodra repair${C_RESET}        Interactive repair menu"
     echo -e "    ${C_LOGO_5}kodra repair --all${C_RESET}  Repair everything automatically"
     echo ""
-    echo -e "  ${C_BOLD}Setup${C_RESET}"
+    echo -e "  ${C_BOLD}Package Management${C_RESET}"
+    echo -e "    ${C_LOGO_5}kodra install${C_RESET}       Install tools (interactive menu)"
+    echo -e "    ${C_LOGO_5}kodra uninstall${C_RESET}     Remove a specific tool"
+    echo ""
+    echo -e "  ${C_BOLD}Backup & Recovery${C_RESET}"
+    echo -e "    ${C_LOGO_5}kodra backup${C_RESET}        Back up configs and dotfiles"
+    echo -e "    ${C_LOGO_5}kodra restore${C_RESET}       Restore from a backup"
+    echo -e "    ${C_LOGO_5}kodra resume${C_RESET}        Resume incomplete installation"
+    echo -e "    ${C_LOGO_5}kodra migrate${C_RESET}       Run version migrations"
+    echo ""
+    echo -e "  ${C_BOLD}Configuration${C_RESET}"
     echo -e "    ${C_LOGO_5}kodra setup${C_RESET}         Re-run first-time configuration"
-    echo -e "    ${C_LOGO_5}kodra fetch${C_RESET}         Show system info (fastfetch)"
+    echo -e "    ${C_LOGO_5}kodra cleanup${C_RESET}       Clean apt cache, Docker, logs"
+    echo -e "    ${C_LOGO_5}kodra refresh${C_RESET}       Refresh shell configs"
+    echo -e "    ${C_LOGO_5}kodra menu${C_RESET}          Interactive TUI menu"
+    echo -e "    ${C_LOGO_5}kodra welcome${C_RESET}       Show welcome screen"
+    echo -e "    ${C_LOGO_5}kodra motd${C_RESET}          Configure message of the day"
+    echo ""
+    echo -e "  ${C_BOLD}Development${C_RESET}"
+    echo -e "    ${C_LOGO_5}kodra dev${C_RESET}           Set up language runtimes"
+    echo -e "    ${C_LOGO_5}kodra extensions${C_RESET}    Manage VS Code extensions"
+    echo -e "    ${C_LOGO_5}kodra db${C_RESET}            Dev database containers"
+    echo -e "    ${C_LOGO_5}kodra shortcuts${C_RESET}     Show aliases and shortcuts"
     echo ""
     echo -e "  ${C_BOLD}Info${C_RESET}"
+    echo -e "    ${C_LOGO_5}kodra fetch${C_RESET}         Show system info (fastfetch)"
     echo -e "    ${C_LOGO_5}kodra version${C_RESET}       Show version"
     echo -e "    ${C_LOGO_5}kodra help${C_RESET}          Show this help"
     echo ""
     echo -e "  ${C_DIM}Tips:${C_RESET}"
+    echo -e "    ${C_DIM}Run kodra menu for guided, interactive usage${C_RESET}"
     echo -e "    ${C_DIM}Run kodra doctor after install to verify everything${C_RESET}"
     echo -e "    ${C_DIM}Run kodra update to keep all tools current${C_RESET}"
     echo -e "    ${C_DIM}Run kodra repair --all to fix any issues${C_RESET}"
@@ -156,6 +200,12 @@ run_fetch() {
     fi
 }
 
+run_sub() {
+    local script="$1"
+    shift
+    "$KODRA_DIR/bin/kodra-sub/${script}.sh" "$@"
+}
+
 # Main command router
 case "${1:-help}" in
     doctor)
@@ -174,6 +224,66 @@ case "${1:-help}" in
         ;;
     fetch|info)
         run_fetch
+        ;;
+    install)
+        shift
+        run_sub install "$@"
+        ;;
+    uninstall|remove)
+        shift
+        run_sub uninstall "$@"
+        ;;
+    backup)
+        shift
+        run_sub backup "$@"
+        ;;
+    restore)
+        shift
+        run_sub restore "$@"
+        ;;
+    resume)
+        shift
+        run_sub resume "$@"
+        ;;
+    migrate)
+        shift
+        run_sub migrate "$@"
+        ;;
+    cleanup|clean)
+        shift
+        run_sub cleanup "$@"
+        ;;
+    refresh)
+        shift
+        run_sub refresh "$@"
+        ;;
+    menu)
+        shift
+        run_sub menu "$@"
+        ;;
+    welcome)
+        shift
+        run_sub welcome "$@"
+        ;;
+    motd)
+        shift
+        run_sub motd "$@"
+        ;;
+    dev)
+        shift
+        run_sub dev "$@"
+        ;;
+    extensions|ext)
+        shift
+        run_sub extensions "$@"
+        ;;
+    shortcuts|alias|aliases)
+        shift
+        run_sub shortcuts "$@"
+        ;;
+    db|database)
+        shift
+        run_sub db "$@"
         ;;
     version|--version|-v)
         show_version
