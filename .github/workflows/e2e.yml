@@ -92,13 +92,13 @@ jobs:
         id: install
         shell: wsl-bash {0}
         run: |
-          echo "╔══════════════════════════════════════════════════╗"
-          echo "║  Kodra WSL E2E — Real WSL2 Install Test          ║"
-          echo "║  Distro: $(lsb_release -ds)                      ║"
-          echo "║  Kernel: $(uname -r)                             ║"
-          echo "║  User: $(whoami) | Home: $HOME                   ║"
-          echo "║  Date: $(date)                                   ║"
-          echo "╚══════════════════════════════════════════════════╝"
+          printf "╔══════════════════════════════════════════════════╗\n"
+          printf "║  %-48s║\n" "Kodra WSL E2E — Real WSL2 Install Test"
+          printf "║  %-48s║\n" "Distro: $(lsb_release -ds)"
+          printf "║  %-48s║\n" "Kernel: $(uname -r)"
+          printf "║  %-48s║\n" "User: $(whoami) | Home: $HOME"
+          printf "║  %-48s║\n" "Date: $(date)"
+          printf "╚══════════════════════════════════════════════════╝\n"
           echo ""
 
           cd "$HOME/.kodra"
