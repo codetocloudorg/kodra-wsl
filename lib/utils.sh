@@ -52,11 +52,12 @@ check_ubuntu_version() {
     return 1
 }
 
-# Check internet connection
+# Check internet connection (curl first — ping/ICMP often blocked in containers/corporate)
 check_internet_connection() {
+    curl -fsSL --connect-timeout 5 https://github.com > /dev/null 2>&1 || \
+    curl -fsSL --connect-timeout 5 https://google.com > /dev/null 2>&1 || \
     ping -c 1 -W 3 github.com &> /dev/null || \
-    ping -c 1 -W 3 google.com &> /dev/null || \
-    curl -s --max-time 3 https://github.com &> /dev/null
+    ping -c 1 -W 3 google.com &> /dev/null
 }
 
 # Check sudo access

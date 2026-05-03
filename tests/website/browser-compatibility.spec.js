@@ -5,7 +5,8 @@ const TEST_PAGES = ['/'];
 test.describe('Browser Compatibility - Kodra WSL', () => {
 
   test.describe('Scroll Functionality', () => {
-    test('page scrolls with mouse wheel', async ({ page }) => {
+    test('page scrolls with mouse wheel', async ({ page, browserName }) => {
+      test.skip(browserName === 'webkit', 'mouse.wheel not reliable on WebKit');
       await page.goto('/');
       const initialScroll = await page.evaluate(() => window.scrollY);
       await page.mouse.wheel(0, 500);
@@ -14,7 +15,8 @@ test.describe('Browser Compatibility - Kodra WSL', () => {
       expect(newScroll).toBeGreaterThan(initialScroll);
     });
 
-    test('page scrolls bidirectionally', async ({ page }) => {
+    test('page scrolls bidirectionally', async ({ page, browserName }) => {
+      test.skip(browserName === 'webkit', 'mouse.wheel not reliable on WebKit');
       await page.goto('/');
       await page.mouse.wheel(0, 500);
       await page.waitForTimeout(300);

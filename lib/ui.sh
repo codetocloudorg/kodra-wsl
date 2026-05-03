@@ -46,11 +46,20 @@ print_kodra_logo() {
 section() {
     local title="$1"
     local icon="${2:-📦}"
-    
+    local box_width=40
+    local content="  $icon $title"
+    local content_len=${#content}
+    local padding=$((box_width - content_len - 1))
+    [ "$padding" -lt 1 ] && padding=1
+    local pad=""
+    for ((i=0; i<padding; i++)); do pad+=" "; done
+    local border=""
+    for ((i=0; i<box_width; i++)); do border+="${BOX_H}"; done
+
     echo ""
-    echo -e "    ${C_CYAN}${BOX_TL}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_TR}${C_RESET}"
-    echo -e "    ${C_CYAN}${BOX_V}${C_RESET}  $icon ${C_WHITE}${C_BOLD}$title${C_RESET}"
-    echo -e "    ${C_CYAN}${BOX_BL}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_H}${BOX_BR}${C_RESET}"
+    echo -e "    ${C_CYAN}${BOX_TL}${border}${BOX_TR}${C_RESET}"
+    echo -e "    ${C_CYAN}${BOX_V}${C_RESET}${content}${pad}${C_CYAN}${BOX_V}${C_RESET}"
+    echo -e "    ${C_CYAN}${BOX_BL}${border}${BOX_BR}${C_RESET}"
     echo ""
 }
 
@@ -160,23 +169,24 @@ install_gum() {
 # Show completion message
 show_completion() {
     local elapsed=$(elapsed_time)
+    local box_w=64
     
     echo ""
     echo ""
     echo -e "    ${C_GREEN}╔════════════════════════════════════════════════════════════════╗${C_RESET}"
-    echo -e "    ${C_GREEN}║${C_RESET}                                                                ${C_GREEN}║${C_RESET}"
-    echo -e "    ${C_GREEN}║${C_RESET}   ${C_GREEN}✨ Kodra WSL installed successfully!${C_RESET}                        ${C_GREEN}║${C_RESET}"
-    echo -e "    ${C_GREEN}║${C_RESET}                                                                ${C_GREEN}║${C_RESET}"
-    echo -e "    ${C_GREEN}║${C_RESET}   ${C_DIM}Completed in $elapsed${C_RESET}                                         ${C_GREEN}║${C_RESET}"
-    echo -e "    ${C_GREEN}║${C_RESET}                                                                ${C_GREEN}║${C_RESET}"
+    echo -e "    ${C_GREEN}║${C_RESET}$(printf ' %*s' $box_w '')${C_GREEN}║${C_RESET}"
+    printf "    ${C_GREEN}║${C_RESET}   ${C_GREEN}✨ Kodra WSL installed successfully!${C_RESET}%*s${C_GREEN}║${C_RESET}\n" $((box_w - 39)) ''
+    echo -e "    ${C_GREEN}║${C_RESET}$(printf ' %*s' $box_w '')${C_GREEN}║${C_RESET}"
+    printf "    ${C_GREEN}║${C_RESET}   ${C_DIM}Completed in %-*s${C_RESET}${C_GREEN}║${C_RESET}\n" $((box_w - 17)) "$elapsed"
+    echo -e "    ${C_GREEN}║${C_RESET}$(printf ' %*s' $box_w '')${C_GREEN}║${C_RESET}"
     echo -e "    ${C_GREEN}╠════════════════════════════════════════════════════════════════╣${C_RESET}"
-    echo -e "    ${C_GREEN}║${C_RESET}                                                                ${C_GREEN}║${C_RESET}"
-    echo -e "    ${C_GREEN}║${C_RESET}   ${C_CYAN}Next steps:${C_RESET}                                                  ${C_GREEN}║${C_RESET}"
-    echo -e "    ${C_GREEN}║${C_RESET}                                                                ${C_GREEN}║${C_RESET}"
+    echo -e "    ${C_GREEN}║${C_RESET}$(printf ' %*s' $box_w '')${C_GREEN}║${C_RESET}"
+    printf "    ${C_GREEN}║${C_RESET}   ${C_CYAN}Next steps:${C_RESET}%*s${C_GREEN}║${C_RESET}\n" $((box_w - 14)) ''
+    echo -e "    ${C_GREEN}║${C_RESET}$(printf ' %*s' $box_w '')${C_GREEN}║${C_RESET}"
     echo -e "    ${C_GREEN}║${C_RESET}   ${BOX_DOT} Restart your terminal or run: ${C_WHITE}source ~/.bashrc${C_RESET}        ${C_GREEN}║${C_RESET}"
     echo -e "    ${C_GREEN}║${C_RESET}   ${BOX_DOT} Run ${C_WHITE}kodra doctor${C_RESET} to verify installation              ${C_GREEN}║${C_RESET}"
     echo -e "    ${C_GREEN}║${C_RESET}   ${BOX_DOT} Run ${C_WHITE}kodra setup${C_RESET} to configure GitHub & Azure          ${C_GREEN}║${C_RESET}"
-    echo -e "    ${C_GREEN}║${C_RESET}                                                                ${C_GREEN}║${C_RESET}"
+    echo -e "    ${C_GREEN}║${C_RESET}$(printf ' %*s' $box_w '')${C_GREEN}║${C_RESET}"
     echo -e "    ${C_GREEN}╚════════════════════════════════════════════════════════════════╝${C_RESET}"
     echo ""
     

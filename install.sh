@@ -128,8 +128,8 @@ else
     show_check "Environment" "ok" "Native Linux"
 fi
 
-# Internet connection
-if ping -c 1 github.com &> /dev/null; then
+# Internet connection (use curl — ping/ICMP is often blocked in containers, WSL, and corporate networks)
+if curl -fsSL --connect-timeout 5 https://github.com > /dev/null 2>&1; then
     show_check "Internet connection" "ok"
 else
     show_check "Internet connection" "fail"
