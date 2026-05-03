@@ -124,13 +124,14 @@ jobs:
         if: always()
         shell: wsl-bash {0}
         run: |
+          set +e
           echo "┌──────────────────────────────────────────────────┐"
           echo "│  Tool Verification inside WSL2                    │"
           echo "└──────────────────────────────────────────────────┘"
           echo ""
 
-          source ~/.bashrc 2>/dev/null || true
-          export PATH="$HOME/.kodra/bin:$HOME/.local/bin:$PATH"
+          export PATH="$HOME/.kodra/bin:$HOME/.local/bin:/usr/local/bin:$PATH"
+          export KODRA_DIR="$HOME/.kodra"
 
           failures=0
           total=0
@@ -182,7 +183,8 @@ jobs:
         if: always()
         shell: wsl-bash {0}
         run: |
-          export PATH="$HOME/.kodra/bin:$PATH"
+          set +e
+          export PATH="$HOME/.kodra/bin:$HOME/.local/bin:/usr/local/bin:$PATH"
           export KODRA_DIR="$HOME/.kodra"
 
           echo "▶ kodra --version"
