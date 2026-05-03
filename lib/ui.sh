@@ -7,16 +7,39 @@
 show_banner() {
     clear 2>/dev/null || true
     echo ""
-    echo -e "\033[38;5;208m    ██╗  ██╗ ██████╗ ██████╗ ██████╗  █████╗     ██╗    ██╗███████╗██╗     \033[0m"
-    echo -e "\033[38;5;214m    ██║ ██╔╝██╔═══██╗██╔══██╗██╔══██╗██╔══██╗    ██║    ██║██╔════╝██║     \033[0m"
-    echo -e "\033[38;5;39m    █████╔╝ ██║   ██║██║  ██║██████╔╝███████║    ██║ █╗ ██║███████╗██║     \033[0m"
-    echo -e "\033[38;5;33m    ██╔═██╗ ██║   ██║██║  ██║██╔══██╗██╔══██║    ██║███╗██║╚════██║██║     \033[0m"
-    echo -e "\033[38;5;27m    ██║  ██╗╚██████╔╝██████╔╝██║  ██║██║  ██║    ╚███╔███╔╝███████║███████╗\033[0m"
-    echo -e "\033[38;5;21m    ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝     ╚══╝╚══╝ ╚══════╝╚══════╝\033[0m"
+    echo -e "\033[38;5;135m    ██╗  ██╗ ██████╗ ██████╗ ██████╗  █████╗\033[0m"
+    echo -e "\033[38;5;141m    ██║ ██╔╝██╔═══██╗██╔══██╗██╔══██╗██╔══██╗\033[0m"
+    echo -e "\033[38;5;147m    █████╔╝ ██║   ██║██║  ██║██████╔╝███████║\033[0m"
+    echo -e "\033[38;5;117m    ██╔═██╗ ██║   ██║██║  ██║██╔══██╗██╔══██║\033[0m"
+    echo -e "\033[38;5;87m    ██║  ██╗╚██████╔╝██████╔╝██║  ██║██║  ██║\033[0m"
+    echo -e "\033[38;5;87m    ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝\033[0m"
     echo ""
-    echo -e "    ${C_GRAY}Agentic Azure engineering for Windows developers${C_RESET}"
-    echo -e "    ${C_GRAY}GitHub CLI • Copilot CLI • Docker CE • Azure CLI${C_RESET}"
+    echo -e "    \033[2mAgentic Azure engineering for Windows developers\033[0m"
+    echo -e "    \033[2mGitHub CLI • Copilot CLI • Docker CE • Azure CLI\033[0m"
     echo ""
+}
+
+# Print KODRA logo with purple→cyan gradient
+print_kodra_logo() {
+    local mode="${1:-full}"
+    local C_LOGO_1='\033[38;5;135m'
+    local C_LOGO_2='\033[38;5;141m'
+    local C_LOGO_3='\033[38;5;147m'
+    local C_LOGO_4='\033[38;5;117m'
+    local C_LOGO_5='\033[38;5;87m'
+    local C_RST='\033[0m'
+
+    if [ "$mode" = "compact" ]; then
+        echo -e "\033[1m${C_LOGO_3}K${C_LOGO_4}O${C_LOGO_4}D${C_LOGO_5}R${C_LOGO_5}A${C_RST}"
+        return
+    fi
+
+    echo -e "${C_LOGO_1}██╗  ██╗ ██████╗ ██████╗ ██████╗  █████╗${C_RST}"
+    echo -e "${C_LOGO_2}██║ ██╔╝██╔═══██╗██╔══██╗██╔══██╗██╔══██╗${C_RST}"
+    echo -e "${C_LOGO_3}█████╔╝ ██║   ██║██║  ██║██████╔╝███████║${C_RST}"
+    echo -e "${C_LOGO_4}██╔═██╗ ██║   ██║██║  ██║██╔══██╗██╔══██║${C_RST}"
+    echo -e "${C_LOGO_5}██║  ██╗╚██████╔╝██████╔╝██║  ██║██║  ██║${C_RST}"
+    echo -e "${C_LOGO_5}╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝${C_RST}"
 }
 
 # Section header

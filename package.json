@@ -1,0 +1,21 @@
+{
+  "name": "kodra-wsl-website",
+  "version": "0.7.1",
+  "private": true,
+  "description": "Kodra WSL — One-Command Azure Dev Environment for WSL2",
+  "scripts": {
+    "serve": "npx serve . -l 8080 -s",
+    "test": "npx playwright test",
+    "test:chromium": "npx playwright test --project=chromium",
+    "test:edge": "npx playwright test --project=edge",
+    "test:webkit": "npx playwright test --project=webkit",
+    "test:mobile": "npx playwright test --project=mobile-chrome --project=mobile-safari",
+    "test:headed": "npx playwright test --headed",
+    "test:report": "npx playwright show-report playwright-report"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.11.3",
+    "@playwright/test": "^1.48.0",
+    "serve": "^14.2.0"
+  }
+}

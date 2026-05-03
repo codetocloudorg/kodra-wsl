@@ -1,0 +1,21 @@
+{
+    "name": "Kodra WSL - Azure Developer Environment for WSL2",
+    "short_name": "Kodra WSL",
+    "description": "One-command Azure developer environment for WSL2. 25+ cloud-native tools, zero config.",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#0a0a0f",
+    "theme_color": "#0a0a0f",
+    "orientation": "any",
+    "categories": ["developer tools", "productivity", "utilities"],
+    "lang": "en",
+    "icons": [
+        {
+            "src": "/assets/favicon.ico.png",
+            "sizes": "any",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}

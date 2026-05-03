@@ -1,0 +1,48 @@
+# Kodra WSL
+
+> One-command Azure developer environment for WSL2
+
+Kodra WSL transforms a fresh WSL2 Ubuntu install into a fully-configured Azure cloud-native development workstation in minutes. Built by [Code To Cloud Inc.](https://www.codetocloud.io)
+
+## Quick Start
+
+```bash
+wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
+```
+
+## What Kodra WSL Installs
+
+- Azure CLI, Azure Developer CLI (azd), Bicep, Terraform, OpenTofu
+- GitHub CLI with Copilot CLI for AI-powered terminal workflows
+- Docker CE (no Docker Desktop license required), lazydocker, Dev Containers support
+- Kubernetes: kubectl, Helm, k9s
+- Modern terminal: Oh My Posh prompt, JetBrainsMono Nerd Font
+- CLI tools: bat, eza, fzf, ripgrep, zoxide, btop, fastfetch, jq, yq
+- Git: lazygit
+
+## Key Commands
+
+- `kodra doctor` — Check system health and tool status
+- `kodra doctor --fix` — Auto-reinstall missing tools
+- `kodra update` — Update all 25+ installed tools
+- `kodra repair` — Interactive repair menu
+- `kodra repair --all` — Repair everything automatically
+- `kodra setup` — Re-run first-time configuration
+- `kodra fetch` — Show system info (fastfetch)
+- `kodra version` — Show version
+- `kodra help` — Show all commands
+
+## Links
+
+- Website: https://kodra.wsl.codetocloud.io
+- GitHub: https://github.com/codetocloudorg/kodra-wsl
+- Main Kodra (Full Ubuntu): https://kodra.codetocloud.io
+- Discord: https://discord.gg/vwfwq2EpXJ
+- Parent Company: https://www.codetocloud.io
+
+## Details
+
+- License: MIT
+- Platforms: WSL2 Ubuntu on Windows 11
+- Version: 0.7.1
+- Developed by: Code To Cloud Inc. (Calgary, Alberta, Canada)

@@ -185,23 +185,16 @@ Windows Search indexing can slow WSL I/O:
 
 ---
 
-## Windows 11 vs Windows 10 Differences
+## Windows 11 Specifics
 
-| Feature | Windows 10 | Windows 11 |
-|---------|-----------|------------|
-| WSL2 Support | ✅ (v2004+) | ✅ |
-| WSLg (GUI apps) | ❌ | ✅ |
-| systemd in WSL | ❌ | ✅ |
-| Windows Terminal | Install separately | Pre-installed |
-| Default WSL version | WSL1 (must set WSL2) | WSL2 |
-| `wsl --install` simplified | Limited | ✅ Full |
-
-### Windows 10 Extra Steps
-
-If on Windows 10, you may need to:
-1. Manually enable WSL2 (see [WSL-SETUP.md](WSL-SETUP.md))
-2. Install Windows Terminal from the Microsoft Store
-3. Ensure you're on version 2004 or later
+| Feature | Windows 11 |
+|---------|------------|
+| WSL2 Support | ✅ |
+| WSLg (GUI apps) | ✅ |
+| systemd in WSL | ✅ |
+| Windows Terminal | Pre-installed |
+| Default WSL version | WSL2 |
+| `wsl --install` simplified | ✅ Full |
 
 ---
 

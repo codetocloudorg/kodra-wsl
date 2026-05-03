@@ -22,7 +22,7 @@ Future plans for Kodra WSL. This is a living document — priorities may shift b
 
 ### v0.9.0 — Automation
 - [ ] CI/CD GitHub Action for validating Kodra WSL installations
-- [ ] Automated testing matrix (Windows 10/11, Ubuntu 22.04/24.04)
+- [ ] Automated testing matrix (Windows 11, Ubuntu 22.04/24.04)
 - [ ] Nightly build validation
 
 ### v1.0.0 — Stable Release

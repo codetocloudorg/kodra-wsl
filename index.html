@@ -52,7 +52,7 @@
         "name": "Kodra WSL",
         "applicationCategory": "DeveloperApplication",
         "applicationSubCategory": "Cloud Development Tools",
-        "operatingSystem": "WSL2 Ubuntu on Windows 10/11",
+        "operatingSystem": "WSL2 Ubuntu on Windows 11",
         "offers": {
             "@type": "Offer",
             "price": "0",
@@ -87,7 +87,7 @@
             "JetBrains Mono Nerd Font",
             "PowerShell 7 integration"
         ],
-        "softwareRequirements": "Windows 10/11 with WSL2 and Ubuntu",
+        "softwareRequirements": "Windows 11 with WSL2 and Ubuntu",
         "fileSize": "< 1MB installer",
         "permissions": "internet access for package installation"
     }
@@ -172,7 +172,7 @@
                 "name": "What Windows versions are supported?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Kodra WSL supports Windows 10 (build 19041+) and Windows 11 with WSL2 enabled and Ubuntu installed from the Microsoft Store."
+                    "text": "Kodra WSL requires Windows 11 with WSL2 enabled and Ubuntu installed from the Microsoft Store."
                 }
             }
         ]
@@ -316,6 +316,10 @@
             font-size: 0.9rem;
             font-weight: 500;
             transition: color 0.2s;
+            padding: 0.5rem 0.25rem;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
         }
 
         .nav-links a:hover {
@@ -511,6 +515,8 @@
             font-size: 1rem;
             font-weight: 600;
             text-decoration: none;
+            min-height: 44px;
+            min-width: 44px;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
@@ -1084,10 +1090,10 @@
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.15);
             color: rgba(255, 255, 255, 0.6);
-            padding: 4px 10px;
+            padding: 6px 12px;
             border-radius: 4px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             cursor: pointer;
             transition: all 0.2s ease;
             z-index: 10;
@@ -1600,7 +1606,7 @@
                     What Windows versions are supported?
                     <span class="faq-icon">+</span>
                 </summary>
-                <p>Windows 10 (build 19041 and later) and Windows 11 with WSL2 enabled. You need Ubuntu installed from the Microsoft Store. Kodra WSL will check your WSL version during installation.</p>
+                <p>Windows 11 with WSL2 enabled. You need Ubuntu installed from the Microsoft Store. Kodra WSL will check your WSL version during installation.</p>
             </details>
 
             <details class="faq-item">

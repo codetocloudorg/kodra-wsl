@@ -50,11 +50,11 @@ Yes. Uninstall Docker Desktop first, then install Kodra WSL. See the migration g
 
 ### Does it work on Windows 10?
 
-WSL2 is available on Windows 10 version 2004 and later. Kodra WSL is primarily tested on Windows 11 but should work on Windows 10 with WSL2 enabled.
+Kodra WSL requires Windows 11. Windows 10 is not supported.
 
 ### Does it work on Windows 11?
 
-Yes, Windows 11 is the recommended and fully tested platform.
+Yes, Windows 11 is the required and fully tested platform.
 
 ### What Ubuntu version do I need?
 

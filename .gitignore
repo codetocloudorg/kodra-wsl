@@ -28,8 +28,11 @@ Desktop.ini
 
 # Test artifacts
 test-output/
+test-results/
 coverage/
 tests/results/
+playwright-report/
+playwright/.cache/
 
 # Azure VM testing
 .azure-vm-ip
