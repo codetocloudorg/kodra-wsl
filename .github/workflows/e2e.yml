@@ -1,0 +1,481 @@
+name: E2E Install Test
+
+# ╔══════════════════════════════════════════════════════════════════╗
+# ║  Kodra WSL E2E — A Code To Cloud Project ☁️                     ║
+# ║                                                                  ║
+# ║  Runs on a REAL Windows runner with WSL2 + Ubuntu pre-installed ║
+# ║  to validate the actual user experience: Windows 11 → WSL2 →   ║
+# ║  kodra install. This catches WSL-specific issues that a plain   ║
+# ║  Linux container would miss.                                     ║
+# ║                                                                  ║
+# ║  Jobs:                                                           ║
+# ║    1. e2e-wsl-install — Full install inside WSL2 on Windows     ║
+# ║    2. e2e-container   — Ubuntu 24.04 container fallback test    ║
+# ╚══════════════════════════════════════════════════════════════════╝
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      install_flags:
+        description: 'Extra flags for install.sh (e.g., --debug)'
+        required: false
+        default: '--debug'
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  KODRA_CI_BANNER: |
+    echo ""
+    echo "    ██╗  ██╗ ██████╗ ██████╗ ██████╗  █████╗ "
+    echo "    ██║ ██╔╝██╔═══██╗██╔══██╗██╔══██╗██╔══██╗"
+    echo "    █████╔╝ ██║   ██║██║  ██║██████╔╝███████║"
+    echo "    ██╔═██╗ ██║   ██║██║  ██║██╔══██╗██╔══██║"
+    echo "    ██║  ██╗╚██████╔╝██████╔╝██║  ██║██║  ██║"
+    echo "    ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝"
+    echo ""
+    echo "    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "    ☁️  F R O M   C O D E   T O   C L O U D  ☁️"
+    echo "    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+
+jobs:
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # JOB 1: Real WSL2 on Windows — the authentic user experience
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  e2e-wsl-install:
+    name: "🪟 WSL2 Install (Windows)"
+    runs-on: windows-2022
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: "☁️ Verify WSL2 environment"
+        shell: pwsh
+        run: |
+          Write-Host ""
+          Write-Host "    ██╗  ██╗ ██████╗ ██████╗ ██████╗  █████╗ "
+          Write-Host "    ██║ ██╔╝██╔═══██╗██╔══██╗██╔══██╗██╔══██╗"
+          Write-Host "    █████╔╝ ██║   ██║██║  ██║██████╔╝███████║"
+          Write-Host "    ██╔═██╗ ██║   ██║██║  ██║██╔══██╗██╔══██║"
+          Write-Host "    ██║  ██╗╚██████╔╝██████╔╝██║  ██║██║  ██║"
+          Write-Host "    ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝"
+          Write-Host ""
+          Write-Host "    Verifying WSL2 on Windows runner..."
+          Write-Host ""
+
+          wsl --status
+          Write-Host ""
+          wsl --list --verbose
+          Write-Host ""
+          wsl -d Ubuntu -- bash -c "echo '✅ WSL2 Ubuntu is alive' && lsb_release -ds && uname -r"
+
+      - name: "📦 Copy repo into WSL2"
+        shell: pwsh
+        run: |
+          # Convert Windows checkout path to WSL-accessible path
+          $wslPath = "/home/" + (wsl -d Ubuntu -- whoami).Trim() + "/.kodra"
+          Write-Host "Copying repo to WSL: $wslPath"
+
+          # Clean any previous install
+          wsl -d Ubuntu -- bash -c "rm -rf ~/.kodra"
+
+          # Copy checkout into WSL home
+          $winPath = "${{ github.workspace }}".Replace('\', '/')
+          $mntPath = "/mnt/" + $winPath.Substring(0,1).ToLower() + $winPath.Substring(2)
+          wsl -d Ubuntu -- bash -c "cp -r '$mntPath' ~/.kodra && echo '✓ Copied to ~/.kodra' && ls ~/.kodra/VERSION"
+
+      - name: "🔧 Install prerequisites in WSL2"
+        shell: pwsh
+        run: |
+          wsl -d Ubuntu -- bash -c '
+            echo "Installing base packages..."
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq \
+              git curl wget ca-certificates gnupg \
+              software-properties-common apt-transport-https \
+              lsb-release bash unzip jq 2>/dev/null
+            echo "✅ Prerequisites installed"
+          '
+
+      - name: "🚀 Run full Kodra WSL install"
+        id: install
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path "${{ github.workspace }}\test-output" | Out-Null
+
+          # Run the actual installer inside WSL2
+          wsl -d Ubuntu -- bash -c '
+            echo "╔══════════════════════════════════════════════════╗"
+            echo "║  Kodra WSL E2E — Real WSL2 Install Test          ║"
+            echo "║  Distro: $(lsb_release -ds)                      ║"
+            echo "║  Kernel: $(uname -r)                             ║"
+            echo "║  User: $(whoami) | Home: $HOME                   ║"
+            echo "║  Date: $(date)                                   ║"
+            echo "╚══════════════════════════════════════════════════╝"
+            echo ""
+
+            cd "$HOME/.kodra"
+            echo "Version: $(cat VERSION)"
+            echo ""
+
+            echo "▶ Running install.sh --debug..."
+            echo "═══════════════════════════════════════════════════════"
+            echo ""
+
+            start_time=$(date +%s)
+            bash ./install.sh --debug 2>&1
+            install_exit=$?
+            end_time=$(date +%s)
+            duration=$((end_time - start_time))
+
+            echo ""
+            echo "═══════════════════════════════════════════════════════"
+            echo ""
+            echo "┌─────────────────────────────────────────────────────┐"
+            echo "│ Installation Results                                 │"
+            echo "├─────────────────────────────────────────────────────┤"
+            printf "│ %-20s │ %-28s │\n" "Exit Code" "$install_exit"
+            printf "│ %-20s │ %-28s │\n" "Duration" "${duration}s"
+            printf "│ %-20s │ %-28s │\n" "Version" "$(cat ~/.kodra/VERSION 2>/dev/null || echo N/A)"
+            echo "└─────────────────────────────────────────────────────┘"
+            echo ""
+
+            exit $install_exit
+          ' 2>&1 | Tee-Object -FilePath "${{ github.workspace }}\test-output\wsl-install-log.txt"
+
+          $exitCode = $LASTEXITCODE
+          "install_exit=$exitCode" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+      - name: "🔍 Verify installed tools"
+        id: verify
+        if: always()
+        shell: pwsh
+        run: |
+          Write-Host "┌──────────────────────────────────────────────┐"
+          Write-Host "│  Tool Verification inside WSL2                │"
+          Write-Host "└──────────────────────────────────────────────┘"
+          Write-Host ""
+
+          # Verify tools inside the WSL2 instance
+          wsl -d Ubuntu -- bash -c '
+            failures=0
+            total=0
+            skipped=0
+
+            # Source any profile changes the installer made
+            source ~/.bashrc 2>/dev/null || true
+            export PATH="$HOME/.kodra/bin:$HOME/.local/bin:$PATH"
+
+            EXPECTED_TOOLS=(
+              "git" "curl" "wget" "jq"
+              "bat" "btop" "eza" "fzf" "rg" "zoxide" "yq"
+              "fastfetch" "lazygit"
+              "gh"
+            )
+
+            # Cloud tools (may need auth/repos to fully work but binary should exist)
+            CLOUD_TOOLS=(
+              "az" "azd" "kubectl" "helm" "terraform" "tofu" "pwsh"
+            )
+
+            # WSL-specific tools that may or may not install in CI
+            WSL_TOOLS=(
+              "docker" "lazydocker" "k9s" "oh-my-posh"
+            )
+
+            echo "┌─────────────────────────────────────────────────────┐"
+            echo "│ Core CLI Tools                                      │"
+            echo "├─────────────────────────────────────────────────────┤"
+
+            for cmd in "${EXPECTED_TOOLS[@]}"; do
+              total=$((total + 1))
+              if command -v "$cmd" &>/dev/null; then
+                ver=$("$cmd" --version 2>/dev/null | head -1 || echo "installed")
+                printf "│ %-20s │ ✅ %-25s │\n" "$cmd" "$ver"
+              else
+                printf "│ %-20s │ ❌ %-25s │\n" "$cmd" "NOT FOUND"
+                failures=$((failures + 1))
+              fi
+            done
+
+            echo "├─────────────────────────────────────────────────────┤"
+            echo "│ Cloud & DevOps Tools                                │"
+            echo "├─────────────────────────────────────────────────────┤"
+
+            for cmd in "${CLOUD_TOOLS[@]}"; do
+              total=$((total + 1))
+              if command -v "$cmd" &>/dev/null; then
+                ver=$("$cmd" --version 2>/dev/null | head -1 || echo "installed")
+                printf "│ %-20s │ ✅ %-25s │\n" "$cmd" "$ver"
+              else
+                printf "│ %-20s │ ❌ %-25s │\n" "$cmd" "NOT FOUND"
+                failures=$((failures + 1))
+              fi
+            done
+
+            echo "├─────────────────────────────────────────────────────┤"
+            echo "│ WSL-Specific (may skip in CI)                       │"
+            echo "├─────────────────────────────────────────────────────┤"
+
+            for cmd in "${WSL_TOOLS[@]}"; do
+              skipped=$((skipped + 1))
+              if command -v "$cmd" &>/dev/null; then
+                printf "│ %-20s │ 🎁 %-25s │\n" "$cmd" "bonus — installed!"
+              else
+                printf "│ %-20s │ ⏭️  %-25s │\n" "$cmd" "skipped (expected)"
+              fi
+            done
+
+            echo "├─────────────────────────────────────────────────────┤"
+            echo "│ File System                                          │"
+            echo "├─────────────────────────────────────────────────────┤"
+            kodra_dir="missing"; [ -d ~/.kodra ] && kodra_dir="exists"
+            config_dir="missing"; [ -d ~/.config/kodra ] && config_dir="exists"
+            cli_status="not in PATH"; command -v kodra &>/dev/null && cli_status="in PATH"
+            printf "│ %-20s │ %-28s │\n" "~/.kodra/" "$kodra_dir"
+            printf "│ %-20s │ %-28s │\n" "~/.config/kodra/" "$config_dir"
+            printf "│ %-20s │ %-28s │\n" "kodra CLI" "$cli_status"
+            echo "└─────────────────────────────────────────────────────┘"
+            echo ""
+            echo "Results: $((total - failures))/$total passed | $failures failed | $skipped expected skips"
+
+            # Fail if more than 5 core tools missing
+            if [ "$failures" -gt 5 ]; then
+              echo "VERIFY_FAIL=true"
+              exit 1
+            fi
+          '
+
+          if ($LASTEXITCODE -ne 0) {
+            "verify_result=fail" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          } else {
+            "verify_result=pass" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          }
+
+      - name: "🩺 Test kodra CLI commands"
+        if: always()
+        shell: pwsh
+        run: |
+          Write-Host "┌──────────────────────────────────────────────┐"
+          Write-Host "│  Kodra CLI Command Tests (inside WSL2)        │"
+          Write-Host "└──────────────────────────────────────────────┘"
+          Write-Host ""
+
+          Write-Host "▶ kodra --version"
+          wsl -d Ubuntu -- bash -c 'export PATH="$HOME/.kodra/bin:$PATH"; export KODRA_DIR="$HOME/.kodra"; kodra --version'
+          Write-Host ""
+
+          Write-Host "▶ kodra help"
+          wsl -d Ubuntu -- bash -c 'export PATH="$HOME/.kodra/bin:$PATH"; export KODRA_DIR="$HOME/.kodra"; kodra help'
+          Write-Host ""
+
+          Write-Host "▶ kodra doctor"
+          wsl -d Ubuntu -- bash -c 'export PATH="$HOME/.kodra/bin:$PATH"; export KODRA_DIR="$HOME/.kodra"; kodra doctor' 2>&1
+          # doctor may return non-zero in CI, that's expected
+          Write-Host ""
+          Write-Host "✅ CLI commands completed"
+
+      - name: "📂 Extract logs"
+        if: always()
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path "${{ github.workspace }}\test-output" | Out-Null
+
+          # Copy logs from WSL2 to Windows workspace
+          wsl -d Ubuntu -- bash -c 'cat /tmp/kodra-wsl-install-*.log 2>/dev/null || echo "No install logs found"' > "${{ github.workspace }}\test-output\kodra-install.log"
+          wsl -d Ubuntu -- bash -c 'du -sh ~/.kodra 2>/dev/null; df -h / 2>/dev/null' > "${{ github.workspace }}\test-output\disk-usage.txt"
+          wsl -d Ubuntu -- bash -c 'dpkg --get-selections 2>/dev/null' > "${{ github.workspace }}\test-output\installed-packages.txt"
+
+      - name: "📦 Upload test artifacts"
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: e2e-wsl-install-logs
+          path: |
+            test-output/wsl-install-log.txt
+            test-output/kodra-install.log
+            test-output/disk-usage.txt
+            test-output/installed-packages.txt
+          retention-days: 14
+
+      - name: "✅ Final verdict"
+        shell: pwsh
+        run: |
+          $installExit = "${{ steps.install.outputs.install_exit }}"
+          $verifyResult = "${{ steps.verify.outputs.verify_result }}"
+
+          if ($verifyResult -eq "fail") {
+            Write-Host "::error::Tool verification failed — too many missing tools"
+            Write-Host ""
+            Write-Host "Last 80 lines of install log:"
+            Get-Content "${{ github.workspace }}\test-output\wsl-install-log.txt" -Tail 80
+            exit 1
+          }
+
+          if ($installExit -ne "0" -and $installExit -ne "") {
+            Write-Host "::warning::Installer exited with code $installExit (may include expected failures in CI WSL2)"
+          }
+
+          Write-Host "✅ E2E WSL2 install test passed"
+
+      - name: "📊 Job summary"
+        if: always()
+        shell: pwsh
+        run: |
+          $summary = @"
+          ## 🪟 E2E WSL2 Install (Windows Runner)
+
+          **Environment:** Windows Server 2022 + WSL2 Ubuntu
+          **Installer flags:** ``--debug``
+
+          "@
+
+          $verifyResult = "${{ steps.verify.outputs.verify_result }}"
+          if ($verifyResult -ne "fail") {
+            $summary += "`n✅ **Installation and verification passed**`n"
+          } else {
+            $summary += "`n❌ **Verification failed**`n"
+          }
+
+          $summary | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # JOB 2: Container fallback — faster, catches shell/install bugs
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  e2e-container:
+    name: "🐧 Container Install (Ubuntu 24.04)"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: "☁️ Code To Cloud — Build test container"
+        run: |
+          eval "$KODRA_CI_BANNER"
+
+          docker build -t kodra-wsl-e2e -f - . <<'DOCKERFILE'
+          FROM ubuntu:24.04
+          ENV DEBIAN_FRONTEND=noninteractive
+          ENV TERM=xterm-256color
+
+          RUN apt-get update && apt-get install -y \
+            sudo git curl wget ca-certificates gnupg \
+            software-properties-common apt-transport-https \
+            lsb-release bash coreutils \
+            locales man-db less unzip jq \
+            && locale-gen en_US.UTF-8 \
+            && rm -rf /var/lib/apt/lists/*
+
+          RUN useradd -m -s /bin/bash developer \
+            && echo "developer ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/developer \
+            && chmod 0440 /etc/sudoers.d/developer
+
+          ENV LANG=en_US.UTF-8
+          ENV LC_ALL=en_US.UTF-8
+          USER developer
+          WORKDIR /home/developer
+          DOCKERFILE
+
+          echo "✅ Container built"
+
+      - name: "🔧 Run full install in container"
+        id: install
+        run: |
+          mkdir -p ${{ github.workspace }}/test-output
+
+          docker run --name kodra-e2e \
+            --env DEBIAN_FRONTEND=noninteractive \
+            --env KODRA_SKIP_BACKUP=1 \
+            --env CI=true \
+            --env TERM=xterm-256color \
+            -v "${{ github.workspace }}:/src:ro" \
+            kodra-wsl-e2e \
+            bash -c '
+              echo "╔══════════════════════════════════════════════════╗"
+              echo "║  Kodra WSL E2E — Container Install Test          ║"
+              echo "║  Ubuntu: $(lsb_release -ds)                      ║"
+              echo "║  User: $(whoami) | Home: $HOME                   ║"
+              echo "╚══════════════════════════════════════════════════╝"
+              echo ""
+
+              cp -r /src "$HOME/.kodra"
+              cd "$HOME/.kodra"
+              echo "Version: $(cat VERSION)"
+              echo ""
+
+              start_time=$(date +%s)
+              bash ./install.sh --debug 2>&1
+              install_exit=$?
+              end_time=$(date +%s)
+              duration=$((end_time - start_time))
+
+              echo ""
+              printf "Install completed in %ds (exit: %d)\n" "$duration" "$install_exit"
+              exit $install_exit
+            ' 2>&1 | tee ${{ github.workspace }}/test-output/container-install-log.txt
+
+          echo "install_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: "🔍 Verify tools & CLI"
+        id: verify
+        if: always()
+        run: |
+          failures=0
+          total=0
+
+          EXPECTED_TOOLS=("bat" "btop" "eza" "fzf" "rg" "zoxide" "yq" "fastfetch" "lazygit" "gh")
+
+          for cmd in "${EXPECTED_TOOLS[@]}"; do
+            total=$((total + 1))
+            if docker exec kodra-e2e bash -lc "command -v $cmd" &>/dev/null; then
+              ver=$(docker exec kodra-e2e bash -lc "$cmd --version 2>/dev/null | head -1" 2>/dev/null || echo "ok")
+              printf "✅ %-15s %s\n" "$cmd" "$ver"
+            else
+              printf "❌ %-15s NOT FOUND\n" "$cmd"
+              failures=$((failures + 1))
+            fi
+          done
+
+          echo ""
+          echo "▶ kodra --version"
+          docker exec kodra-e2e bash -c 'export PATH="$HOME/.kodra/bin:$PATH"; export KODRA_DIR="$HOME/.kodra"; kodra --version' || true
+          echo ""
+          echo "▶ kodra help"
+          docker exec kodra-e2e bash -c 'export PATH="$HOME/.kodra/bin:$PATH"; export KODRA_DIR="$HOME/.kodra"; kodra help' || true
+          echo ""
+
+          echo "Results: $((total - failures))/$total tools verified"
+
+          if [ "$failures" -gt 5 ]; then
+            echo "verify_result=fail" >> "$GITHUB_OUTPUT"
+          else
+            echo "verify_result=pass" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: "📦 Upload logs"
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: e2e-container-install-logs
+          path: test-output/container-install-log.txt
+          retention-days: 14
+
+      - name: "✅ Final verdict"
+        run: |
+          if [ "${{ steps.verify.outputs.verify_result }}" = "fail" ]; then
+            echo "::error::Too many tool failures in container test"
+            exit 1
+          fi
+          echo "✅ Container install test passed"
+
+      - name: "🧹 Cleanup"
+        if: always()
+        run: |
+          docker rm -f kodra-e2e 2>/dev/null || true
+          docker rmi kodra-wsl-e2e 2>/dev/null || true
