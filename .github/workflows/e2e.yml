@@ -53,10 +53,13 @@ jobs:
     runs-on: windows-2022
     timeout-minutes: 30
     steps:
+      - name: "🔧 Force LF line endings"
+        run: git config --global core.autocrlf false
+
       - uses: actions/checkout@v5
 
       - name: "☁️ Install WSL2 with Ubuntu 24.04"
-        uses: Vampire/setup-wsl@v5
+        uses: Vampire/setup-wsl@v4
         with:
           distribution: Ubuntu-24.04
           set-as-default: 'true'
@@ -80,7 +83,9 @@ jobs:
           rm -rf ~/.kodra
           # The checkout is at the Windows workspace, accessible via /mnt
           cp -r "$(wslpath '${{ github.workspace }}')" ~/.kodra
-          echo "✓ Copied to ~/.kodra"
+          # Fix CRLF→LF — git on Windows checks out with \r\n
+          find ~/.kodra -type f \( -name "*.sh" -o -name "kodra" \) -exec sed -i 's/\r$//' {} +
+          echo "✓ Copied to ~/.kodra (line endings fixed)"
           cat ~/.kodra/VERSION
 
       - name: "🚀 Run full Kodra WSL install"
@@ -249,8 +254,10 @@ jobs:
           mkdir -p ${{ github.workspace }}/test-output
 
           # Start container in background so docker exec works later
+          # --dns ensures ping works for install.sh preflight check
           docker run -d --name kodra-e2e \
             --cap-add=NET_RAW \
+            --dns=8.8.8.8 \
             --env DEBIAN_FRONTEND=noninteractive \
             --env KODRA_SKIP_BACKUP=1 \
             --env CI=true \
@@ -258,6 +265,10 @@ jobs:
             -v "${{ github.workspace }}:/src:ro" \
             kodra-wsl-e2e \
             tail -f /dev/null
+
+          # Ensure DNS works (install.sh uses ping for preflight)
+          docker exec kodra-e2e bash -c 'echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf > /dev/null'
+          docker exec kodra-e2e ping -c 1 github.com || echo "::warning::ping still fails, install may skip preflight"
 
           # Run the install inside the running container
           docker exec kodra-e2e bash -c '
