@@ -1,0 +1,11 @@
+# Kodra WSL — Core system packages
+# Essential tools required by most installers and workflows
+git
+curl
+wget
+jq
+unzip
+ca-certificates
+gnupg
+apt-transport-https
+software-properties-common

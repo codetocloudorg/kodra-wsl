@@ -1,0 +1,9 @@
+# Kodra WSL — CLI tools (apt package names)
+# Modern terminal utilities installed via apt
+bat
+eza
+fzf
+ripgrep
+zoxide
+btop
+yq
