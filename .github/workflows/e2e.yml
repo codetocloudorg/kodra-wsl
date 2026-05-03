@@ -231,7 +231,7 @@ jobs:
           RUN apt-get update && apt-get install -y \
             sudo git curl wget ca-certificates gnupg \
             software-properties-common apt-transport-https \
-            lsb-release bash coreutils iputils-ping \
+            lsb-release bash coreutils \
             locales man-db less unzip jq \
             && locale-gen en_US.UTF-8 \
             && rm -rf /var/lib/apt/lists/*
@@ -254,10 +254,7 @@ jobs:
           mkdir -p ${{ github.workspace }}/test-output
 
           # Start container in background so docker exec works later
-          # --dns ensures ping works for install.sh preflight check
           docker run -d --name kodra-e2e \
-            --cap-add=NET_RAW \
-            --dns=8.8.8.8 \
             --env DEBIAN_FRONTEND=noninteractive \
             --env KODRA_SKIP_BACKUP=1 \
             --env CI=true \
@@ -265,10 +262,6 @@ jobs:
             -v "${{ github.workspace }}:/src:ro" \
             kodra-wsl-e2e \
             tail -f /dev/null
-
-          # Ensure DNS works (install.sh uses ping for preflight)
-          docker exec kodra-e2e bash -c 'echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf > /dev/null'
-          docker exec kodra-e2e ping -c 1 github.com || echo "::warning::ping still fails, install may skip preflight"
 
           # Run the install inside the running container
           docker exec kodra-e2e bash -c '
