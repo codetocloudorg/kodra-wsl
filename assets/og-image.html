@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1200, height=630">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            width: 1200px; height: 630px; overflow: hidden;
+            background: #0a0a0f; color: #e8e8f0;
+            font-family: 'JetBrains Mono', monospace;
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+        }
+        /* dot grid background */
+        body::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+        }
+        /* glow */
+        body::after {
+            content: '';
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 600px; height: 400px;
+            background: radial-gradient(ellipse, rgba(124,106,255,0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .container { position: relative; z-index: 1; text-align: center; }
+        .badge {
+            display: inline-block; padding: 4px 14px;
+            background: rgba(124,106,255,0.15); border: 1px solid rgba(124,106,255,0.3);
+            border-radius: 20px; font-size: 14px; color: #7c6aff;
+            margin-bottom: 24px;
+        }
+        .title {
+            font-size: 72px; font-weight: 700;
+            background: linear-gradient(135deg, #7c6aff, #00d4aa);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 16px;
+        }
+        .tagline { font-size: 22px; color: #9898a8; margin-bottom: 32px; font-weight: 400; }
+        .terminal {
+            display: inline-block; background: #111118;
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+            padding: 14px 24px; font-size: 16px; margin-bottom: 24px;
+        }
+        .terminal .prompt { color: #00d4aa; }
+        .terminal .cmd { color: #e8e8f0; }
+        .footer { font-size: 14px; color: #6b6b80; }
+        .footer a { color: #7c6aff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="badge">v0.7.1 • WSL Edition</div>
+        <div class="title">Kodra WSL</div>
+        <div class="tagline">From fresh WSL2 to azd up in 10 minutes</div>
+        <div class="terminal">
+            <span class="prompt">$</span> <span class="cmd">wget -qO- kodra.wsl.codetocloud.io/boot.sh | bash</span>
+        </div>
+        <div class="footer">kodra.wsl.codetocloud.io • by Code To Cloud</div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,500 @@
+# Kodra WSL — Full Documentation for LLMs
+
+> Comprehensive technical reference for AI assistants and language models.
+
+## Overview
+
+Kodra WSL is a one-command Azure developer environment for WSL2 Ubuntu on Windows 11. It installs and configures 25+ cloud-native development tools with zero manual configuration. Built by [Code To Cloud Inc.](https://www.codetocloud.io) in Calgary, Alberta, Canada.
+
+- **Version**: 0.7.1
+- **License**: MIT
+- **Website**: https://kodra.wsl.codetocloud.io
+- **GitHub**: https://github.com/codetocloudorg/kodra-wsl
+- **Platform**: WSL2 Ubuntu (22.04/24.04) on Windows 11
+
+---
+
+## Commands
+
+### `kodra doctor`
+
+Runs a full system health check across all installed tools.
+
+```
+Usage: kodra doctor [--fix]
+
+Flags:
+  --fix    Auto-reinstall any missing or broken tools
+
+What it checks:
+  - Each tool binary exists and is executable (command -v)
+  - Each tool returns a valid version string
+  - Docker daemon is running (systemctl is-active docker)
+  - Docker group membership for current user
+  - systemd is enabled in /etc/wsl.conf
+  - Git identity is configured (user.name, user.email)
+  - Oh My Posh prompt is active
+  - Nerd Fonts are installed in ~/.local/share/fonts
+  - GitHub CLI authentication status (gh auth status)
+  - Copilot CLI extension is installed (gh copilot --version)
+
+Output: Color-coded table with ✓/✗ status per tool.
+Exit code: 0 if all healthy, 1 if any tool is missing/broken.
+```
+
+### `kodra update`
+
+Updates all 25+ installed tools to their latest versions.
+
+```
+Usage: kodra update
+
+Behavior:
+  - Runs apt update && apt upgrade for apt-managed packages
+  - Updates Azure CLI via apt
+  - Updates azd, Bicep, Terraform, OpenTofu via their native update mechanisms
+  - Updates Docker CE via apt
+  - Updates kubectl, Helm, k9s via their installers
+  - Updates GitHub CLI via apt
+  - Updates Oh My Posh binary
+  - Updates Go-based tools (lazygit, lazydocker) via go install
+  - Updates Rust-based tools (bat, eza, ripgrep, zoxide) via cargo or binary download
+  - Updates fzf, btop, fastfetch, yq, jq via their respective methods
+  - Shows before/after version comparison
+```
+
+### `kodra repair`
+
+Interactive repair menu for fixing broken installations.
+
+```
+Usage: kodra repair [--all]
+
+Flags:
+  --all    Repair everything without prompting
+
+Interactive mode (no flags):
+  - Presents a numbered menu of tool categories
+  - User selects which category or specific tool to repair
+  - Runs the corresponding installer from install/ directory
+  - Verifies the repair was successful
+
+Categories:
+  1. Cloud Tools (Azure CLI, azd, Bicep, Terraform, OpenTofu, PowerShell)
+  2. Container Tools (Docker CE, lazydocker)
+  3. Kubernetes Tools (kubectl, Helm, k9s)
+  4. Terminal Tools (Oh My Posh, Nerd Fonts)
+  5. CLI Tools (GitHub CLI, Copilot CLI, fzf, lazygit, zoxide, eza, bat, btop, fastfetch, ripgrep, yq)
+  6. All of the above
+```
+
+### `kodra setup`
+
+Re-runs the first-time configuration wizard.
+
+```
+Usage: kodra setup
+
+What it configures:
+  - Git identity (user.name, user.email) if not set
+  - Docker group membership
+  - systemd configuration in /etc/wsl.conf
+  - Oh My Posh prompt injection in .bashrc
+  - Shell completions for installed tools
+```
+
+### `kodra fetch`
+
+Displays system information using fastfetch.
+
+```
+Usage: kodra fetch
+
+Output: System info panel showing OS, kernel, shell, CPU, memory, disk, packages, etc.
+Requires: fastfetch to be installed.
+```
+
+### `kodra version`
+
+Prints the current Kodra WSL version.
+
+```
+Usage: kodra version
+
+Output: Version string from the VERSION file (e.g., "0.7.1")
+```
+
+### `kodra help`
+
+Shows all available commands and usage.
+
+```
+Usage: kodra help
+
+Output: List of all commands with brief descriptions.
+```
+
+---
+
+## Installed Tools — Full List
+
+### Cloud Tools (`install/cloud/`)
+
+| Tool | Installer | Description |
+|---|---|---|
+| Azure CLI (`az`) | `azure-cli.sh` | Microsoft Azure command-line interface |
+| Azure Developer CLI (`azd`) | `azd.sh` | Developer-focused Azure provisioning and deployment |
+| Bicep | `bicep.sh` | Domain-specific language for Azure Resource Manager templates |
+| Terraform | `terraform.sh` | Infrastructure as code for multi-cloud |
+| OpenTofu | `opentofu.sh` | Open-source Terraform fork |
+| PowerShell | `powershell.sh` | Cross-platform task automation |
+| kubectl | `kubectl.sh` | Kubernetes command-line tool |
+| Helm | `helm.sh` | Kubernetes package manager |
+| k9s | `k9s.sh` | Terminal UI for Kubernetes clusters |
+
+### Container Tools (`install/containers/`)
+
+| Tool | Installer | Description |
+|---|---|---|
+| Docker CE | `docker-ce.sh` | Container runtime (no Docker Desktop license required) |
+| lazydocker | `lazydocker.sh` | Terminal UI for Docker management |
+
+### Terminal Tools (`install/terminal/`)
+
+| Tool | Installer | Description |
+|---|---|---|
+| Oh My Posh | `oh-my-posh.sh` | Prompt theme engine for any shell |
+| JetBrainsMono Nerd Font | `nerd-fonts.sh` | Patched font with icons and glyphs |
+
+### CLI Tools (`install/cli-tools/`)
+
+| Tool | Installer | Description |
+|---|---|---|
+| GitHub CLI (`gh`) | `github-cli.sh` | GitHub from the command line |
+| Copilot CLI | `copilot-cli.sh` | AI-powered GitHub Copilot for the terminal |
+| fzf | `fzf.sh` | Fuzzy finder for files, history, processes |
+| lazygit | `lazygit.sh` | Terminal UI for Git |
+| zoxide | `zoxide.sh` | Smarter `cd` command with frecency ranking |
+| eza | `eza.sh` | Modern replacement for `ls` |
+| bat | `bat.sh` | `cat` clone with syntax highlighting |
+| btop | `btop.sh` | Resource monitor (CPU, memory, disk, network) |
+| fastfetch | `fastfetch.sh` | System information tool |
+| ripgrep (`rg`) | `ripgrep.sh` | Ultra-fast recursive text search |
+| yq | `yq.sh` | YAML/JSON/XML processor |
+
+### Also Configured (not separate installers)
+
+| Tool | How |
+|---|---|
+| jq | Installed via apt during main install |
+| Git | Pre-installed in Ubuntu; configured by first-run.sh |
+| curl, wget | Pre-installed in Ubuntu |
+
+---
+
+## Architecture
+
+### Installation Flow
+
+```
+User runs:
+  wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
+      │
+      ▼
+  boot.sh
+      │  - Detects Ubuntu/WSL2
+      │  - Clones kodra-wsl repo
+      │  - Hands off to install.sh
+      ▼
+  install.sh
+      │  - Sources lib/utils.sh and lib/ui.sh
+      │  - Runs apt update/upgrade
+      │  - Iterates through install/ directories
+      │  - Calls each installer script in order
+      │  - Runs first-run.sh for initial configuration
+      ▼
+  install/cloud/*.sh
+  install/containers/*.sh
+  install/terminal/*.sh
+  install/cli-tools/*.sh
+      │  - Each installer is self-contained
+      │  - Each handles its own dependencies
+      │  - Each verifies installation success
+      ▼
+  bin/kodra-sub/first-run.sh
+      │  - Configures Git identity
+      │  - Sets up Docker group
+      │  - Configures Oh My Posh in shell RC
+      │  - Enables systemd in wsl.conf
+      ▼
+  Done — user has a fully configured environment
+```
+
+### File Responsibilities
+
+| File | Role |
+|---|---|
+| `boot.sh` | Entry point. Downloads repo, runs install.sh. Minimal dependencies (curl/wget, git). |
+| `install.sh` | Orchestrator. Runs all installers in correct order, shows progress UI. |
+| `lib/utils.sh` | Shared functions: logging, version comparison, OS detection, error handling. |
+| `lib/ui.sh` | TUI components: spinners, colored output, progress bars, prompts, banners. |
+| `bin/kodra` | CLI dispatcher. Parses subcommands and delegates to bin/kodra-sub/ scripts. |
+| `bin/kodra-sub/*.sh` | Individual subcommand implementations. |
+| `uninstall.sh` | Removes Kodra and optionally all installed tools. |
+
+---
+
+## WSL-Specific Setup
+
+### systemd
+
+Kodra enables systemd in WSL2 by adding to `/etc/wsl.conf`:
+
+```ini
+[boot]
+systemd=true
+```
+
+This is required for Docker CE to run as a system service (`systemctl start docker`).
+
+### wsl.conf
+
+The installer may also configure:
+
+```ini
+[interop]
+appendWindowsPath=true
+
+[network]
+generateResolvConf=true
+```
+
+### Docker CE (Not Docker Desktop)
+
+Docker CE is installed directly inside WSL2:
+- Added via Docker's official apt repository
+- Runs as a systemd service
+- User is added to the `docker` group (no `sudo` needed for `docker` commands)
+- No Docker Desktop installation or license required
+- Dev Containers work via VS Code Remote - WSL
+
+### Oh My Posh
+
+Oh My Posh is configured as the prompt engine:
+- Binary installed to a location on `$PATH`
+- Prompt initialization added to `~/.bashrc` (and `~/.zshrc` if zsh is present)
+- Uses a bundled or default theme
+- Requires a Nerd Font in Windows Terminal for icons to display correctly
+
+---
+
+## Doctor Subsystem — What It Checks
+
+`kodra doctor` performs these checks in order:
+
+1. **WSL2 Detection** — confirms running inside WSL2 (not WSL1)
+2. **systemd Status** — checks systemd is enabled and running
+3. **Cloud Tools** — `az`, `azd`, `bicep`, `terraform`, `tofu`, `pwsh` — runs `<tool> --version`
+4. **Container Tools** — `docker` binary exists, Docker daemon is running, user is in docker group
+5. **Kubernetes Tools** — `kubectl`, `helm`, `k9s` — runs version commands
+6. **Terminal Tools** — `oh-my-posh` binary, Nerd Font files in `~/.local/share/fonts`
+7. **CLI Tools** — `gh`, `gh copilot`, `fzf`, `lazygit`, `zoxide`, `eza`, `bat`, `btop`, `fastfetch`, `rg`, `jq`, `yq`
+8. **Git Configuration** — `git config user.name` and `git config user.email` are set
+9. **Shell Integration** — Oh My Posh init line present in shell RC files
+
+With `--fix`, any failed check triggers the corresponding installer to re-run.
+
+---
+
+## Repair Subsystem — How It Works
+
+`kodra repair` uses the installer scripts as repair mechanisms:
+
+1. **Interactive mode** (default): shows a numbered menu of categories, user picks what to repair
+2. **Batch mode** (`--all`): runs every installer script sequentially
+3. Each repair step:
+   - Removes the broken installation if needed
+   - Re-runs the installer from `install/<category>/<tool>.sh`
+   - Verifies the tool works after reinstallation
+4. Repair logs are displayed in real-time with colored status indicators
+
+---
+
+## File Structure
+
+```
+kodra-wsl/
+├── bin/
+│   ├── kodra                     # CLI entry point (dispatcher)
+│   └── kodra-sub/
+│       ├── doctor.sh             # Health check subsystem
+│       ├── repair.sh             # Repair subsystem
+│       ├── update.sh             # Update subsystem
+│       └── first-run.sh          # First-time configuration
+├── install/
+│   ├── cloud/
+│   │   ├── azure-cli.sh
+│   │   ├── azd.sh
+│   │   ├── bicep.sh
+│   │   ├── terraform.sh
+│   │   ├── opentofu.sh
+│   │   ├── powershell.sh
+│   │   ├── kubectl.sh
+│   │   ├── helm.sh
+│   │   └── k9s.sh
+│   ├── containers/
+│   │   ├── docker-ce.sh
+│   │   └── lazydocker.sh
+│   ├── terminal/
+│   │   ├── oh-my-posh.sh
+│   │   └── nerd-fonts.sh
+│   └── cli-tools/
+│       ├── github-cli.sh
+│       ├── copilot-cli.sh
+│       ├── fzf.sh
+│       ├── lazygit.sh
+│       ├── zoxide.sh
+│       ├── eza.sh
+│       ├── bat.sh
+│       ├── btop.sh
+│       ├── fastfetch.sh
+│       ├── ripgrep.sh
+│       └── yq.sh
+├── lib/
+│   ├── ui.sh                     # TUI: spinners, colors, prompts
+│   └── utils.sh                  # Shared utilities
+├── boot.sh                       # Bootstrap entry point
+├── install.sh                    # Main installer orchestrator
+├── uninstall.sh                  # Clean removal script
+├── index.html                    # Landing page
+├── 404.html                      # Custom 404 page
+├── sitemap.xml                   # SEO sitemap
+├── robots.txt                    # Crawler directives
+├── manifest.json                 # Web app manifest
+├── llms.txt                      # LLM summary (this file's sibling)
+├── llms-full.txt                 # This file
+├── AGENTS.md                     # AI coding agent guide
+├── SECURITY.md                   # Security policy
+├── CONTRIBUTING.md               # Contribution guide
+├── CODE_OF_CONDUCT.md            # Community standards
+├── CHANGELOG.md                  # Release history
+├── VERSION                       # Current version (0.7.1)
+├── LICENSE                       # MIT License
+├── CNAME                         # GitHub Pages custom domain
+└── assets/                       # Static assets
+    └── favicon.ico.png
+```
+
+---
+
+## Troubleshooting Guide
+
+### Docker daemon not running
+
+```bash
+# Check systemd is enabled
+cat /etc/wsl.conf  # should have [boot] systemd=true
+
+# Restart WSL from PowerShell
+wsl --shutdown
+# Re-open WSL
+
+# Start Docker manually
+sudo systemctl start docker
+
+# Run kodra repair to fix
+kodra repair  # select Containers category
+```
+
+### "Permission denied" when running docker
+
+```bash
+# Add yourself to the docker group
+sudo usermod -aG docker $USER
+
+# Apply without logout (new shell)
+newgrp docker
+
+# Or run kodra setup to reconfigure
+kodra setup
+```
+
+### Oh My Posh icons not showing
+
+The issue is usually that Windows Terminal doesn't have a Nerd Font set:
+1. Open Windows Terminal Settings → Profiles → Defaults → Appearance
+2. Set Font face to "JetBrainsMono Nerd Font" or "JetBrainsMono NF"
+3. The font is installed inside WSL at `~/.local/share/fonts` but Windows Terminal needs it on Windows side too
+
+### Tool not found after installation
+
+```bash
+# Check if it's on PATH
+command -v <tool>
+
+# Reload shell
+source ~/.bashrc
+
+# Re-run doctor to diagnose
+kodra doctor
+
+# Reinstall the specific tool
+kodra repair
+```
+
+### Azure CLI login issues
+
+```bash
+# Login with device code flow (works in WSL)
+az login --use-device-code
+
+# Check subscription
+az account show
+```
+
+### WSL2 networking issues
+
+```bash
+# Reset DNS
+sudo rm /etc/resolv.conf
+sudo bash -c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf'
+
+# Or check wsl.conf
+cat /etc/wsl.conf
+# Ensure [network] generateResolvConf=true
+```
+
+### Kodra commands not found
+
+```bash
+# Check if kodra is on PATH
+command -v kodra
+
+# The CLI is at ~/kodra-wsl/bin/kodra (or wherever cloned)
+# Ensure PATH includes the bin directory
+echo $PATH | tr ':' '\n' | grep kodra
+
+# Re-run boot.sh to fix PATH setup
+wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
+```
+
+### Complete reset
+
+```bash
+# Uninstall everything
+bash ~/kodra-wsl/uninstall.sh
+
+# Re-install from scratch
+wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
+```
+
+---
+
+## Links
+
+- Website: https://kodra.wsl.codetocloud.io
+- GitHub: https://github.com/codetocloudorg/kodra-wsl
+- Main Kodra (Full Ubuntu): https://kodra.codetocloud.io
+- Discord: https://discord.gg/vwfwq2EpXJ
+- Parent Company: https://www.codetocloud.io
+- Security Policy: https://github.com/codetocloudorg/kodra-wsl/blob/main/SECURITY.md

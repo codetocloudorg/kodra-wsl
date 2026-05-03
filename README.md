@@ -137,7 +137,7 @@ That's it! The installer will:
 
 ## Docker CE in WSL2
 
-Kodra WSL configures Docker CE to run natively in WSL2—no Docker Desktop needed. It's free for all use cases, uses fewer resources, and Docker Desktop requires Windows 11.
+Kodra WSL configures Docker CE to run natively in WSL2—no Docker Desktop needed. It's free for all use cases and uses fewer resources.
 
 ### Docker Configuration
 
