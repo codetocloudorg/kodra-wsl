@@ -108,6 +108,7 @@ jobs:
           echo "▶ Running install.sh --debug..."
           echo "═══════════════════════════════════════════════════════"
 
+          export KODRA_SKIP_PROMPTS=1
           start_time=$(date +%s)
           bash ./install.sh --debug 2>&1 || true
           install_exit=$?
@@ -257,6 +258,7 @@ jobs:
           docker run -d --name kodra-e2e \
             --env DEBIAN_FRONTEND=noninteractive \
             --env KODRA_SKIP_BACKUP=1 \
+            --env KODRA_SKIP_PROMPTS=1 \
             --env CI=true \
             --env TERM=xterm-256color \
             -v "${{ github.workspace }}:/src:ro" \
@@ -264,7 +266,7 @@ jobs:
             tail -f /dev/null
 
           # Run the install inside the running container
-          docker exec kodra-e2e bash -c '
+          docker exec -e KODRA_SKIP_PROMPTS=1 kodra-e2e bash -c '
             echo "╔══════════════════════════════════════════════════╗"
             echo "║  Kodra WSL E2E — Container Install Test          ║"
             echo "║  Ubuntu: $(lsb_release -ds)                      ║"
