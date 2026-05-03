@@ -2,7 +2,7 @@
 
 > One-command Azure developer environment for WSL2
 
-Kodra WSL transforms a fresh WSL2 Ubuntu install into a fully-configured Azure cloud-native development workstation in minutes. Built by [Code To Cloud Inc.](https://www.codetocloud.io)
+Kodra WSL transforms a fresh WSL2 Ubuntu install into a fully-configured Azure cloud-native development workstation in minutes. 25+ tools, 19 CLI commands, zero config. Built by [Code To Cloud Inc.](https://www.codetocloud.io)
 
 ## Quick Start
 
@@ -10,27 +10,75 @@ Kodra WSL transforms a fresh WSL2 Ubuntu install into a fully-configured Azure c
 wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
 ```
 
-## What Kodra WSL Installs
+## What Kodra WSL Installs (25+ tools)
 
-- Azure CLI, Azure Developer CLI (azd), Bicep, Terraform, OpenTofu
-- GitHub CLI with Copilot CLI for AI-powered terminal workflows
-- Docker CE (no Docker Desktop license required), lazydocker, Dev Containers support
+### Cloud & Infrastructure (9)
+- Azure CLI, Azure Developer CLI (azd), Bicep, Terraform, OpenTofu, PowerShell 7
 - Kubernetes: kubectl, Helm, k9s
-- Modern terminal: Oh My Posh prompt, JetBrainsMono Nerd Font
-- CLI tools: bat, eza, fzf, ripgrep, zoxide, btop, fastfetch, jq, yq
-- Git: lazygit
 
-## Key Commands
+### Containers (2)
+- Docker CE (no Docker Desktop license required), lazydocker
 
-- `kodra doctor` — Check system health and tool status
-- `kodra doctor --fix` — Auto-reinstall missing tools
-- `kodra update` — Update all 25+ installed tools
-- `kodra repair` — Interactive repair menu
-- `kodra repair --all` — Repair everything automatically
-- `kodra setup` — Re-run first-time configuration
-- `kodra fetch` — Show system info (fastfetch)
-- `kodra version` — Show version
-- `kodra help` — Show all commands
+### Dev Tools (1)
+- mise — polyglot runtime/version manager (Node, Python, Go, etc.)
+
+### Terminal & CLI (13)
+- Oh My Posh prompt, JetBrainsMono Nerd Font
+- GitHub CLI with Copilot CLI for AI-powered terminal workflows
+- bat, eza, fzf, ripgrep, zoxide, btop, fastfetch, lazygit, yq
+
+### Shell Configuration
+- Custom aliases, keybindings (inputrc), shell integrations
+- Bash/Zsh completions for kodra CLI
+- btop and fastfetch configs
+
+## CLI Commands (19 subcommands)
+
+| Command | Description |
+|---------|-------------|
+| `kodra doctor` | Check system health and tool status |
+| `kodra doctor --fix` | Auto-reinstall missing tools |
+| `kodra update` | Update all 25+ installed tools |
+| `kodra repair` | Interactive repair menu |
+| `kodra repair --all` | Repair everything automatically |
+| `kodra backup` | Backup configuration and state |
+| `kodra restore` | Restore from a previous backup |
+| `kodra cleanup` | Remove caches, temp files, old logs |
+| `kodra dev` | Development environment management |
+| `kodra db` | Database utilities |
+| `kodra extensions` | Manage VS Code / tool extensions |
+| `kodra install` | Install individual tools on demand |
+| `kodra uninstall` | Remove individual tools cleanly |
+| `kodra migrate` | Run version migration scripts |
+| `kodra menu` | Interactive TUI command menu |
+| `kodra shortcuts` | Show/manage shell shortcuts and aliases |
+| `kodra motd` | Message of the day / status banner |
+| `kodra refresh` | Refresh shell environment without restart |
+| `kodra resume` | Resume interrupted installations |
+| `kodra welcome` | Show the welcome wizard |
+| `kodra fetch` | Show system info (fastfetch) |
+| `kodra version` | Show current version |
+| `kodra help` | Show all commands |
+
+## Architecture
+
+```
+kodra-wsl/
+├── bin/kodra              # CLI dispatcher (entry point)
+├── bin/kodra-sub/         # 19 subcommand scripts
+├── install/               # Tool installers by category
+│   ├── cloud/             #   9 cloud/infra tools
+│   ├── containers/        #   2 container tools
+│   ├── terminal/          #   2 terminal tools
+│   ├── cli-tools/         #   11 CLI tools
+│   └── dev-tools/         #   1 dev tool (mise)
+├── uninstall/             # Per-tool removal scripts
+├── configs/               # Shell configs, completions, app configs
+├── lib/                   # Shared libraries (8 modules)
+├── migrations/            # Version migration scripts
+├── docs/                  # Detailed documentation
+└── tests/                 # E2E and website tests
+```
 
 ## Links
 
@@ -39,10 +87,11 @@ wget -qO- https://kodra.wsl.codetocloud.io/boot.sh | bash
 - Main Kodra (Full Ubuntu): https://kodra.codetocloud.io
 - Discord: https://discord.gg/vwfwq2EpXJ
 - Parent Company: https://www.codetocloud.io
+- Full LLM docs: https://kodra.wsl.codetocloud.io/llms-full.txt
 
 ## Details
 
 - License: MIT
-- Platforms: WSL2 Ubuntu on Windows 11
+- Platforms: WSL2 Ubuntu (22.04/24.04) on Windows 11
 - Version: 0.7.1
 - Developed by: Code To Cloud Inc. (Calgary, Alberta, Canada)

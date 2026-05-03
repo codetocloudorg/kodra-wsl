@@ -134,6 +134,190 @@ Usage: kodra help
 Output: List of all commands with brief descriptions.
 ```
 
+### `kodra backup`
+
+Backup Kodra configuration and state.
+
+```
+Usage: kodra backup
+
+Behavior:
+  - Backs up shell configs, tool configs, and Kodra state
+  - Stores backups in a timestamped archive
+  - Used before upgrades or major changes
+```
+
+### `kodra restore`
+
+Restore from a previous backup.
+
+```
+Usage: kodra restore
+
+Behavior:
+  - Lists available backups
+  - Restores selected backup to original locations
+```
+
+### `kodra cleanup`
+
+Remove caches, temp files, and old logs.
+
+```
+Usage: kodra cleanup
+
+Behavior:
+  - Clears package manager caches
+  - Removes old log files
+  - Frees disk space from temporary installation artifacts
+```
+
+### `kodra dev`
+
+Development environment management.
+
+```
+Usage: kodra dev
+
+Behavior:
+  - Manage development-related configurations
+  - Project scaffolding and environment setup
+```
+
+### `kodra db`
+
+Database utilities.
+
+```
+Usage: kodra db
+
+Behavior:
+  - Database management and utilities
+  - Connection testing and status checks
+```
+
+### `kodra extensions`
+
+Manage VS Code and tool extensions.
+
+```
+Usage: kodra extensions
+
+Behavior:
+  - Install/update recommended VS Code extensions
+  - Manage tool plugins and add-ons
+```
+
+### `kodra install`
+
+Install individual tools on demand.
+
+```
+Usage: kodra install [tool-name]
+
+Behavior:
+  - Install a specific tool from the install/ directory
+  - Useful for adding tools that were skipped during initial setup
+```
+
+### `kodra uninstall`
+
+Remove individual tools cleanly.
+
+```
+Usage: kodra uninstall [tool-name]
+
+Behavior:
+  - Runs the corresponding script from uninstall/ directory
+  - Removes binaries, configs, and package sources
+```
+
+### `kodra migrate`
+
+Run version migration scripts.
+
+```
+Usage: kodra migrate
+
+Behavior:
+  - Detects current version and applies pending migrations
+  - Migration scripts live in migrations/ directory
+  - Used when upgrading between Kodra versions
+```
+
+### `kodra menu`
+
+Interactive TUI command menu.
+
+```
+Usage: kodra menu
+
+Behavior:
+  - Shows a navigable menu of all kodra commands
+  - Select and execute commands interactively
+```
+
+### `kodra shortcuts`
+
+Show and manage shell shortcuts and aliases.
+
+```
+Usage: kodra shortcuts
+
+Behavior:
+  - Lists all Kodra-provided shell aliases
+  - Shows keyboard shortcuts and productivity tips
+```
+
+### `kodra motd`
+
+Message of the day / status banner.
+
+```
+Usage: kodra motd
+
+Behavior:
+  - Displays system status summary
+  - Shows pending updates or issues
+```
+
+### `kodra refresh`
+
+Refresh shell environment without restart.
+
+```
+Usage: kodra refresh
+
+Behavior:
+  - Reloads shell configuration files
+  - Updates PATH and environment variables
+  - No need to close and reopen the terminal
+```
+
+### `kodra resume`
+
+Resume interrupted installations.
+
+```
+Usage: kodra resume
+
+Behavior:
+  - Detects where a previous installation was interrupted
+  - Resumes from the last successful step
+```
+
+### `kodra welcome`
+
+Show the welcome wizard.
+
+```
+Usage: kodra welcome
+
+Behavior:
+  - Displays the first-run welcome experience
+  - Shows quick-start tips and available commands
+```
+
 ---
 
 ## Installed Tools — Full List
@@ -189,6 +373,12 @@ Output: List of all commands with brief descriptions.
 | jq | Installed via apt during main install |
 | Git | Pre-installed in Ubuntu; configured by first-run.sh |
 | curl, wget | Pre-installed in Ubuntu |
+
+### Dev Tools (`install/dev-tools/`)
+
+| Tool | Installer | Description |
+|---|---|---|
+| mise | `mise.sh` | Polyglot runtime/version manager (Node, Python, Go, Ruby, etc.) |
 
 ---
 
@@ -327,10 +517,25 @@ kodra-wsl/
 ├── bin/
 │   ├── kodra                     # CLI entry point (dispatcher)
 │   └── kodra-sub/
+│       ├── backup.sh             # Backup configuration and state
+│       ├── cleanup.sh            # Remove caches and temp files
+│       ├── db.sh                 # Database utilities
+│       ├── dev.sh                # Development environment management
 │       ├── doctor.sh             # Health check subsystem
+│       ├── extensions.sh         # VS Code / tool extensions
+│       ├── first-run.sh          # First-time configuration
+│       ├── install.sh            # Install individual tools
+│       ├── menu.sh               # Interactive TUI menu
+│       ├── migrate.sh            # Version migration runner
+│       ├── motd.sh               # Message of the day
+│       ├── refresh.sh            # Refresh shell environment
 │       ├── repair.sh             # Repair subsystem
+│       ├── restore.sh            # Restore from backup
+│       ├── resume.sh             # Resume interrupted installs
+│       ├── shortcuts.sh          # Shell shortcuts/aliases
+│       ├── uninstall.sh          # Remove individual tools
 │       ├── update.sh             # Update subsystem
-│       └── first-run.sh          # First-time configuration
+│       └── welcome.sh            # Welcome wizard
 ├── install/
 │   ├── cloud/
 │   │   ├── azure-cli.sh
@@ -348,21 +553,62 @@ kodra-wsl/
 │   ├── terminal/
 │   │   ├── oh-my-posh.sh
 │   │   └── nerd-fonts.sh
-│   └── cli-tools/
-│       ├── github-cli.sh
-│       ├── copilot-cli.sh
-│       ├── fzf.sh
-│       ├── lazygit.sh
-│       ├── zoxide.sh
-│       ├── eza.sh
-│       ├── bat.sh
-│       ├── btop.sh
-│       ├── fastfetch.sh
-│       ├── ripgrep.sh
-│       └── yq.sh
+│   ├── cli-tools/
+│   │   ├── github-cli.sh
+│   │   ├── copilot-cli.sh
+│   │   ├── fzf.sh
+│   │   ├── lazygit.sh
+│   │   ├── zoxide.sh
+│   │   ├── eza.sh
+│   │   ├── bat.sh
+│   │   ├── btop.sh
+│   │   ├── fastfetch.sh
+│   │   ├── ripgrep.sh
+│   │   └── yq.sh
+│   └── dev-tools/
+│       └── mise.sh
+├── uninstall/                    # Per-tool removal scripts
+│   ├── azure-cli.sh
+│   ├── docker-ce.sh
+│   ├── github-cli.sh
+│   ├── helm.sh
+│   ├── k9s.sh
+│   ├── kubectl.sh
+│   ├── lazydocker.sh
+│   ├── lazygit.sh
+│   ├── mise.sh
+│   ├── oh-my-posh.sh
+│   ├── powershell.sh
+│   └── terraform.sh
+├── configs/
+│   ├── btop/btop.conf            # btop resource monitor config
+│   ├── fastfetch/config.jsonc    # fastfetch system info config
+│   ├── completions/
+│   │   ├── _kodra                # Zsh completions
+│   │   └── kodra.bash            # Bash completions
+│   └── shell/
+│       ├── aliases.sh            # Shell aliases
+│       ├── inputrc               # Readline keybindings
+│       └── kodra.sh              # Shell environment setup
 ├── lib/
+│   ├── backup.sh                 # Backup/restore functions
+│   ├── banners.sh                # ASCII art and banners
+│   ├── checks.sh                 # System requirement checks
+│   ├── config.sh                 # Configuration management
+│   ├── logging.sh                # Structured logging
+│   ├── package.sh                # Package management helpers
+│   ├── state.sh                  # State tracking
 │   ├── ui.sh                     # TUI: spinners, colors, prompts
 │   └── utils.sh                  # Shared utilities
+├── migrations/
+│   └── 20260503-0.7.1-to-0.8.0.sh  # Version migration script
+├── docs/
+│   ├── CHEATSHEET.md
+│   ├── FAQ.md
+│   ├── INSTALL.md
+│   ├── ROADMAP.md
+│   ├── UNINSTALL.md
+│   └── WINDOWS_INTEGRATION.md
 ├── boot.sh                       # Bootstrap entry point
 ├── install.sh                    # Main installer orchestrator
 ├── uninstall.sh                  # Clean removal script
@@ -371,7 +617,7 @@ kodra-wsl/
 ├── sitemap.xml                   # SEO sitemap
 ├── robots.txt                    # Crawler directives
 ├── manifest.json                 # Web app manifest
-├── llms.txt                      # LLM summary (this file's sibling)
+├── llms.txt                      # LLM summary
 ├── llms-full.txt                 # This file
 ├── AGENTS.md                     # AI coding agent guide
 ├── SECURITY.md                   # Security policy

@@ -64,7 +64,7 @@
         "downloadUrl": "https://kodra.wsl.codetocloud.io/boot.sh",
         "softwareVersion": "0.7.1",
         "datePublished": "2025-01-01",
-        "dateModified": "2025-07-18",
+        "dateModified": "2026-05-03",
         "license": "https://opensource.org/licenses/MIT",
         "creator": {
             "@type": "Organization",
@@ -83,6 +83,9 @@
             "Container tools (Docker CE via WSL systemd, lazydocker)",
             "Infrastructure as Code (Terraform, Bicep, OpenTofu)",
             "Oh My Posh prompt theming",
+            "mise polyglot runtime/version manager",
+            "19 CLI commands (backup, restore, repair, migrate, and more)",
+            "Shell configs, aliases, and completions",
             "VS Code with cloud-native extensions",
             "JetBrains Mono Nerd Font",
             "PowerShell 7 integration"
@@ -1582,7 +1585,7 @@
             <div class="feature-card">
                 <span class="bracket-code bracket-code--dev">[ DEV ]</span>
                 <h3 class="feature-title">Dev Tools</h3>
-                <p class="feature-description">VS Code extensions for Azure and containers. JetBrains Mono Nerd Font installed and configured for Windows Terminal.</p>
+                <p class="feature-description">mise runtime manager, VS Code extensions for Azure and containers. JetBrains Mono Nerd Font installed and configured for Windows Terminal.</p>
             </div>
             <div class="feature-card">
                 <span class="bracket-code bracket-code--sec">[ SEC ]</span>
@@ -1683,6 +1686,22 @@
                 <div class="tool-icon">🤖</div>
                 <div class="tool-name">Copilot CLI</div>
             </div>
+            <div class="tool-item tool-category-dev">
+                <div class="tool-icon">🧰</div>
+                <div class="tool-name">mise</div>
+            </div>
+            <div class="tool-item tool-category-dev">
+                <div class="tool-icon">🔎</div>
+                <div class="tool-name">ripgrep</div>
+            </div>
+            <div class="tool-item tool-category-dev">
+                <div class="tool-icon">📋</div>
+                <div class="tool-name">yq</div>
+            </div>
+            <div class="tool-item tool-category-cloud">
+                <div class="tool-icon">🐚</div>
+                <div class="tool-name">PowerShell</div>
+            </div>
         </div>
     </section>
 
@@ -1709,8 +1728,20 @@
                     <tr><td><code>kodra doctor --fix</code></td><td>Auto-reinstall missing tools</td></tr>
                     <tr><td><code>kodra update</code></td><td>Update all 25+ installed tools</td></tr>
                     <tr><td><code>kodra repair</code></td><td>Interactive repair menu</td></tr>
-                    <tr><td><code>kodra repair --all</code></td><td>Repair everything automatically</td></tr>
-                    <tr><td><code>kodra setup</code></td><td>Re-run first-time configuration</td></tr>
+                    <tr><td><code>kodra backup</code></td><td>Backup configuration and state</td></tr>
+                    <tr><td><code>kodra restore</code></td><td>Restore from a previous backup</td></tr>
+                    <tr><td><code>kodra install</code></td><td>Install individual tools on demand</td></tr>
+                    <tr><td><code>kodra uninstall</code></td><td>Remove individual tools cleanly</td></tr>
+                    <tr><td><code>kodra cleanup</code></td><td>Remove caches, temp files, old logs</td></tr>
+                    <tr><td><code>kodra migrate</code></td><td>Run version migration scripts</td></tr>
+                    <tr><td><code>kodra menu</code></td><td>Interactive TUI command menu</td></tr>
+                    <tr><td><code>kodra shortcuts</code></td><td>Show shell shortcuts and aliases</td></tr>
+                    <tr><td><code>kodra dev</code></td><td>Development environment management</td></tr>
+                    <tr><td><code>kodra extensions</code></td><td>Manage VS Code / tool extensions</td></tr>
+                    <tr><td><code>kodra refresh</code></td><td>Refresh shell without restart</td></tr>
+                    <tr><td><code>kodra resume</code></td><td>Resume interrupted installations</td></tr>
+                    <tr><td><code>kodra motd</code></td><td>Message of the day / status</td></tr>
+                    <tr><td><code>kodra welcome</code></td><td>Show the welcome wizard</td></tr>
                     <tr><td><code>kodra fetch</code></td><td>Show system info</td></tr>
                     <tr><td><code>kodra version</code></td><td>Show current version</td></tr>
                     <tr><td><code>kodra help</code></td><td>Show all commands</td></tr>
@@ -1901,8 +1932,9 @@
                     <span class="gp-label">  doctor</span> <span class="gp-muted">    Health check</span><br>
                     <span class="gp-label">  update</span> <span class="gp-muted">    Update tools</span><br>
                     <span class="gp-label">  repair</span> <span class="gp-muted">    Repair issues</span><br>
-                    <span class="gp-label">  fetch</span> <span class="gp-muted">     System info</span><br>
-                    <span class="gp-label">  version</span> <span class="gp-muted">   Show version</span>
+                    <span class="gp-label">  backup</span> <span class="gp-muted">    Backup state</span><br>
+                    <span class="gp-label">  menu</span> <span class="gp-muted">      TUI menu</span><br>
+                    <span class="gp-label">  ...</span> <span class="gp-muted">       19 commands total</span>
                 </div>
                 <div class="gallery-caption">
                     <span class="gallery-caption-title">kodra help</span>
@@ -2007,11 +2039,20 @@
 <span class="gp-muted">  Agentic Azure engineering for WSL2</span><br><br>
 <span class="gp-muted">  Usage:</span> <span class="gp-cmd">kodra &lt;command&gt;</span><br><br>
 <span class="gp-label">  doctor</span>       <span class="gp-muted">Check system health and tool versions</span><br>
-<span class="gp-label">  doctor --fix</span> <span class="gp-muted">Auto-reinstall missing tools</span><br>
 <span class="gp-label">  update</span>       <span class="gp-muted">Update all 25+ installed tools</span><br>
 <span class="gp-label">  repair</span>       <span class="gp-muted">Interactive repair menu</span><br>
-<span class="gp-label">  repair --all</span> <span class="gp-muted">Repair everything automatically</span><br>
-<span class="gp-label">  setup</span>        <span class="gp-muted">Re-run first-time configuration</span><br>
+<span class="gp-label">  backup</span>       <span class="gp-muted">Backup configuration and state</span><br>
+<span class="gp-label">  restore</span>      <span class="gp-muted">Restore from a previous backup</span><br>
+<span class="gp-label">  install</span>      <span class="gp-muted">Install individual tools</span><br>
+<span class="gp-label">  uninstall</span>    <span class="gp-muted">Remove individual tools</span><br>
+<span class="gp-label">  cleanup</span>      <span class="gp-muted">Remove caches and temp files</span><br>
+<span class="gp-label">  migrate</span>      <span class="gp-muted">Run version migrations</span><br>
+<span class="gp-label">  menu</span>         <span class="gp-muted">Interactive TUI menu</span><br>
+<span class="gp-label">  shortcuts</span>    <span class="gp-muted">Show shell shortcuts</span><br>
+<span class="gp-label">  dev</span>          <span class="gp-muted">Dev environment management</span><br>
+<span class="gp-label">  extensions</span>   <span class="gp-muted">Manage extensions</span><br>
+<span class="gp-label">  refresh</span>      <span class="gp-muted">Refresh shell environment</span><br>
+<span class="gp-label">  motd</span>         <span class="gp-muted">Message of the day</span><br>
 <span class="gp-label">  fetch</span>        <span class="gp-muted">Show system info (fastfetch)</span><br>
 <span class="gp-label">  version</span>      <span class="gp-muted">Show Kodra WSL version</span><br>
 <span class="gp-label">  help</span>         <span class="gp-muted">Show this help message</span>

@@ -128,10 +128,12 @@ That's it! The installer will:
 | **Cloud** | Azure CLI, azd, Bicep, Terraform, OpenTofu, PowerShell 7 |
 | **Kubernetes** | kubectl, Helm, k9s |
 | **Containers** | Docker CE (WSL2 native), lazydocker, Dev Containers support |
+| **Dev Tools** | mise (polyglot runtime/version manager for Node, Python, Go, etc.) |
 | **Git** | GitHub CLI, lazygit |
 | **AI** | Copilot CLI (`copilot -p "prompt"`) |
 | **CLI Utils** | bat, eza, fzf, ripgrep, zoxide, btop, fastfetch, jq, yq |
-| **Maintenance** | `kodra repair`, `kodra doctor --fix`, `kodra update` (all 25+ tools) |
+| **Configs** | Shell aliases, keybindings, btop/fastfetch configs, bash/zsh completions |
+| **Maintenance** | 19 CLI commands: backup, restore, cleanup, migrate, repair, doctor, update, and more |
 
 ---
 
@@ -194,15 +196,46 @@ code --install-extension eamodio.gitlens
 
 ---
 
-## Commands
+## Commands (19 subcommands)
+
+### Core Operations
 
 ```bash
 kodra doctor            # Check system health and WSL integration
 kodra doctor --fix      # Auto-fix missing tools and broken configs
+kodra update            # Update all 25+ installed tools
 kodra repair            # Interactive repair (shell, Docker, WSL, PATH)
 kodra repair --all      # Repair everything at once
-kodra update            # Update all 25+ installed tools
-kodra setup             # Re-run first-time setup (GitHub, Azure login)
+```
+
+### Install & Manage
+
+```bash
+kodra install           # Install individual tools on demand
+kodra uninstall         # Remove individual tools cleanly
+kodra extensions        # Manage VS Code / tool extensions
+kodra dev               # Development environment management
+kodra db                # Database utilities
+```
+
+### Backup & Recovery
+
+```bash
+kodra backup            # Backup configuration and state
+kodra restore           # Restore from a previous backup
+kodra migrate           # Run version migration scripts
+kodra resume            # Resume interrupted installations
+kodra cleanup           # Remove caches, temp files, old logs
+```
+
+### Shell & UX
+
+```bash
+kodra menu              # Interactive TUI command menu
+kodra shortcuts         # Show/manage shell shortcuts and aliases
+kodra motd              # Message of the day / status banner
+kodra refresh           # Refresh shell environment without restart
+kodra welcome           # Show the welcome wizard
 kodra fetch             # Show system info (fastfetch)
 ```
 
