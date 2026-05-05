@@ -457,7 +457,7 @@ Kodra WSL is released under the [MIT License](LICENSE).
 [![Discord](https://img.shields.io/badge/Discord-Join_Us-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/vwfwq2EpXJ)
 [![GitHub](https://img.shields.io/badge/GitHub-codetocloudorg-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/codetocloudorg)
 
-**[kodra.wsl.codetocloud.io](https://kodra.wsl.codetocloud.io)**
+**[kodra.codetocloud.io/#wsl](https://kodra.codetocloud.io/#wsl)**
 
 *A WSL variant of [Kodra](https://kodra.codetocloud.io) • Developed by [Code To Cloud](https://www.codetocloud.io)*
 

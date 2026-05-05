@@ -1,4 +1,5 @@
 User-agent: *
-Allow: /
+Allow: /boot.sh
+Disallow: /
 
-Sitemap: https://kodra.wsl.codetocloud.io/sitemap.xml
+Sitemap: https://kodra.codetocloud.io/sitemap.xml
