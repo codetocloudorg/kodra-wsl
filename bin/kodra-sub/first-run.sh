@@ -169,10 +169,7 @@ if command -v gh &> /dev/null; then
     else
         echo -e "  ${C_YELLOW}⚠${C_RESET} GitHub CLI not authenticated"
         echo ""
-        echo -e "    ${C_GRAY}(Press Y for yes, N for no)${C_RESET}"
-        read -p "    Login to GitHub now? [Y/n] " -n 1 -r REPLY
-        echo ""
-        if [[ ! $REPLY =~ ^[Nn]$ ]]; then
+        if confirm_prompt "Login to GitHub now?"; then
             gh auth login
             
             # Remind about Copilot CLI
@@ -200,10 +197,7 @@ if command -v az &> /dev/null; then
     else
         echo -e "  ${C_YELLOW}⚠${C_RESET} Azure CLI not authenticated"
         echo ""
-        echo -e "    ${C_GRAY}(Press Y for yes, N for no)${C_RESET}"
-        read -p "    Login to Azure now? [Y/n] " -n 1 -r REPLY
-        echo ""
-        if [[ ! $REPLY =~ ^[Nn]$ ]]; then
+        if confirm_prompt "Login to Azure now?"; then
             az login
         fi
     fi
@@ -223,10 +217,7 @@ if command -v docker &> /dev/null; then
     else
         echo -e "  ${C_YELLOW}⚠${C_RESET} Docker daemon not running"
         echo ""
-        echo -e "    ${C_GRAY}(Press Y for yes, N for no)${C_RESET}"
-        read -p "    Start Docker now? [Y/n] " -n 1 -r REPLY
-        echo ""
-        if [[ ! $REPLY =~ ^[Nn]$ ]]; then
+        if confirm_prompt "Start Docker now?"; then
             if command -v systemctl &> /dev/null && systemctl is-system-running &> /dev/null 2>&1; then
                 sudo systemctl start docker
             else

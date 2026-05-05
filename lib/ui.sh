@@ -166,6 +166,33 @@ install_gum() {
     fi
 }
 
+# Confirm prompt — returns 0 (yes) or 1 (no)
+# Usage: confirm_prompt "Start installation?" [default_yes]
+#   default_yes=true  → [Y/n] (Enter = yes)
+#   default_yes=false → [y/N] (Enter = no)
+confirm_prompt() {
+    local message="$1"
+    local default_yes="${2:-true}"
+    local hint reply
+
+    if [ "$default_yes" = "true" ]; then
+        hint="Y/n"
+    else
+        hint="y/N"
+    fi
+
+    printf "    %s [%s] " "$message" "$hint"
+    read -n 1 -r reply
+    echo ""
+
+    # Empty reply means user pressed Enter → use default
+    if [ -z "$reply" ]; then
+        [ "$default_yes" = "true" ] && return 0 || return 1
+    fi
+
+    [[ "$reply" =~ ^[Yy]$ ]] && return 0 || return 1
+}
+
 # Show completion message
 show_completion() {
     local elapsed=$(elapsed_time)
